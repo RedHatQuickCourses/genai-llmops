@@ -1,3 +1,11 @@
-= Lab Environment
+= Advanced vLLM
 
-FIXME: Instructions for accessing the lab environment for this hands-on based training.
+In this section, we will explore some of the advanced capabilities of vLLM.
+
+At the end of this lab you will:
+
+* Understand the drivers for vLLM vRAM utilization and how to estimate vRAM requirements for a give model/kv cache
+* Deploy a vLLM instance with multiple GPUs
+* Deploy a multi-node vLLM instance
+* Understand the basics of KServe objects and deploy a vLLM instance using Helm
+* Spin down resources when not in use

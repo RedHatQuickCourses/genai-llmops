@@ -1,2 +1,5 @@
 * xref:index.adoc[]
-** xref:section1.adoc[]
+** xref:module-2.0-eval-intro.adoc[]
+** xref:module-2.1-eval-performance.adoc[]
+** xref:module-2.2-eval-accuracy.adoc[]
+** xref:module-2.3-eval-conclusion.adoc[]

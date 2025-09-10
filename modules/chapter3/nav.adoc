@@ -1,3 +1,5 @@
 * xref:index.adoc[]
-** xref:section1.adoc[]
-** xref:section2.adoc[]
+** xref:module-4.0-quantization-intro.adoc[]
+** xref:module-4.1-quantization.adoc[]
+** xref:module-4.2-quantization.adoc[]
+** xref:module-4.3-quantization-conclusion.adoc[]
