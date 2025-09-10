@@ -1,0 +1,45 @@
+= Deploy Granite LLM on RHOAI
+
+
+With the model files uploaded and the vLLM runtime available, the next step is to deploy the LLM itself using OpenShift AI's serving capabilities.
+
+**Steps for Model Deployment:**
+
+ *   **Access Model Serving Options**: From the Data Science Project dashboard, 
+
+ ** Navigate to the `Models` tab, where `Single Model Serving` and `Multi-Model Serving` options are available. 
+ ** For this lab, `Single Model Serving` is used.
+
+ *   **Specify Deployment Details**:
+    **   **Model Deployment Name**: This name (e.g., `granite`) becomes the exposed name of the model service.
+    **   **Serving Runtime**: Select the `vLLM NVIDIA GPU servingRuntime Kserve`.
+    **   **Framework**: For this runtime, the framework should auto-populate as `vLLM`.
+    **   **Number of Model Replicas**: Due to video card requirements for the lab, keep this set to **one**.
+    **   **Model Size (T-shift size)**: Options include Small, Medium, Large, or custom. For the lab, the `Large` option is chosen.
+    **   **External Route and Authentication**: **Check the box to make the deployed model available through an external route**, which automatically selects requiring token authentication. A custom service account can be set for easier logging and metrics tracking.
+    **   **Source Model Location**: Select the existing data connection (models) and specify the subdirectory where the model files reside (granite).
+    **   **Additional Serving Runtime Arguments**: Optionally, add arguments to execute when loading the model for inference.
+  *   **Deployment Process**: Clicking `deploy` initiates the process. Model deployment can take time as large model files are copied from S3 into the container before they can start.
+
+[NOTE]
+It's important to note that this name is the name of the model service that will be exposed. 
+If you connect to the model, it will be known as `granite` only, not the full model name. 
+ 
+
+=== Interactive Demo: vLLM, OpenShift AI, Granite LLM Inference
+
+
+++++
+<iframe 
+  src="https://demo.arcade.software/xf4enBigdszSusJapXdE?embed&embed_mobile=inline&embed_desktop=inline&show_copy_link=true"
+  width="100%" 
+  height="600px" 
+  frameborder="0" 
+  allowfullscreen
+  webkitallowfullscreen
+  mozallowfullscreen
+  allow="clipboard-write"
+  muted>
+</iframe>
+++++
+

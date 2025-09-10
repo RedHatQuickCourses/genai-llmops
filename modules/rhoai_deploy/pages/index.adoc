@@ -1,0 +1,4 @@
+= OpenShift AI Configuration
+
+[IMPORTANT]
+This chapter assumes you have an OpenShift AI environment that's already up and running. If you haven't set up your environment yet, please refer to lab environment module.

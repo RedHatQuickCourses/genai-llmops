@@ -1,0 +1,66 @@
+= vLLM and Red Hat AI Platforms
+
+This section sets the stage by defining vLLM and contextualizing it within Red Hat's AI ecosystem.
+
+
+== What is vLLM?
+
+vLLM is an open-source **inference engine** designed for serving Large Language Models (LLMs) with maximum speed and memory efficiency. Developed by researchers at UC Berkeley, vLLM is not a model itself, but a highly optimized library that runs LLMs, making them available for applications.
+
+Its primary goal is to solve the key challenges of LLM inference: high latency, low throughput, and demanding GPU memory requirements. By addressing these bottlenecks, vLLM enables organizations to serve more users at a lower cost.
+
+.The Core Problem vLLM Solves
+****
+Serving LLMs is memory-intensive, primarily due to the **Key-Value (KV) Cache**. This cache stores intermediate attention data for each user's request. Traditional serving methods allocate large, contiguous blocks of memory for this cache, leading to significant waste and limiting the number of concurrent requests a single GPU can handle. vLLM's core innovations directly target this inefficiency.
+****
+
+=== Why vLLM? The Key Benefits
+
+For platform engineers and consultants, the choice of a serving engine has direct impacts on performance, cost, and maintainability. vLLM provides compelling advantages.
+
+ . High-Performance Throughput
+vLLM can increase the number of output tokens generated per second by **2-4x** compared to standard Hugging Face implementations, without any model architecture changes. This means a single GPU can serve significantly more users concurrently.
+
+ . Efficient Memory Management
+Through its core innovation, PagedAttention, vLLM drastically reduces the memory footprint of the KV Cache by up to **55%**. This allows you to:
+ ** Run larger models on the same GPU.
+ ** Fit more concurrent requests into memory, boosting throughput.
+ ** Reduce overall hardware costs.
+
+ . Seamless Integration with the OpenAI API
+vLLM provides an API server that is a **drop-in replacement** for the OpenAI API. This is a critical feature for adoption, as applications built using the `openai` client library can be pointed to a self-hosted vLLM endpoint with minimal to no code changes.
+
+[TIP]
+====
+The OpenAI-compatible API means you can develop applications against OpenAI's service and later migrate to a self-hosted, cost-effective vLLM instance without rewriting your application logic. This provides immense flexibility for prototyping and production deployment.
+====
+
+== Red Hat AI Platform Context
+
+Red Hat AI provides a supported, enterprise version of open source tools for the entire AI lifecycle, offering flexibility to train, tune, deploy, and run models on-premise, in the public cloud, or at the edge.
+
+
+
+[cols="3*",options="header"]
+|===
+|*Red Hat AI Inference Server*
+|*Red Hat Enterprise Linux AI*
+|*Red Hat OpenShift AI*
+
+|Powered by vLLM, it optimizes model inference and includes access to validated/optimized third-party models and LLM compressor tools.
+
+|Red Hat Enterprise Linux® AI is a platform for inference and training of large language models to power enterprise applications. It includes InstructLab tooling for customizing models, as well as integrated hardware accelerators. 
+
++ Includes Red Hat AI Inference Server
+|This platform, built on Red Hat OpenShift, manages the lifecycle of generative and predictive AI models at scale. It integrates *MLOps and LLMOps capabilities* for complete lifecycle management, including distributed training, tuning, inference, and monitoring across hybrid cloud environments.
+
+
++ Includes Red Hat AI Inference Server. 
+
++ Includes Red Hat Enterprise Linux AI.
+
+|===
+
+== vLLM's Role in Red Hat AI
+
+vLLM serves as the inference engine for Red Hat AI Inference Server, Red Hat Enterprise Linux AI, and supports Kubernetes via KServe for OpenShift AI inference use cases. It is designed to run efficiently on various hardware configurations and supports breaking up processing work across multiple GPUs for efficient resource utilization. Red Hat AI also supports disconnected and air-gapped environments for sensitive data.

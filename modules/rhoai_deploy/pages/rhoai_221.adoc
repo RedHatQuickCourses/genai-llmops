@@ -1,0 +1,38 @@
+= Lab Environment Customization
+
+The initial phase of any AI deployment involves preparing the underlying infrastructure. For this course, a pre-provisioned lab environment is utilized, requiring specific customization and updates to ensure compatibility with modern vLLM runtimes.
+
+
+== Key Actions for Engineers:
+
+*   **Environment Preparation**: It is highly recommended to **request the lab environment in advance** due to an approximate deployment time of 1.5 to 2 hours.
+*   **Platform Upgrade**: The provided lab environment typically starts with Red Hat OpenShift AI v4.18, which includes an older vLLM runtime. To leverage the features and performance of a more recent vLLM runtime (e.g., v0.9.01 as of July 2025), it is **essential to upgrade the platform to Red Hat OpenShift AI v2.21 or later**.
+*   **Upgrade Process**: The upgrade is managed by updating the "subscription channel" for the Red Hat OpenShift AI Operator, which instructs the operator to install a newer platform version. An interactive demonstration guides users through logging in, navigating to Installed Operators, and changing subscription settings.
+
+
+
+=== Interactive Demo: Logging In and Upgrading OpenShift AI
+
+The following interactive demonstration will walk you through the process of:
+
+1.  Logging into the OpenShift Cluster.
+2.  Navigating to the Installed Operators.
+3.  Changing the subscription settings for the OpenShift AI Operator to initiate the upgrade.
+
+Follow the on-screen prompts in the demo to complete the upgrade process.
+
+++++
+<iframe
+  src="https://demo.arcade.software/upbkf0tsF1xerzXGmWsC?embed&embed_mobile=inline&embed_desktop=inline&show_copy_link=true"
+  width="100%"
+  height="600px"
+  frameborder="0"
+  allowfullscreen
+  webkitallowfullscreen
+  mozallowfullscreen
+  allow="clipboard-write"
+  muted>
+</iframe>
+++++
+
+Once the upgrade is complete, your Red Hat OpenShift AI instance will be ready for the next steps in our lab.

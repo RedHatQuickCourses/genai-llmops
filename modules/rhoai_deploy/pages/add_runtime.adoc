@@ -1,0 +1,104 @@
+= vLLM Serving Runtime
+
+Before deploying any model, ensuring the correct serving runtime is available is paramount. The **vLLM NVIDIA GPU Serving Runtime** is the necessary integration between Red Hat OpenShift AI and the model inference.
+
+This page outlines the runtimes included in a recent version of OpenShift AI and provides instructions to add the vLLM runtime manually if you are using an older version.
+
+== Model Serving Runtimes
+
+Red Hat OpenShift AI (like v2.21) includes several powerful runtimes out-of-the-box:
+
+* *Multi-model*
+** OpenVINO Model Server
+* *Single-model*
+** OpenVINO Model Server
+** Caikit Standalone ServingRuntime for KServe
+** Caikit TGIS ServingRuntime for KServe
+** vLLM NVIDIA GPU ServingRuntime for KServe
+** vLLM Intel Gaudi Accelerator ServingRuntime for KServe
+** vLLM AMD GPU ServingRuntime for KServe
+** vLLM CPU ServingRuntime for KServe
+
+If the **vLLM NVIDIA GPU ServingRuntime for KServe** is already available, manual configuration is unnecessary.
+
+=== Adding Custom Runtimes: 
+
+If an older version of OpenShift AI is used and vLLM is not default, it can be added as a custom runtime through the OpenShift AI dashboard's `Settings` -> `Serving runtimes`.
+
+
+[NOTE]
+====
+While OpenShift AI supports the ability to add your own runtime, you are responsible for configuring, adjusting, and maintaining any custom runtimes you deploy.
+====
+
+== Exercise: Add the vLLM Custom Runtime
+
+If your environment does not include the vLLM runtime by default, this exercise will guide you through the steps to add it as a custom runtime.
+
+[WARNING]
+====
+If you are using OpenShift AI v2.21 or newer, adding this runtime using the exact name below will fail, as it is already built-in. This exercise is intended for older versions.
+====
+
+. Log in to the OpenShift AI dashboard with an administrator account.
+
+. In the left navigation menu, navigate to *Settings* -> *Serving runtimes*.
+
+. Click the *Add serving runtime* button.
+
+. On the "Add model-serving runtime" page, make the following selections:
++
+--
+* **Model-serving platform:** Select *Single-model serving platform*.
+* **API protocol:** Select *REST*.
+--
+
+. Click the *Start from scratch* radio button.
+
+. In the YAML editor that appears, paste the following configuration:
++
+.vllm-servingruntime.yaml
+[source,yaml]
+----
+# Filename: vllm-servingruntime.yaml
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+ name: vllm-cuda-runtime-example
+ annotations:
+   openshift.io/display-name: vLLM (NVIDIA GPU)
+   opendatahub.io/recommended-accelerators: '["nvidia.com/gpu"]'
+ labels:
+   opendatahub.io/dashboard: 'true'
+spec:
+ supportedModelFormats:
+   - name: vLLM
+     autoSelect: true
+ containers:
+   - name: kserve-container
+     image: quay.io/modh/vllm:rhoai-2.21-cuda
+     command: ["python", "-m", "vllm.entrypoints.openai.api_server"]
+     args:
+       - "--port=8080"
+       - "--model=/mnt/models"
+       - "--served-model-name={{.Name}}"
+     env:
+       - name: HF_HOME
+         value: /tmp/hf_home
+     ports:
+       - containerPort: 8080
+         protocol: TCP
+     resources:
+       requests:
+         nvidia.com/gpu: '1'
+       limits:
+         nvidia.com/gpu: '1'
+----
+
+. After pasting the YAML, click the **Create** button.
+
+You will now see the new *vLLM (NVIDIA GPU)* runtime in the list of available serving runtimes.
+
+'''
+
+Continue to the next section to deploy.

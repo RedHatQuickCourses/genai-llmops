@@ -1,6 +1,6 @@
 site:
-  title: FIXME Course Title
-  start_page: REPLACEREPONAME::index.adoc
+  title: LLM Operations Optimization and Inference
+  start_page: genai-llmops::index.adoc
 
 content:
   sources:
