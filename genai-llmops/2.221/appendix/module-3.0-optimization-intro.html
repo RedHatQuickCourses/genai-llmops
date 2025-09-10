@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Module 3: vLLM Performance Optimization :: LLM Operations Optimization and Inference</title>
+    <link rel="prev" href="../chapter2/module-2.3-eval-conclusion.html">
+    <link rel="next" href="#module-3.0-optimization-practice.adoc">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../LABENV/index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Module 3: vLLM Performance Optimization</h1>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With your LLM deployed and benchmarked, it&#8217;s time to optimize performance for real-world production workloads. This module focuses on maximizing inference efficiency using vLLM tuning techniques that can dramatically improve latency and throughput without requiring additional hardware.</p>
+</div>
+<div class="paragraph">
+<p>Performance optimization is critical because:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>User Experience</strong>: Sub-second response times are essential for interactive applications like chatbots and coding assistants</p>
+</li>
+<li>
+<p><strong>Cost Efficiency</strong>: Better performance means serving more users with the same infrastructure, directly reducing per-request costs</p>
+</li>
+<li>
+<p><strong>Scalability</strong>: Optimized models can handle higher concurrent loads without degradation</p>
+</li>
+<li>
+<p><strong>Resource Utilization</strong>: Proper tuning maximizes GPU utilization and minimizes memory waste</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_learning_objectives"><a class="anchor" href="#_learning_objectives"></a>Learning Objectives</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By the end of this module, you will be able to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Understand key vLLM performance parameters and their impact on latency/throughput</p>
+</li>
+<li>
+<p>Apply systematic optimization techniques to reduce Time To First Token (TTFT)</p>
+</li>
+<li>
+<p>Configure memory management and batching for optimal resource utilization</p>
+</li>
+<li>
+<p>Implement performance tuning strategies for chat applications with concurrent users</p>
+</li>
+<li>
+<p>Measure and validate optimization improvements using real-world benchmarks</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You&#8217;ll Learn</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_performance_fundamentals"><a class="anchor" href="#_performance_fundamentals"></a>Performance Fundamentals</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Latency vs Throughput</strong>: Understanding the trade-offs and when to optimize for each</p>
+</li>
+<li>
+<p><strong>Time To First Token (TTFT)</strong>: The critical metric for interactive user experience</p>
+</li>
+<li>
+<p><strong>Memory Management</strong>: KV cache optimization and efficient GPU memory utilization</p>
+</li>
+<li>
+<p><strong>Batching Strategies</strong>: Dynamic batching and continuous batching for concurrent requests</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vllm_configuration_mastery"><a class="anchor" href="#_vllm_configuration_mastery"></a>vLLM Configuration Mastery</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Engine Parameters</strong>: <code>max_model_len</code>, <code>max_num_seqs</code>, <code>block_size</code> and their performance impact</p>
+</li>
+<li>
+<p><strong>Attention Mechanisms</strong>: PagedAttention configuration for memory efficiency</p>
+</li>
+<li>
+<p><strong>Scheduling</strong>: Request scheduling and queue management optimization</p>
+</li>
+<li>
+<p><strong>GPU Utilization</strong>: Maximizing hardware efficiency through proper configuration</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_real_world_case_study"><a class="anchor" href="#_real_world_case_study"></a>Real-World Case Study</h3>
+<div class="paragraph">
+<p>You&#8217;ll work through a practical scenario: optimizing granite-3.3-8b-instruct for a chat application serving 32 concurrent users with sub-2048 token responses. This hands-on experience mirrors real production optimization challenges.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_structure"><a class="anchor" href="#_module_structure"></a>Module Structure</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_3_1_performance_tuning_practice"><a class="anchor" href="#_3_1_performance_tuning_practice"></a>3.1 Performance Tuning Practice</h3>
+<div class="paragraph">
+<p>Hands-on optimization of granite-3.3-8b-instruct with systematic parameter tuning, performance measurement, and iterative improvement to achieve optimal latency for chat workloads.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_2_optimization_conclusion"><a class="anchor" href="#_3_2_optimization_conclusion"></a>3.2 Optimization Conclusion</h3>
+<div class="paragraph">
+<p>Review optimization results, best practices summary, and guidelines for applying these techniques to different models and use cases in production environments.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before starting this module, ensure you have:
+* Completed Module 1 (Deployment) and Module 2 (Evaluation)
+* Access to an OpenShift cluster with GPU resources
+* Basic understanding of inference serving concepts
+* GuideLLM benchmarking experience from Module 2</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_success_metrics"><a class="anchor" href="#_success_metrics"></a>Success Metrics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By module completion, you should achieve:
+* <strong>Measurable TTFT improvement</strong>: Reduce time to first token by 20-50%
+* <strong>Increased throughput</strong>: Handle more concurrent requests with the same hardware
+* <strong>Optimized resource usage</strong>: Achieve &gt;80% GPU utilization during peak loads
+* <strong>Production readiness</strong>: Understand how to apply these techniques to your specific use cases</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s begin optimizing your LLM inference performance!</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a></span>
+  <span class="next"><a href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

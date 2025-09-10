@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Model Quantization Pipeline :: LLM Operations Optimization and Inference</title>
+    <link rel="prev" href="module-4.1-quantization.html">
+    <link rel="next" href="module-4.3-quantization-conclusion.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../LABENV/index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../appendix/module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="index.html">Module 4: Model Quantization</a></li>
+    <li><a href="module-4.2-quantization.html">Model Quantization Pipeline</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Model Quantization Pipeline</h1>
+<div class="sect1">
+<h2 id="_learning_objectives"><a class="anchor" href="#_learning_objectives"></a>Learning Objectives</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By completing this exercise, you will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Understand how to automate model quantization using Kubeflow Pipelines</p>
+</li>
+<li>
+<p>Learn to create, compile, and deploy ML pipelines in OpenShift AI</p>
+</li>
+<li>
+<p>Gain experience with pipeline components and data flow management</p>
+</li>
+<li>
+<p>Learn pipeline parameter configuration and execution monitoring</p>
+</li>
+<li>
+<p>Compare automated pipeline versus manual quantization workflows</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This pipeline automates the model quantization process you completed manually in the previous lab. The pipeline handles model downloading from either S3 (MinIO) storage or HuggingFace Hub, quantization, S3 upload of results, and accuracy evaluation automatically through a series of connected components.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pipeline_overview"><a class="anchor" href="#_pipeline_overview"></a>Pipeline Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The pipeline consists of the following stages:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Create PVC</strong>: Creates a Persistent Volume Claim for storing model data</p>
+</li>
+<li>
+<p><strong>Download Model</strong>: Downloads the specified model from either S3 (MinIO) storage or HuggingFace Hub (controlled by <code>use_s3_download</code> parameter)</p>
+</li>
+<li>
+<p><strong>Quantize Model</strong>: Performs model quantization (supports int4 and int8 quantization)</p>
+</li>
+<li>
+<p><strong>Upload Model</strong>: Uploads the quantized model to a S3 (MinIO) storage location</p>
+</li>
+<li>
+<p><strong>Evaluate Model</strong>: Evaluates the quantized model&#8217;s accuracy</p>
+</li>
+<li>
+<p><strong>Delete PVC</strong>: Cleans up by deleting the PVC after completion</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before starting this exercise, ensure you have:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Completed the previous quantization lab (module-optimization-lab-1)</p>
+</li>
+<li>
+<p>OpenShift AI environment with configured pipeline server</p>
+</li>
+<li>
+<p>S3-compatible storage data connection set up in OpenShift AI (for S3 download path)</p>
+</li>
+<li>
+<p>Either:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Models pre-uploaded to S3 (MinIO) storage in the expected format and path structure, OR</p>
+</li>
+<li>
+<p>External internet access to HuggingFace Hub (for HuggingFace download path)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Access to a workbench with GPU capabilities</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_storage_requirements"><a class="anchor" href="#_storage_requirements"></a>Storage Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The pipeline creates a PVC with:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Size: 30Gi</p>
+</li>
+<li>
+<p>Access Mode: ReadWriteMany</p>
+</li>
+<li>
+<p>Storage Class: standard</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Make sure your cluster has the appropriate storage class available.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_data_source_configuration"><a class="anchor" href="#_data_source_configuration"></a>Data Source Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before running the pipeline, configure the data source based on your chosen download method:</p>
+</div>
+<div class="sect2">
+<h3 id="_s3_download_configuration_use_s3_downloadtrue"><a class="anchor" href="#_s3_download_configuration_use_s3_downloadtrue"></a>S3 Download Configuration (use_s3_download=true)</h3>
+<div class="paragraph">
+<p>If using S3 download, configure the S3 storage connection:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a data connection in OpenShift AI pointing to your MinIO S3 storage. You can reuse the <strong>minio-models</strong> connection created in the previous lab.</p>
+</li>
+<li>
+<p>The data connection requires these mandatory fields:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Connection name</strong>: <code>minio-models</code> (hardcoded in the pipeline source file)</p>
+</li>
+<li>
+<p><strong>Access Key</strong>: Your MinIO access key</p>
+</li>
+<li>
+<p><strong>Secret Key</strong>: Your MinIO secret key</p>
+</li>
+<li>
+<p><strong>Endpoint</strong>: Your MinIO endpoint URL</p>
+</li>
+<li>
+<p><strong>Bucket</strong>: Ensure the target bucket exists in MinIO before running the pipeline</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Models must be pre-uploaded to your S3 bucket in the correct directory structure. For example, the default model path <code>ibm-granite/granite-3.3-2b-instruct</code> should contain all model files (*.safetensors, config.json, tokenizer files, etc.) in the S3 bucket.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_huggingface_download_configuration_use_s3_downloadfalse"><a class="anchor" href="#_huggingface_download_configuration_use_s3_downloadfalse"></a>HuggingFace Download Configuration (use_s3_download=false)</h3>
+<div class="paragraph">
+<p>If using HuggingFace download, ensure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Internet Access</strong>: Your OpenShift AI environment has external internet access to reach <code>huggingface.co</code></p>
+</li>
+<li>
+<p><strong>Model ID</strong>: Use the HuggingFace model identifier (e.g., <code>ibm-granite/granite-3.3-2b-instruct</code>) in the <code>model_id</code> parameter</p>
+</li>
+<li>
+<p><strong>No Authentication Required</strong>: For public models, no additional configuration is needed</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Choosing your download method</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use S3 download (<code>use_s3_download=true</code>) in enterprise environments or when outbound internet access is restricted on the cluster</p>
+</li>
+<li>
+<p>Use HuggingFace download (<code>use_s3_download=false</code>) for quick testing with public models in environments with internet access</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workbench_setup"><a class="anchor" href="#_workbench_setup"></a>Workbench Setup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will reuse the workbench created in the previous model quantization lab for pipeline development.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you stopped the workbench after the previous lab, you need to <strong>start</strong> it again to modify and compile the pipeline.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-workbench-start.png" target="blank"><img src="quantization-workbench-start.png" alt="quantization workbench start" width="100%"></a>
+</div>
+<div class="title">Figure 1. Start Workbench for Pipeline Development Environment</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open a terminal session in the workbench:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-create-terminal.png" target="blank"><img src="quantization-create-terminal.png" alt="quantization create terminal" width="100%"></a>
+</div>
+<div class="title">Figure 2. Create Terminal Session in Jupyter Workbench</div>
+</div>
+</li>
+<li>
+<p>Install the required dependencies for creating the Kubeflow Pipeline YAML:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">pip install -U kfp==2.9.0 kfp-kubernetes==1.3.0</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-install-kfp.png" target="blank"><img src="quantization-install-kfp.png" alt="quantization install kfp" width="100%"></a>
+</div>
+<div class="title">Figure 3. Install Kubeflow Pipeline SDK Dependencies</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_validation_step"><a class="anchor" href="#_validation_step"></a>Validation Step</h4>
+<div class="paragraph">
+<p>Verify successful installation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No error messages during pip install</p>
+</li>
+<li>
+<p>Check versions: <code>pip list | grep kfp</code></p>
+</li>
+<li>
+<p>Confirm both packages are installed: <code>kfp==2.9.0</code> and <code>kfp-kubernetes==1.3.0</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_the_pipeline"><a class="anchor" href="#_building_the_pipeline"></a>Building the Pipeline</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>In the Jupyter workbench, open the <code>quantization_pipeline.py</code> file from <code>optimization_lab/llm_compressor</code></p>
+</li>
+<li>
+<p>Review the pipeline definition to understand its components and data flow</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_pipeline_architecture_overview"><a class="anchor" href="#_pipeline_architecture_overview"></a>Pipeline Architecture Overview</h3>
+<div class="paragraph">
+<p>Before diving into individual components, let&#8217;s understand the overall pipeline structure and data flow:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@dsl.pipeline(...)
+def quantization_pipeline(model_s3_path, output_path, quantization_type, use_s3_download):
+    pvc = CreatePVC(...)
+    # Conditional download path based on pipeline parameter
+    with dsl.If(use_s3_download == True):
+        download = download_model_from_s3(...)
+    with dsl.Else():
+        download = download_model_from_hf(...)
+    quantize = quantize_model(...)
+    upload = upload_model(...)
+    evaluate = evaluate_model(...)
+    delete_pvc = DeletePVC(...)
+    # series of mounts, tolerations, dependencies, cleanup</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pipeline_key_characteristics"><a class="anchor" href="#_pipeline_key_characteristics"></a>Pipeline Key Characteristics</h3>
+<div class="paragraph">
+<p><strong>Data Flow Architecture:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Conditional Download Path (controlled by use_s3_download parameter):
+┌─ S3 (MinIO) → Download S3 ─┐
+│                            ├→ PVC → Quantize → PVC → Upload to S3
+└─ HuggingFace → Download HF ─┘           ↓
+                                      Evaluate ← PVC</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Practical Deployment Considerations</strong>: In most client engagements, external internet access to HuggingFace Hub is often blocked or restricted due to security policies. In such environments, the S3 download path (<code>use_s3_download=True</code>) becomes the primary method for accessing pre-trained models. Models would typically be pre-downloaded and stored in the client&#8217;s internal S3-compatible storage (MinIO, AWS S3, etc.) before running quantization pipelines.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Resource Management:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>PersistentVolumeClaim</strong>: Created dynamically to persist model files across pipeline steps</p>
+</li>
+<li>
+<p><strong>Conditional Execution</strong>: <code>use_s3_download</code> parameter controls whether to download from S3 or HuggingFace</p>
+</li>
+<li>
+<p><strong>GPU Scheduling</strong>: Tolerations (<code>nvidia.com/gpu</code>) enable scheduling on GPU-enabled nodes</p>
+</li>
+<li>
+<p><strong>Shared Storage</strong>: PVC mounted across all tasks ensures consistent data access</p>
+</li>
+<li>
+<p><strong>Task Sequencing</strong>: conditional download → quantize → (upload &amp; evaluate in parallel) → delete PVC</p>
+</li>
+<li>
+<p><strong>Secret Management</strong>: S3 credentials injected securely via <code>use_secret_as_env()</code> when needed</p>
+</li>
+<li>
+<p><strong>GPU Resources</strong>: Allocated specifically with <code>set_accelerator_type/limit</code> for quantization tasks</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pipeline_components_deep_dive"><a class="anchor" href="#_pipeline_components_deep_dive"></a>Pipeline Components Deep Dive</h3>
+<div class="paragraph">
+<p>Let&#8217;s examine each component in detail. The pipeline supports two download paths controlled by the <code>use_s3_download</code> parameter:</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_download_model_from_s3_component_use_s3_downloadtrue"><a class="anchor" href="#_download_model_from_s3_component_use_s3_downloadtrue"></a><code>download_model_from_s3</code> Component  (use_s3_download=True)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@dsl.component(...):
+def download_model_from_s3(model_s3_path: str, output_path: str):
+    import os
+    from boto3 import client
+    # Configure S3 client using environment variables
+    # List and download all objects from the specified S3 path
+    # Maintain directory structure during download
+    print('Finished downloading model from S3.')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: Downloads the specified model from S3 (MinIO) storage to the shared PVC storage.</p>
+</div>
+<div class="paragraph">
+<p><strong>Key Functions</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses <code>boto3</code> client to connect to S3-compatible storage (MinIO)</p>
+</li>
+<li>
+<p>Downloads complete model repository from the specified S3 path</p>
+</li>
+<li>
+<p>Downloads model weights, tokenizer, and configuration files recursively</p>
+</li>
+<li>
+<p>Maintains original directory structure during the download process</p>
+</li>
+<li>
+<p>Stores all artifacts in the shared PVC for subsequent pipeline steps</p>
+</li>
+<li>
+<p>Provides the foundation for the quantization process</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Security Features</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses Kubernetes secrets for S3 credentials (<code>s3_access_key</code>, <code>s3_secret_access_key</code>)</p>
+</li>
+<li>
+<p>Accesses S3 endpoint and bucket information from environment variables</p>
+</li>
+<li>
+<p>Supports secure connections to MinIO storage</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_download_model_from_hf_component_use_s3_downloadfalse"><a class="anchor" href="#_download_model_from_hf_component_use_s3_downloadfalse"></a><code>download_model_from_hf</code> Component  (use_s3_download=False)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@dsl.component(...):
+def download_model_from_hf(model_id: str, output_path: str):
+    from huggingface_hub import snapshot_download
+    import os
+    # Download complete model repository from HuggingFace Hub
+    # Maintains directory structure and downloads all model files
+    print('Finished downloading model from HuggingFace.')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: Downloads the specified model from HuggingFace Hub to the shared PVC storage.</p>
+</div>
+<div class="paragraph">
+<p><strong>Key Functions</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses <code>huggingface_hub.snapshot_download</code> to fetch complete model repositories</p>
+</li>
+<li>
+<p>Downloads model weights, tokenizer, configuration files, and additional assets</p>
+</li>
+<li>
+<p>Provides an alternative to S3/MinIO storage for public models</p>
+</li>
+<li>
+<p>Stores all artifacts in the shared PVC for subsequent pipeline steps</p>
+</li>
+<li>
+<p>Supports direct access to thousands of pre-trained models on HuggingFace Hub</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quantize_model_component"><a class="anchor" href="#_quantize_model_component"></a><code>quantize_model</code> Component</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@dsl.component(...):
+def quantize_model(model_path: str, output_path: str, quantization_type: str):
+    # 1) load HF model/tokenizer
+    # 2) gather calibration data from a dataset
+    # 3) build SmoothQuant + GPTQ pipeline, depending on `quantization_type`
+    # 4) call `oneshot()`
+    # 5) save compressed model + tokenizer</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: Performs the core quantization process on the downloaded model.</p>
+</div>
+<div class="paragraph">
+<p><strong>Key Functions</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Model Loading</strong>: Loads model and tokenizer with automatic device mapping (<code>device_map="auto"</code>)</p>
+</li>
+<li>
+<p><strong>Calibration Data</strong>: Gathers sample data from HuggingFace datasets for quantization statistics</p>
+</li>
+<li>
+<p><strong>Quantization Recipe</strong>: Applies W4A16 quantization using SmoothQuant + GPTQ techniques</p>
+</li>
+<li>
+<p><strong>Processing</strong>: Executes <code>oneshot()</code> method for calibration and model compression</p>
+</li>
+<li>
+<p><strong>Output</strong>: Saves compressed model artifacts with <code>save_compressed=True</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Key Details</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Supports both <code>int4</code> and <code>int8</code> quantization types</p>
+</li>
+<li>
+<p>Uses GPU acceleration for faster processing</p>
+</li>
+<li>
+<p>Maintains model quality through careful calibration</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_upload_model_component"><a class="anchor" href="#_upload_model_component"></a><code>upload_model</code> Component</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@dsl.component(...):
+def upload_model(model_path: str, s3_path: str):
+    # Uses boto3 with env secrets for S3 endpoint
+    # Walk through model_path folder and upload each file</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: Uploads the quantized model artifacts to S3-compatible storage.</p>
+</div>
+<div class="paragraph">
+<p><strong>Key Functions</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>S3 Configuration</strong>: Uses boto3 with credentials from mounted Kubernetes secrets</p>
+</li>
+<li>
+<p><strong>File Processing</strong>: Iterates through all model files in the specified directory</p>
+</li>
+<li>
+<p><strong>Batch Upload</strong>: Transfers model weights, tokenizer, and configuration files</p>
+</li>
+<li>
+<p><strong>Storage Organization</strong>: Maintains file structure and naming conventions in S3</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Security</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Accesses S3 credentials securely via environment variables (<code>s3_host</code>, <code>s3_access_key</code>)</p>
+</li>
+<li>
+<p>Uses the <code>minio-models</code> secret configured in your data connection</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_evaluate_model_component"><a class="anchor" href="#_evaluate_model_component"></a><code>evaluate_model</code> Component</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@dsl.component(...):
+def evaluate_model(model_path: str):
+    # Constructs 'lm_eval' vLLM shell command
+    # Runs GSM8K few-shot evaluation
+    # Captures and prints output</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: Evaluates the quantized model&#8217;s performance using standardized benchmarks.</p>
+</div>
+<div class="paragraph">
+<p><strong>Key Functions</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Benchmark Testing</strong>: Runs GSM8K few-shot evaluation to measure model quality</p>
+</li>
+<li>
+<p><strong>Command Construction</strong>: Builds <code>lm_eval</code> commands with vLLM backend for efficient inference</p>
+</li>
+<li>
+<p><strong>Performance Metrics</strong>: Captures accuracy and performance statistics</p>
+</li>
+<li>
+<p><strong>Results Reporting</strong>: Prints evaluation outputs for analysis</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pipeline_compilation_process"><a class="anchor" href="#_pipeline_compilation_process"></a>Pipeline Compilation Process</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">compiler.Compiler().compile(
+    quantization_pipeline,
+    package_path='quantization_pipeline.yaml'
+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: Generates a deployable YAML specification for Argo-based execution in the Kubeflow Pipelines backend.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compiling_the_pipeline"><a class="anchor" href="#_compiling_the_pipeline"></a>Compiling the Pipeline</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Follow these steps to compile the pipeline into a YAML file for OpenShift AI:</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Before compiling, verify your data connection name. If you haven&#8217;t used <code>minio-models</code> as your data connection name, you must update the line <code>secret_name = "minio-models"</code> in the pipeline code to match your actual data connection name (lowercase, spaces removed).
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the terminal of the Jupyter workbench, open the <code>quantization_pipeline.py</code> file in your workbench</p>
+</li>
+<li>
+<p>Execute the pipeline compilation:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">python quantization_pipeline.py</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-compile-pipeline.png" target="blank"><img src="quantization-compile-pipeline.png" alt="quantization compile pipeline" width="100%"></a>
+</div>
+<div class="title">Figure 4. Execute Pipeline Compilation in Terminal</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_validation_step_2"><a class="anchor" href="#_validation_step_2"></a>Validation Step</h4>
+<div class="paragraph">
+<p>Verify successful compilation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>quantization_pipeline.yaml</code> file is created in the current directory</p>
+</li>
+<li>
+<p>No error messages appear in the terminal output</p>
+</li>
+<li>
+<p>Check file contents: <code>ls -la quantization_pipeline.yaml</code></p>
+</li>
+<li>
+<p>Download the generated <code>quantization_pipeline.yaml</code> file to your local machine:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-download-pipeline.png" target="blank"><img src="quantization-download-pipeline.png" alt="quantization download pipeline" width="100%"></a>
+</div>
+<div class="title">Figure 5. Download Pipeline YAML File from Workbench</div>
+</div>
+</li>
+<li>
+<p>Once you have the pipeline file, stop the workbench to free resources:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-notebook-workbench-done.png" target="blank"><img src="quantization-notebook-workbench-done.png" alt="quantization notebook workbench done" width="100%"></a>
+</div>
+<div class="title">Figure 6. Access Workbench Actions Menu</div>
+</div>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-notebook-workbench-stop.png" target="blank"><img src="quantization-notebook-workbench-stop.png" alt="quantization notebook workbench stop" width="100%"></a>
+</div>
+<div class="title">Figure 7. Stop Workbench to Free GPU Resources</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_validation_step_3"><a class="anchor" href="#_validation_step_3"></a>Validation Step</h4>
+<div class="paragraph">
+<p>Confirm successful download and cleanup:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pipeline YAML file is saved to your local machine</p>
+</li>
+<li>
+<p>File opens and shows valid YAML structure</p>
+</li>
+<li>
+<p>Workbench is stopped and no longer consuming resources</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_your_pipeline"><a class="anchor" href="#_running_your_pipeline"></a>Running Your Pipeline</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Follow these steps to import and execute the pipeline in OpenShift AI:</p>
+</div>
+<div class="paragraph">
+<p>Pipeline runs can be triggered either from the OpenShift AI pipelines dashboard user interface or  using the Kubeflow Pipelines REST APIs. In this lab, we&#8217;ll use the API method.</p>
+</div>
+<div class="paragraph">
+<p>To trigger the pipeline import and execution, you can use the following Kubeflow Pipelines REST APIs. Be sure to replace example values with your own as needed.</p>
+</div>
+<div class="sect2">
+<h3 id="_1_obtain_the_kubeflow_pipelines_api_route"><a class="anchor" href="#_1_obtain_the_kubeflow_pipelines_api_route"></a>1. Obtain the Kubeflow Pipelines API Route</h3>
+<div class="paragraph">
+<p>First, get the OpenShift route for the Kubeflow Pipelines REST API. This is needed to construct the correct API endpoint URL:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get route ds-pipeline-dspa --template='{{ .spec.host }}' -n quantization</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will output a hostname like:
+<code>ds-pipeline-dspa-quantization.apps.cluster-xxxx.xxxx.sandboxNNN.opentlc.com</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_get_your_access_token"><a class="anchor" href="#_2_get_your_access_token"></a>2. Get your access token</h3>
+<div class="paragraph">
+<p>The Kubeflow Pipelines API route is secured using OpenShift OAuth, so you need to obtain a Bearer token for authentication. You can get your token with:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc whoami --show-token</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Copy the output token for use in the <code>Authorization</code> header.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_import_upload_the_pipeline_yaml"><a class="anchor" href="#_3_import_upload_the_pipeline_yaml"></a>3. Import (Upload) the Pipeline YAML</h3>
+<div class="paragraph">
+<p>Use the following <code>curl</code> command to upload your pipeline YAML file to the OpenShift AI pipelines API:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl -X POST "https://&lt;ROUTE&gt;/apis/v2beta1/pipelines/upload" \
+  -H "Authorization: Bearer &lt;YOUR_TOKEN&gt;" \
+  -F "uploadfile=@/path/to/quantization_pipeline.yaml" \
+  -F "name=quantization-pipeline" \
+  -F "display_name=Model Quantization Pipeline" \
+  -F "description=Pipeline for quantizing and evaluating models" \
+  -F "namespace=quantization"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Parameter details:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&lt;ROUTE&gt;</code>: The host you obtained in step 1 above.</p>
+</li>
+<li>
+<p><code>&lt;YOUR_TOKEN&gt;</code>: The token from step 2.</p>
+</li>
+<li>
+<p><code>uploadfile</code>: Path to your pipeline YAML file.</p>
+</li>
+<li>
+<p><code>name</code>: Internal pipeline name (no spaces).</p>
+</li>
+<li>
+<p><code>display_name</code>: Human-readable name shown in the UI.</p>
+</li>
+<li>
+<p><code>description</code>: (Optional) Description of the pipeline.</p>
+</li>
+<li>
+<p><code>namespace</code>: The OpenShift project/namespace (e.g., <code>quantization</code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If successful, the response will include a <code>pipeline_id</code> you will need for the next step.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_run_the_pipeline"><a class="anchor" href="#_4_run_the_pipeline"></a>4. Run the Pipeline</h3>
+<div class="paragraph">
+<p>After uploading, trigger a pipeline run with:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl -X POST "https://&lt;ROUTE&gt;/apis/v2beta1/runs" \
+  -H "Authorization: Bearer &lt;YOUR_TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "pipeline_version_reference": {
+      "pipeline_id": "&lt;PIPELINE_ID&gt;"
+    },
+    "runtime_config": {
+      "parameters": {
+        "model_s3_path": "ibm-granite/granite-3.3-2b-instruct",
+        "output_path": "granite-int4-pipeline",
+        "quantization_type": "int4",
+        "use_s3_download": true
+      }
+    },
+    "display_name": "quantization-run-001"
+  }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Parameter details:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&lt;ROUTE&gt;</code>: The hostname from step 1.</p>
+</li>
+<li>
+<p><code>&lt;YOUR_TOKEN&gt;</code>: The token from step 2.</p>
+</li>
+<li>
+<p><code>&lt;PIPELINE_ID&gt;</code>: The pipeline ID returned from the upload step.</p>
+</li>
+<li>
+<p><code>runtime_config.parameters</code>: Set pipeline parameters as needed:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>model_s3_path</code>: S3 path to the pre-uploaded model (used when <code>use_s3_download=true</code>)</p>
+</li>
+<li>
+<p><code>model_id</code>: HuggingFace model identifier (used when <code>use_s3_download=false</code>)</p>
+</li>
+<li>
+<p><code>output_path</code>: Output directory name for the quantized model</p>
+</li>
+<li>
+<p><code>quantization_type</code>: Quantization method (<code>int4</code> or <code>int8</code>)</p>
+</li>
+<li>
+<p><code>use_s3_download</code>: <code>true</code> for S3 download, <code>false</code> for HuggingFace download</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>display_name</code>: Name for this run (appears in the UI).</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Example for HuggingFace Download</strong>: To use HuggingFace download instead, modify the parameters:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"runtime_config": {
+  "parameters": {
+    "model_id": "ibm-granite/granite-3.3-2b-instruct",
+    "output_path": "granite-int4-pipeline",
+    "quantization_type": "int4",
+    "use_s3_download": false
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note: When using HuggingFace download, the <code>model_id</code> parameter is used instead of <code>model_s3_path</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now, if you go to the OpenShift AI web console pipelines tab, you&#8217;ll see that the pipeline has been created and the run has been executed.</p>
+</div>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-import-pipeline-graph.png" target="blank"><img src="quantization-import-pipeline-graph.png" alt="quantization import pipeline graph" width="100%"></a>
+</div>
+<div class="title">Figure 8. Pipeline Graph Showing Connected Components</div>
+</div>
+<div class="paragraph">
+<p>For more details on the available Kubeflow Pipelines (KFP) APIs—including how to list, manage, and interact with pipelines, runs, and experiments—refer to the upstream <a href="https://www.kubeflow.org/docs/components/pipelines/reference/api/kubeflow-pipeline-api-spec">KFP API documentation.</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_manual_upload_and_run_running_the_pipeline_via_the_openshift_ai_web_console"><a class="anchor" href="#_manual_upload_and_run_running_the_pipeline_via_the_openshift_ai_web_console"></a>Manual upload and run: Running the pipeline via the OpenShift AI Web Console</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can also launch the pipeline directly from the OpenShift AI web console, which offers an intuitive graphical interface for importing and running pipelines. This method is optional—use it if you prefer a visual workflow or have not already started a run via the KFP REST API.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_pipeline_import_process"><a class="anchor" href="#_pipeline_import_process"></a>Pipeline Import Process</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Log into your OpenShift AI dashboard</p>
+</li>
+<li>
+<p>In the project <code>quantization</code>, navigate to <strong>Data Science Pipelines</strong> → <strong>Pipelines</strong></p>
+</li>
+<li>
+<p>Click <strong>Import Pipeline</strong>:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-import-pipeline.png" target="blank"><img src="quantization-import-pipeline.png" alt="quantization import pipeline" width="100%"></a>
+</div>
+<div class="title">Figure 9. Import Pipeline Button in OpenShift AI</div>
+</div>
+</li>
+<li>
+<p>Enter a descriptive <strong>Pipeline name</strong>, such as: <code>Model Quantization Pipeline</code></p>
+</li>
+<li>
+<p>Choose <strong>Upload</strong> and select your generated <code>quantization_pipeline.yaml</code> file:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-import-pipeline-select.png" target="blank"><img src="quantization-import-pipeline-select.png" alt="quantization import pipeline select" width="100%"></a>
+</div>
+<div class="title">Figure 10. Upload Pipeline YAML File for Import</div>
+</div>
+</li>
+<li>
+<p>Click <strong>Import pipeline</strong> to complete the import process</p>
+</li>
+<li>
+<p>Review the pipeline graph to verify all components are connected correctly:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-import-pipeline-graph.png" target="blank"><img src="quantization-import-pipeline-graph.png" alt="quantization import pipeline graph" width="100%"></a>
+</div>
+<div class="title">Figure 11. Pipeline Graph Showing Connected Components</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_validation_step_4"><a class="anchor" href="#_validation_step_4"></a>Validation Step</h5>
+<div class="paragraph">
+<p>Verify successful pipeline import:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pipeline appears in the pipelines list with correct name</p>
+</li>
+<li>
+<p>Pipeline graph displays all 6 components (CreatePVC, Download, Quantize, Upload, Evaluate, DeletePVC)</p>
+</li>
+<li>
+<p>All components are properly connected with dependency arrows</p>
+</li>
+<li>
+<p>No import error messages are displayed</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pipeline_execution"><a class="anchor" href="#_pipeline_execution"></a>Pipeline Execution</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>To start a pipeline run, click the <strong>Actions</strong> button and select <strong>Create run</strong>:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-import-pipeline-create-run.png" target="blank"><img src="quantization-import-pipeline-create-run.png" alt="quantization import pipeline create run" width="100%"></a>
+</div>
+<div class="title">Figure 12. Create New Pipeline Run from Actions Menu</div>
+</div>
+</li>
+<li>
+<p>Configure the pipeline parameters in the run creation form:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: Provide a descriptive run name, e.g., <code>quantization-granite-3.3-2b-instruct</code></p>
+</li>
+<li>
+<p><strong>model_s3_path</strong>: S3 path to the pre-uploaded model (used when <code>use_s3_download=true</code>) (default: <code>ibm-granite/granite-3.3-2b-instruct</code>)</p>
+</li>
+<li>
+<p><strong>model_id</strong>: HuggingFace model identifier (used when <code>use_s3_download=false</code>) (default: <code>ibm-granite/granite-3.3-2b-instruct</code>)</p>
+</li>
+<li>
+<p><strong>output_path</strong>: Directory name for the quantized model (default: <code>granite-int4-pipeline</code>)</p>
+</li>
+<li>
+<p><strong>quantization_type</strong>: Quantization method to apply (options: <code>int4</code> or <code>int8</code>, default: <code>int4</code>)</p>
+</li>
+<li>
+<p><strong>use_s3_download</strong>: Whether to download from S3 (<code>true</code>) or HuggingFace (<code>false</code>) (default: <code>true</code>)</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-import-pipeline-create-run-params.png" target="blank"><img src="quantization-import-pipeline-create-run-params.png" alt="quantization import pipeline create run params" width="100%"></a>
+</div>
+<div class="title">Figure 13. Pipeline Run Parameters Configuration</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Click <strong>Create run</strong> to start the pipeline execution</p>
+</li>
+<li>
+<p>Monitor the pipeline progress until completion:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-pipeline-run-success.png" target="blank"><img src="quantization-pipeline-run-success.png" alt="quantization pipeline run success" width="100%"></a>
+</div>
+<div class="title">Figure 14. Successful Pipeline Execution Status</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_validation_step_5"><a class="anchor" href="#_validation_step_5"></a>Validation Step</h5>
+<div class="paragraph">
+<p>Verify successful pipeline execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>All pipeline components show green "Succeeded" status</p>
+</li>
+<li>
+<p>No failed or skipped components in the pipeline graph</p>
+</li>
+<li>
+<p>Pipeline execution time is reasonable (typically 15-30 minutes)</p>
+</li>
+<li>
+<p>Check the logs of each component for any warning messages</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_verifying_results"><a class="anchor" href="#_verifying_results"></a>Verifying Results</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Check the model accuracy evaluation results by inspecting the pipeline logs</p>
+</li>
+<li>
+<p>Regardless of the download method used (S3 or HuggingFace), the quantized model is always uploaded to S3 storage</p>
+</li>
+<li>
+<p>Access the MinIO S3 dashboard and verify that the quantized model has been uploaded successfully:</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-pipeline-run-minio.png" target="blank"><img src="quantization-pipeline-run-minio.png" alt="quantization pipeline run minio" width="100%"></a>
+</div>
+<div class="title">Figure 15. Quantized Model Files in MinIO S3 Bucket</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_final_validation_step"><a class="anchor" href="#_final_validation_step"></a>Final Validation Step</h5>
+<div class="paragraph">
+<p>Confirm successful model quantization and upload:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Quantized model directory appears in S3 bucket with the specified <code>output_path</code> name</p>
+</li>
+<li>
+<p>Model files include weights, tokenizer, and configuration files</p>
+</li>
+<li>
+<p>Model files size (<code>*.safetensors</code>) are significantly smaller than the original model (indicating successful quantization)</p>
+</li>
+<li>
+<p>Model can be accessed and downloaded from S3 storage</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bonus_exercises"><a class="anchor" href="#_bonus_exercises"></a>Bonus exercises</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Make the dataset parameters (such as dataset name, split, and number of calibration samples) configurable in the pipeline instead of hardcoding them.</p>
+</li>
+<li>
+<p>Add support for the <code>fp8</code> quantization type. For implementation details, refer to the <a href="https://docs.vllm.ai/projects/llm-compressor/en/latest/examples/quantization_w8a8_fp8/">LLM Compressor quantization guide</a></p>
+</li>
+<li>
+<p>Try different quantization schemes and methods to see if you can further improve model accuracy.</p>
+</li>
+<li>
+<p>Integrate MLflow to track and compare the results of your quantization experiments, including accuracy metrics.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You may refer to the sample implementation provided at <code>llm_compressor\lab2-bonus-output</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resource_cleanup"><a class="anchor" href="#_resource_cleanup"></a>Resource Cleanup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After completing the exercise, clean up resources to avoid unnecessary costs:</p>
+</div>
+<div class="sect2">
+<h3 id="_automatic_cleanup_by_pipeline"><a class="anchor" href="#_automatic_cleanup_by_pipeline"></a>Automatic Cleanup (by pipeline)</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>PVC deletion</strong>: Handled automatically by the pipeline&#8217;s DeletePVC component</p>
+</li>
+<li>
+<p><strong>Temporary files</strong>: Removed during pipeline execution</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_manual_cleanup"><a class="anchor" href="#_manual_cleanup"></a>Manual Cleanup</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Pipeline runs</strong>: Delete old pipeline runs from OpenShift AI interface</p>
+</li>
+<li>
+<p><strong>Workbench</strong>: Ensure workbench is stopped (completed earlier)</p>
+</li>
+<li>
+<p>Check that no orphaned PVCs remain: Navigate to <strong>Storage</strong> → <strong>PersistentVolumeClaims</strong></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The quantized models in S3 storage are your valuable outputs from this exercise. Only delete them if you&#8217;re certain they&#8217;re no longer needed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a></span>
+  <span class="next"><a href="module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

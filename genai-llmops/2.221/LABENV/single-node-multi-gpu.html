@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Deploying a Model with vLLM on a single node with multiple GPUs :: LLM Operations Optimization and Inference</title>
+    <link rel="prev" href="multi-node-multi-gpu.html">
+    <link rel="next" href="vllm-configuration.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../appendix/module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="index.html">Advanced vLLM</a></li>
+    <li><a href="single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Deploying a Model with vLLM on a single node with multiple GPUs</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section will will deploy a <a href="https://huggingface.co/ibm-granite/granite-3.3-8b-instruct">Granite 3.3 8B Instruct</a> model using vLLM.</p>
+</div>
+<div class="paragraph">
+<p>For our Model Server we will be deploying a vLLM instance using a model packaged into an OCI container with ModelCar.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>ModelCar is Generally Available as of OpenShift AI 2.16.</p>
+</div>
+<div class="paragraph">
+<p>ModelCar is a great option for smaller models like our 8B model.  While it is still a relatively large container (15Gb) it is still reasonable to easily pull into a cluster.</p>
+</div>
+<div class="paragraph">
+<p>Treating the model as an OCI artifact allows us to easily promote the model between different environments using customers existing promotion processes.  By contrast, dealing with promoting models between S3 instances in different environments may create new challenges.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_creating_the_vllm_instance"><a class="anchor" href="#_lab_creating_the_vllm_instance"></a>Lab: Creating the vLLM Instance</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the <a href="https://rhods-dashboard-redhat-ods-applications.{openshift_cluster_ingress_domain}">OpenShift AI Dashboard</a> and select the <code>vllm</code> project from the list of Data Science Projects</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/datascience-project.png" alt="vLLM Project">
+</div>
+</div>
+</li>
+<li>
+<p>Select the <code>Models</code> tab and click <code>Select single-model</code> if it hasn&#8217;t already been set for you.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Multi-model serving (Model Mesh) was depreciated in OpenShift AI 2.19 and will be removed in a future release.</p>
+</div>
+<div class="paragraph">
+<p>All ServingRuntimes that were previously available with the Multi-model serving platform are now available as single-model serving runtimes.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/single-model-serving.png" alt="Single Model">
+</div>
+</div>
+</li>
+<li>
+<p>Select <code>Deploy model</code></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/deploy-model.png" alt="Deploy Models">
+</div>
+</div>
+</li>
+<li>
+<p>Enter the following information:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Model deployment name: granite-8b
+Serving runtime: vLLM NVIDIA GPU ServingRuntime for KServe
+Deployment mode: Advanced
+Number of model server replicas to deploy: 1
+Model server size: Custom
+CPUs requested: 4 Cores
+CPUs limit: 8 Cores
+Memory requested: 8 GiB
+Memory limit: 16 GiB
+Accelerator: NVIDIA GPU
+Number of accelerators: 1
+Make deployed models available through an external route: Checked
+Require token authentication: Unchecked</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In OpenShift AI 2.22, a validate was added to the Requests/Limits for the model server which prevents you from entering a value for the Request if it is less than the Limit.  This means that you must enter the value for the Limit first, and then you can enter the value for the Request.</p>
+</div>
+<div class="paragraph">
+<p>Feel free to vote/follow the feature request <a href="https://issues.redhat.com/browse/RHAIRFE-483">RHAIRFE-483</a> to help us improve this experience.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/deploy-model-single-gpu.png" alt="Model Options">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>OpenShift AI provides a deployment option of <code>Advanced</code> and <code>Standard</code>.  The <code>Advanced</code> option uses KNative Serverless and Service Mesh (Istio) to deploy the model server.  The <code>Standard</code> option is also know as a <code>RawDeployment</code> and uses standard Kubernetes Deployment objects.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Advanced</code> option allows you to configure advanced scaling capabilities such as Scale to Zero and allows you to autoscale the number of replicas based on the number of queued requests.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Standard</code> option provides more limited scaling capabilities which includes scaling based on the CPU/Memory utilization of the model server.  This is of limited use for LLMs since the bottleneck of the workload is dependent on the GPU resources.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>In the <code>Source model location</code> section, choose the option to <code>Create connection</code>.  Enter the following information:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Connection type: URI - v1
+Connection name: granite-3-3-8b-instruct
+URI: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/deploy-model-data-connection.png" alt="URI Connection">
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Dashboard provides an data connection option for <code>OCI compliant registry - v1</code> which we use instead of the URI option.  The OCI option helps to automatically format the <code>oci://</code> prefix for the URI and will also give us an option to setup pull secrets for the container registry.</p>
+</div>
+<div class="paragraph">
+<p>However, the pull secrets are currently not optional and we don&#8217;t need it since our ModelCar image is public. Additionally, the OCI option does have a few other requirements that aren&#8217;t super intuitive and should be improved in the future.</p>
+</div>
+<div class="paragraph">
+<p>If you do wish to use the OCI option, you can simply set the pull secret as an empty object <code>{}</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can find the image container for our model <a href="https://github.com/redhat-ai-services/modelcar-catalog/">here</a> alongside other ModelCar images that you can try.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, the source for building these ModelCar images can be found on <a href="https://github.com/redhat-ai-services/modelcar-catalog/">GitHub</a>.</p>
+</div>
+<div class="paragraph">
+<p>For more information on ModelCar see the KServe <a href="https://kserve.github.io/website/latest/modelserving/storage/oci/">Serving models with OCI images</a> documentation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Click <code>Deploy</code> to deploy the model.</p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A copy of the image has already been pulled onto the GPU node to help speed up deploying the model, but deploying LLMs can take quite some time.</p>
+</div>
+<div class="paragraph">
+<p>KServe uses KNative Serverless to manage the model servers which has a default timeout of 10 minutes which means that if the model server takes longer than 10 minutes to deploy it will automatically terminate the pod and mark it as failed.</p>
+</div>
+<div class="paragraph">
+<p>You can extend the timeout by adding the following annotation to the <code>predictor</code> section of the <code>InferenceService</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: granite-8b
+spec:
+  predictor:
+    annotations:
+      serving.knative.dev/progress-deadline: 30m</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>After creating the model serving instance, check the pods in the <code>vllm</code> namespace.  You should see a pod called <code>granite-8b-predictor-00001-deployment-*</code></p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc get pods -n vllm</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Our pod is built with an init container that helps to validate the model files are present on the ModelCar container. Additionally, the pod has four containers.  The main container, <code>kserve-container</code> is the vLLM container that is responsible for serving the model.  This container will take some time to startup while the rest go to ready fairly quickly.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Next, check the logs of the pod the <code>kserve-container</code> container.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc logs -l serving.knative.dev/service=granite-8b-predictor -n vllm --follow</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can exit the logs by pressing <code>Ctrl+C</code>.</p>
+</div>
+<div class="paragraph">
+<p>You will find that the pod with eventually fail with the following error message.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">ERROR 07-16 07:47:09 [core.py:387] ValueError: To serve at least one request with the models's max seq len (131072), (20.00 GiB KV cache is needed, which is larger than the available KV cache memory (3.84 GiB). Based on the available memory,  Try increasing `gpu_memory_utilization` or decreasing `max_model_len` when initializing the engine.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>vLLM is failing to start because it does not have enough vRAM to support the sizing of the default KV Cache. At this point, we can limit the size of the KV Cache using the <code>--max-model-len</code> parameter, or we can add additional GPU resources to the instance to increase the available vRAM.</p>
+</div>
+</li>
+<li>
+<p>From the <code>Models</code> tab of the OpenShift AI Dashboard, click on the three-dots menu on the right and then edit:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/edit-model-config.png" alt="Edit configuration">
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>Number of accelerators</code> to 2:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/accelerators.png" alt="Accelerator count">
+</div>
+</div>
+<div class="paragraph">
+<p>Then add the following to the <code>Additional serving runtime arguments</code> field:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">--tensor-parallel-size=2</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/deploy-model-parameters.png" alt="Runtime Arguments">
+</div>
+</div>
+</li>
+<li>
+<p>This will create an updated deployment called <code>granite-8b-predictor-00002-deployment-*</code>:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n vllm</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">NAME                                               READY   STATUS    RESTARTS   AGE
+granite-8b-predictor-00002-deployment-6f7cdc67bd-8lhkn   3/4     Running   0          17s</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Follow the logs of the pod until it is ready.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc logs -l serving.knative.dev/service=granite-8b-predictor -n vllm --follow</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">INFO 07-16 07:53:42 [__init__.py:239] Automatically detected platform cuda.
+INFO 07-16 07:53:45 [api_server.py:1034] vLLM API server version 0.8.5.dev411+g7ad990749
+[...]
+INFO:     Started server process [4]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Check the status of the pod again to see that the pod is now ready.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n vllm</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">NAME                                               READY   STATUS    RESTARTS   AGE
+granite-8b-predictor-00002-deployment-6f7cdc67bd-8lhkn   4/4     Running   0          1337s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally, in the OpenShift AI Dashboard, you can see the model is successfully deployed and is ready to use, which is signified with the green checkmark in the Status column.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ready-model.png" alt="Dashboard Model Ready">
+</div>
+</div>
+</li>
+<li>
+<p>(Optional) The OpenShift AI Dashboard created two KServe objects, a <code>ServingRuntime</code> and an <code>InferenceService</code>.  From the OpenShift Web Console, navigate to the <code>Home</code> &gt; <code>Search</code> page and use the <code>Resources</code> drop down menu to search for and select those objects.  Spend a few minutes reviewing the objects created by the Dashboard.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/kserve-objects.png" alt="KServe Objects">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_checking_our_gpu_usage"><a class="anchor" href="#_lab_checking_our_gpu_usage"></a>Lab: Checking our GPU usage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section we will explore what GPU resources are available to the vLLM pod and the resource utilization of the pod.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To rsh into the pod, start out by getting the pod name:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -l serving.knative.dev/service=granite-8b-predictor -n vllm -o name</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">pod/granite-8b-predictor-00002-deployment-&lt;sha&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next, use the pod name to rsh into the pod:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc -n vllm rsh granite-8b-predictor-00002-deployment-&lt;sha&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Finally, run the <code>nvidia-smi</code> command to view the available GPUs and the vRAM utilization.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">nvidia-smi</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">+-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.148.08             Driver Version: 570.148.08     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L4                      On  |   00000000:38:00.0 Off |                    0 |
+| N/A   62C    P0             38W /   72W |   21582MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA L4                      On  |   00000000:3E:00.0 Off |                    0 |
+| N/A   58C    P0             35W /   72W |   21582MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
++-----------------------------------------------------------------------------------------+</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>nvidia-smi</code> command will output details about the GPUs available to the pod, and the vRAM being utilized.</p>
+</div>
+<div class="paragraph">
+<p>You should see two GPUs available to the pod, and somewhere around 21574MiB of vRAM being utilized on each GPU.</p>
+</div>
+</li>
+<li>
+<p>To exit the pod, use <code>ctrl+D</code> or type <code>exit</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_labtesting_vllm_endpoints"><a class="anchor" href="#_labtesting_vllm_endpoints"></a>Lab:Testing vLLM Endpoints</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Finally, we will access the Swagger docs page to test our vLLM endpoint.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To start we will need to find the endpoint URL for the served model.  From the OpenShift AI Dashboard, navigate to the Models tab and click on the <code>Internal and external endpoint details</code> to find the URL.  Click the <code>Copy</code> button to copy the URL to your clipboard.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/deploy-model-route.png" alt="Model endpoint">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Our vLLM instance does not create a normal OpenShift route since we are deploying with "Advanced" (aka Serverless mode) so you won&#8217;t find it under the normal <code>Networking</code> &gt; <code>Routes</code> menu.</p>
+</div>
+<div class="paragraph">
+<p>Instead it creates a KNative Serving Route object which can be found in <code>Serverless</code> &gt; <code>Serving</code> or with the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get routes.serving.knative.dev -n vllm</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Using the route we copied in the previous step, open a new tab and paste it into the URL field with <code>/docs</code> at the end to access a FastAPI Swagger Docs page for vLLM.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/model-docs-page.png" alt="Docs page">
+</div>
+</div>
+</li>
+<li>
+<p>Find the <code>GET /v1/models</code> endpoint section and expand it.  Use the <code>Try it out</code> option to query the endpoint by clicking <code>Execute</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/llm-docs-run-v1-models.png" alt="V1 Modules">
+</div>
+</div>
+</li>
+<li>
+<p>Find the model name in the response body in the <code>id</code> field of the first entry in the <code>data</code> array.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/model-response.png" alt="Models Response">
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The model id should match the name of the model server we created in the OpenShift AI Dashboard (e.g. <code>granite-8b</code>).</p>
+</div>
+<div class="paragraph">
+<p>However, you can set the model name to any value you want by setting an additional argument for the model server.  This is commonly used to set the model name to match the Hugging Face model name, which may contain characters that are not allowed in the model name field when creating the model server.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">---served-model-name="ibm-granite/granite-3.2-8b-instruct"</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Once you have the model name, find the <code>POST /v1/chat/completions</code> endpoint and use the <code>Try it out</code> and use the following as the Request body.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "model": "granite-8b",
+  "messages":[
+    {
+      "role": "system",
+      "content": "You're an helpful assistant."
+    },
+    {
+      "role": "user",
+      "content": "Who is Michael Jordan?"
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="sllm-docs-strawberry.png" alt="Chat completion">
+</div>
+</div>
+<div class="paragraph">
+<p>Click <code>Execute</code> to send the request to the model server.  You should receive a response with an answer to the question.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/completion-response.png" alt="Completion Response">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion"><a class="anchor" href="#_conclusion"></a>Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Congratulations!  You have successfully deployed a model with vLLM on a single node with multiple GPUs.</p>
+</div>
+<div class="paragraph">
+<p>In this lab you learned how to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Deploy a model with vLLM on a single node with multiple GPUs</p>
+</li>
+<li>
+<p>Check the GPU usage of the model server</p>
+</li>
+<li>
+<p>Test the vLLM endpoint</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Running into a 404 error on the OCP web console after trying this?</p>
+</div>
+<div class="paragraph">
+<p>There is a known issue that can cause the OCP Web console to stop responding after accessing the Swagger docs.  To get around this, try accessing the OCP Web console through an Incognito window or a different browser.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a></span>
+  <span class="next"><a href="vllm-configuration.html">Advanced vLLM Configuration</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

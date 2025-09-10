@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Advanced vLLM Configuration :: LLM Operations Optimization and Inference</title>
+    <link rel="prev" href="single-node-multi-gpu.html">
+    <link rel="next" href="../chapter1/index.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../appendix/module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="index.html">Advanced vLLM</a></li>
+    <li><a href="vllm-configuration.html">Advanced vLLM Configuration</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Advanced vLLM Configuration</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>vLLM provides a number of options that can be set for the vLLM server using the arguments on the OpenShift AI Dashboard or the InferenceService object.</p>
+</div>
+<div class="paragraph">
+<p>To explore the available options, you can run <code>vllm --help</code> or refer to the docs here:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://docs.vllm.ai/en/latest/cli/index.html" class="bare">https://docs.vllm.ai/en/latest/cli/index.html</a></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+vLLM is a rapidly evolving project and customers may not be running the latest version of vLLM.  When referencing the upstream docs it is recommended that you look at the docs for the specific version of vLLM that you are running as the options may have changed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setting_arguments"><a class="anchor" href="#_setting_arguments"></a>Setting Arguments</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Arguments can be set directly through the UI for single-node vLLM instances.  Any configuration added to the UI is represented in the InferenceService object in the <code>args</code> field:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: my-model-server
+spec:
+  predictor:
+    model:
+      args:
+        - '--max-model-len=10000'</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_common_config_options"><a class="anchor" href="#_common_config_options"></a>Common Config Options</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_model_configs"><a class="anchor" href="#_model_configs"></a>Model Configs</h3>
+<div class="sect3">
+<h4 id="_served_model_name"><a class="anchor" href="#_served_model_name"></a>--served-model-name</h4>
+<div class="paragraph">
+<p><code>--served-model-name</code> is set by default in the ServingRuntime to be equal to the name of the ServingRuntime object.  If you wish to override this name, you can set the argument manually and specify the model name you wish to utilize.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_optimization_options"><a class="anchor" href="#_optimization_options"></a>Optimization Options</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_max_model_len"><a class="anchor" href="#_max_model_len"></a>--max-model-len</h4>
+<div class="paragraph">
+<p><code>--max-model-len</code> is commonly used to help define the size of the KV Cache.  When attempting to run a model on a GPU that does not have enough vRAM to support the models default max context length you will need to set this value to limit the size of the KV Cache.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gpu_memory_utilization"><a class="anchor" href="#_gpu_memory_utilization"></a>--gpu-memory-utilization</h4>
+<div class="paragraph">
+<p><code>--gpu-memory-utilization</code> is set to 90% by default.  You can increase this value to give the vLLM instance access to more vRAM.  vLLM generally does need a little bit of vRAM left free for some processes, but you can generally safely increase this value a bit to expand the size of the KV Cache, especially when using larger GPUs such as an H100 with 80Gb of vRAM.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enable_eager"><a class="anchor" href="#_enable_eager"></a>--enable-eager</h4>
+<div class="paragraph">
+<p><code>--enable-eager</code> disables the creation of a CUDA graph that is used to improve performance of processing requests.  As a trade off for potentially slower responses, vLLM is able to free up additional vRAM which can be used to increase the size of the KV Cache.</p>
+</div>
+<div class="paragraph">
+<p>This option can be useful for increasing the overall size of the KV Cache when response time is not as important as a larger context length.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_max_num_seqs"><a class="anchor" href="#_max_num_seqs"></a>--max-num-seqs</h4>
+<div class="paragraph">
+<p><code>--max-num-seqs</code> can be used to set limits for how many concurrent requests are processed at any given time.  This option can be set to prevent the model server from creating contention issues and providing better response times for most users.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_limit_mm_per_prompt"><a class="anchor" href="#_limit_mm_per_prompt"></a>--limit-mm-per-prompt</h4>
+<div class="paragraph">
+<p><code>--limit-mm-per-prompt</code> is an option to limit the number of mutli-modal inputs per request.  This option can help to limit requests from sending too many large mutli-modal items which require a large number of resources to compute.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parallelism"><a class="anchor" href="#_parallelism"></a>Parallelism</h3>
+<div class="sect3">
+<h4 id="_tensor_parallel_size"><a class="anchor" href="#_tensor_parallel_size"></a>--tensor-parallel-size</h4>
+<div class="paragraph">
+<p><code>--tensor-parallel-size</code> generally corresponds to the number of GPUs that are available for vLLM.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pipeline_parallel_size"><a class="anchor" href="#_pipeline_parallel_size"></a>--pipeline-parallel-size</h4>
+<div class="paragraph">
+<p><code>--pipeline-parallel-size</code> is generally only used with multi-node configurations and corresponds to the number of node.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enable_expert_parallel"><a class="anchor" href="#_enable_expert_parallel"></a>--enable-expert-parallel</h4>
+<div class="paragraph">
+<p><code>--enable-expert-parallel</code> can be used with MoE models to improve the way that models are sharded across GPUs.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tool_calling"><a class="anchor" href="#_tool_calling"></a>Tool Calling</h3>
+<div class="paragraph">
+<p>Tool calling is a common capability that we may need to enable on a vLLM instance using the following common commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">--enable-auto-tool-choice
+--tool-call-parser=granite
+--chat-template=/app/data/template/tool_chat_template_granite.jinja</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>--enable-auto-tool-choice</code> turns on the ability to do tool calling.  <code>--tool-call-parser</code> is used to define what parser is used when doing tool calling.  In the example, we are using the <code>granite</code> parser, but other parsers exist that can be used with other models.  See the docs for what options are available.</p>
+</div>
+<div class="paragraph">
+<p><code>--chat-template</code> generally corresponds to a template that is aligned with the model.  The templates can be found in the <a href="https://github.com/vllm-project/vllm/tree/main/examples">vLLM GitHub</a> and they should be pre-packaged in the vLLM container image in <code>/app/data/template/</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a></span>
+  <span class="next"><a href="../chapter1/index.html">Module 1: LLM Deployment Strategies</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

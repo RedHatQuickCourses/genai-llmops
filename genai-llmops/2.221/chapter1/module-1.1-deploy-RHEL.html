@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Deploying RH Inference Server on RHEL :: LLM Operations Optimization and Inference</title>
+    <link rel="prev" href="module-1.0-deploy-intro.html">
+    <link rel="next" href="module-1.2-deploy-ocp.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../LABENV/index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../appendix/module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="index.html">Module 1: LLM Deployment Strategies</a></li>
+    <li><a href="module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Deploying RH Inference Server on RHEL</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section will walk you through deploying RH Inference server on RHEL.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_login_to_bastion"><a class="anchor" href="#_login_to_bastion"></a>Login to bastion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>First, we&#8217;ll login to the bastion server that we&#8217;ll be installing Red Hat Inference server to.</p>
+</div>
+<div class="paragraph">
+<p>Open a terminal and execute the below command.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ssh ec2-user@&lt;YOUR_BASTION_ADDRESS&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_host_verification"><a class="anchor" href="#_host_verification"></a>Host Verification</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before proceeding, it is critical to verify that the host environment is correctly configured.
+Check Driver Status: After the system reboots, run the nvidia-smi (NVIDIA System Management Interface) command. A successful configuration will display a table listing all detected NVIDIA GPUs, their driver versions, and CUDA versions.14</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">nvidia-smi</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="nvidia-smi-screenshot.png" alt="nvidia-smi-screenshot.png">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install_nvidia_container_toolkit"><a class="anchor" href="#_install_nvidia_container_toolkit"></a>Install nvidia-container-toolkit</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The NVIDIA Container Toolkit is the crucial bridge that allows container runtimes like Podman or Docker to securely access the host&#8217;s GPUs.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo | \
+  sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+sudo dnf-config-manager --enable nvidia-container-toolkit-experimental
+sudo dnf install -y nvidia-container-toolkit</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_cdi"><a class="anchor" href="#_configure_cdi"></a>Configure CDI</h2>
+<div class="sectionbody">
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+# check the config
+nvidia-ctk cdi list</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="cdi-list.png" alt="cdi-list.png">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Test Container-GPU Access</strong>: To confirm that Podman can access the GPUs, run a simple test workload using a standard NVIDIA CUDA sample image. This step definitively validates the entire stack, from the driver to the container runtime.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo podman run --rm --device nvidia.com/gpu=all nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubi8
+podman run --rm -it \
+--security-opt=label=disable \
+--device nvidia.com/gpu=all \
+nvcr.io/nvidia/cuda:12.4.1-base-ubi9 \
+nvidia-smi</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="gpu-passthrough-test.png" alt="gpu-passthrough-test.png">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_logging_into_red_hat_container_registry"><a class="anchor" href="#_logging_into_red_hat_container_registry"></a>Logging Into Red Hat Container Registry</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Login to registry.redhat.io</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo podman login registry.redhat.io</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use your known credentials. If you need to generate new ones, you will need to create a new service account.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_service_account"><a class="anchor" href="#_creating_a_service_account"></a>Creating a Service Account</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First, go to <a href="https://access.redhat.com/terms-based-registry/" class="bare">https://access.redhat.com/terms-based-registry/</a> and login to create a new service account.  Follow the steps to create a new account, if needed. (NOTE: Your Red Hat company account may not work. If not, create a new account with another email address.)</p>
+</li>
+<li>
+<p>Once logged in, click on New Service Account to create a new service account.</p>
+</li>
+<li>
+<p>In the presented form, create a new Registry Service Account by entering a Name for the account and an optional Description for the account.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you receive a terms required error, then click on Please accept Red Hat&#8217;s Terms and Conditions to launch the acceptance process. Read through the terms and accept them. Close the newly created browser tab.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Once complete, you will see your new service account name.</p>
+</li>
+<li>
+<p>Click on the hyperlinked Account Name to get the credentials needed for the registry authentication. On the following page, make note of the Username and Password. Click the copy icon to place the entire password token onto the Clipboard.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_vllm_on_rhel"><a class="anchor" href="#_running_vllm_on_rhel"></a>Running vLLM on RHEL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Clone the workshop repository with pod deployment forRH Inference server for RHEL.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git clone https://github.com/redhat-ai-services/etx-llm-optimization-and-inference-leveraging.git
+cd etx-llm-optimization-and-inference-leveraging</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the vllm pod</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo podman kube play workshop_code/deploy_vllm/rhaiis_rhel/vllm-pod.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open a new terminal to follow the logs.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo podman logs --follow vllm-vllm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>List all of the models deployed on the RH Inference server.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl http://127.0.0.1:80/v1/models</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Go back to your original terminal and send in a request to the model endpoint.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl -X POST -H "Content-Type: application/json" -d '{
+    "prompt": "What is the capital of France?",
+    "max_tokens": 100
+}' http://127.0.0.1:80/v1/completions | jq</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Go to your other terminal and view the logs. You should see a successful log entry.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="successful-request-to-vllm.png" alt="successful-request-to-vllm.png">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a>Troubleshooting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you need to remove and cleanup vllm pod</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo podman pod stop vllm &amp;&amp; sudo podman pod rm vllm</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You have now deployed a vLLM pod on RHEL. In the next module, we will deploy vLLM on OpenShift.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a></span>
+  <span class="next"><a href="module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Deploy vLLM on OpenShift AI with kserve and model car :: LLM Operations Optimization and Inference</title>
+    <link rel="prev" href="module-1.2-deploy-ocp.html">
+    <link rel="next" href="module-1.4-deploy-conclusion.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../LABENV/index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../appendix/module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="index.html">Module 1: LLM Deployment Strategies</a></li>
+    <li><a href="module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Deploy vLLM on OpenShift AI with kserve and model car</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Log into your provided OpenShift environment.</p>
+</li>
+<li>
+<p>Once in your OpenShift cluster setup a new project for your work.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">oc new-project rhaiis-demo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We will use a helm chart to deploy our model-car on vLLM in OpenShift AI. This helm chart is designed to be easily reusable and we recommend starting with this base for your deployment. You may also substitute the official Red Hat AI Inference Server image in the helm chart deployment on a standard OpenShift cluster. For the purposes of this training experience, we are using the vllm-kserve image on OpenShift AI.</p>
+</div>
+<div class="paragraph">
+<p>If you do use the RHAIIS image as seen in the previous module, you will run into the authentication requirements required for pulling the image and it would add unnecessary barriers to the training experience.</p>
+</div>
+<div class="paragraph">
+<p>You may view the helm chart at this link: <a href="https://github.com/redhat-ai-services/helm-charts/tree/main/charts/vllm-kserve" class="bare">https://github.com/redhat-ai-services/helm-charts/tree/main/charts/vllm-kserve</a> and within our workshop repository under etx-llm-optimization-and-inference-leveraging/workshop_code/deploy_vllm/vllm-kserve.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look at our provided custom values file (etx-llm-optimization-and-inference-leveraging/workshop_code/deploy_vllm/vllm_rhoai_custom_1/values.yaml):</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">deploymentMode: RawDeployment
+
+model:
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct
+  args:
+    - "--max-model-len=130000"
+    - "--enable-auto-tool-choice"
+    - "--tool-call-parser=granite"
+    - "--chat-template=/app/data/template/tool_chat_template_granite.jinja"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may substitute the modelcar for a different model and adjust the arguments as desired using vLLM standard args: <a href="https://docs.vllm.ai/en/stable/configuration/engine_args.html#named-arguments" class="bare">https://docs.vllm.ai/en/stable/configuration/engine_args.html#named-arguments</a>. View our available modelcars here: <a href="https://quay.io/repository/redhat-ai-services/modelcar-catalog?tab=tags" class="bare">https://quay.io/repository/redhat-ai-services/modelcar-catalog?tab=tags</a></p>
+</div>
+<div class="paragraph">
+<p>If you choose to use a different model you&#8217;ll need to ensure to change the tool-call-parser and the chat-template fields appropriately.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>--tool-call-parser:</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See available options here: <a href="https://docs.vllm.ai/en/latest/cli/index.html#-tool-call-parser" class="bare">https://docs.vllm.ai/en/latest/cli/index.html#-tool-call-parser</a></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>--chat-template:</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See available chat templates here: <a href="https://docs.vllm.ai/en/stable/features/tool_calling.html" class="bare">https://docs.vllm.ai/en/stable/features/tool_calling.html</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_understanding_the_tool_call_parser_and_chat_template_features"><a class="anchor" href="#_understanding_the_tool_call_parser_and_chat_template_features"></a>Understanding the tool-call-parser and chat-template features</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The --tool-call-parser and --chat-template arguments need to align with the model because they define the specific input and output formats that the model was trained on and expects during inference. Here&#8217;s a more detailed explanation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Chat Template (--chat-template):</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: A chat template is a Jinja2 template that structures the conversation history into a single string that the model&#8217;s tokenizer can process. Different models are fine-tuned on different chat formats. For example, a model might expect messages to be delimited by specific tokens like [INST] and [/INST] for user turns, or <a href="#SYS">[SYS]</a> and <a href="#EOT">[EOT]</a> for system messages.</p>
+</div>
+<div class="paragraph">
+<p><strong>Why Alignment is Crucial</strong>: If you use a chat template during serving that is different from the one used during the model&#8217;s training, the model will receive an input string that it doesn&#8217;t recognize as a valid conversation. It won&#8217;t correctly interpret the roles of the speakers (user, assistant, system) or the boundaries between messages. This will lead to:</p>
+</div>
+<div class="paragraph">
+<p><strong>Nonsensical Responses</strong>: The model might generate garbled or irrelevant text because it&#8217;s trying to make sense of an unfamiliar input structure.</p>
+</div>
+<div class="paragraph">
+<p><strong>Failure to Follow Instructions</strong>: It might ignore system prompts or struggle to maintain conversational coherence.</p>
+</div>
+<div class="paragraph">
+<p><strong>Incorrect Tokenization</strong>: The tokenizer might produce a different sequence of tokens than intended if the template&#8217;s special tokens or formatting are not consistent with what the model expects.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Tool Call Parser (--tool-call-parser):</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Purpose</strong>: For models that support function calling (i.e., generating structured outputs to use external tools), a tool call parser is responsible for extracting these structured calls (often in JSON format) from the raw text output generated by the model. The model is specifically fine-tuned to produce tool calls in a very particular syntax and format.</p>
+</div>
+<div class="paragraph">
+<p><strong>Why Alignment is Crucial</strong>: If the --tool-call-parser during serving doesn&#8217;t match the format the model was trained to produce, the system won&#8217;t be able to correctly identify and parse the tool calls. For instance:</p>
+</div>
+<div class="paragraph">
+<p><strong>Parsing Failures</strong>: The parser might fail to extract any tool calls, even if the model did generate them, because it&#8217;s looking for a different structure or syntax.</p>
+</div>
+<div class="paragraph">
+<p><strong>Incorrect Tool Calls</strong>: It might incorrectly parse parts of the model&#8217;s output as tool calls, leading to errors or unintended actions when those "calls" are executed.</p>
+</div>
+<div class="paragraph">
+<p><strong>Loss of Functionality</strong>: The entire tool-use capability of the model becomes effectively unusable if the parser cannot correctly interpret the model&#8217;s tool-calling output.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_vllm_arguments"><a class="anchor" href="#_vllm_arguments"></a>vLLM arguments</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_the_vllm_model_car_chart"><a class="anchor" href="#_deploy_the_vllm_model_car_chart"></a>Deploy the vLLM model car chart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Run the following commands to deploy our vLLM-kserve helm chart. The chart version we are using is published, but we will be deploying it from our cloned repository so that we may view files and make any changes if desired.</p>
+</div>
+<div class="paragraph">
+<p>OPTIONAL: Before deploying, adjust your <code>values.yaml</code> file as you desire as described in above sections.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">oc create namespace rhaiis-demo
+helm install granite-8b-instruct redhat-ai-services/vllm-kserve --version 0.5.11 \
+  -f workshop_code/deploy_vllm/vllm_rhoai_custom_1/values.yaml</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you didn&#8217;t add the redhat-ai-services helm chart repository to your local helm client, you can do so by running the following command:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">helm repo add redhat-ai-services https://redhat-ai-services.github.io/helm-charts/
+helm repo update redhat-ai-services</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verify_deployment"><a class="anchor" href="#_verify_deployment"></a>Verify deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It will take several minutes for the model deployment to be ready.</p>
+</div>
+<div class="paragraph">
+<p>Use your preferred method(s) to verify the successful deployment.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Login to OpenShift AI and go to your <strong>rhaiis-demo</strong> Data Science Project. Wait until the model fully deploys (green check) before continuing.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="granite-deployed-rhoai.png" alt="Granite deployed on RHOAI">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion"><a class="anchor" href="#_conclusion"></a>Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We now have our model car deployed and will move on to model evaluation and benchmarking. Stay in the rhaiis-demo namespace for the next module and subsequent steps.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a></span>
+  <span class="next"><a href="module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

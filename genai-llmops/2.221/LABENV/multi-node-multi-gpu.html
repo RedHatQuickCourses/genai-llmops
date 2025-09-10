@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Deploying a Model with vLLM on a multiple node with multiple GPUs :: LLM Operations Optimization and Inference</title>
+    <link rel="prev" href="llm-sizing.html">
+    <link rel="next" href="single-node-multi-gpu.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../appendix/module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="index.html">Advanced vLLM</a></li>
+    <li><a href="multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Deploying a Model with vLLM on a multiple node with multiple GPUs</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>We have successfully deployed vLLM on a single node with multiple GPUs, the natural next step is going to deploy a vLLM instance over multiple nodes with multiple GPUs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_multi_node_vllm_overview"><a class="anchor" href="#_multi_node_vllm_overview"></a>Multi-node vLLM Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Multi-node vLLM is a powerful tool for deploying larger models that won&#8217;t fit on the GPUs available in a single node.</p>
+</div>
+<div class="paragraph">
+<p>For example, a node with 8x H100 (80Gb vRAM each) has a total of 640Gb of vRAM.  An un-quantized version of Llama 405b requires approximately 900Gb of vRAM just to load the model (not factoring in the KV Cache requirements) so the model must be broken up across multiple nodes.</p>
+</div>
+<div class="paragraph">
+<p>Multi-node vLLM enables us to start multiple pods with a <code>head</code> node and additional <code>worker</code> nodes.  The <code>head</code> will act as the main vLLM server, and both the model and KV Cache will be distributed across the nodes.</p>
+</div>
+<div class="paragraph">
+<p>Multi-node instances do not have all of the same capabilities as a single node instance.  For example, multi-node instances are only available as <code>Standard</code> (aka RawDeployment) and not <code>Advanced</code> (aka Serverless).  Additionally, multi-node instances only support serving models from a ReadWriteMany (RWX) PVC or a ModelCar image.  They do not support serving models directly from an S3 bucket.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_deploying_a_multi_node_vllm_instance"><a class="anchor" href="#_lab_deploying_a_multi_node_vllm_instance"></a>Lab: Deploying a Multi-node vLLM Instance</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section we will deploy a multi-node vLLM instance with two nodes, each with two GPUs.</p>
+</div>
+<div class="paragraph">
+<p>For this lab, we will continue to use the <code>vllm</code> namespace.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Multi-node vLLM is a Tech Preview feature and is not supported in the OpenShift AI Dashboard.  For this lab, we will be deploying the vLLM instance using the CLI.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Refer to the official documentation for more information on how to deploy a multi-node vLLM instance: <a href="https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.22/html-single/serving_models/index#deploying-models-using-multiple-gpu-nodes_serving-large-models" class="bare">https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.22/html-single/serving_models/index#deploying-models-using-multiple-gpu-nodes_serving-large-models</a></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To start, we need to process and deploy a template from the <code><code>redhat-ods-applications</code></code> project:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc process vllm-multinode-runtime-template -n redhat-ods-applications | oc apply -n vllm -f -</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The OpenShift AI Dashboard provides several out of the box "Serving Runtimes" for different models servers.  These can be found in the "Serving Runtimes" section in the OpenShift AI Dashboard under "Settings" if you are an Admin.  These "Serving Runtimes" are OpenShift Templates similar to the one we use above.  These templates container a copy of a <code>ServingRuntime</code> object and when using the UI to deploy a model the template is processed to create a <code>ServingRuntime</code> object in the namespace.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Processing the template will create a <code>ServingRuntime</code> object in the <code>vllm</code> namespace called <code>vllm-multinode-runtime</code>.  Take a moment and explore the ServingRuntime to see what it contains:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc get servingruntime vllm-multinode-runtime -n vllm -o yaml</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>As of 2.22 the <code>ServingRuntime</code> object must be named <code>vllm-multinode-runtime</code> in order for the odh-model-controller to automatically setup the Ray TLS certs needed for multi-node deployments.  In newer versions of RHOAI any name can be used for the model server.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>We have already created a ReadWriteMany (RWX) PVC for the model in the <code>vllm</code> namespace and loaded <a href="https://huggingface.co/RedHatAI/Llama-3.3-70B-Instruct-quantized.w4a16">Llama-3.3-70B-Instruct-quantized.w4a16</a> into it.  Take a moment to review the PVC:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc get pvc llama-model -n vllm
+oc describe pvc llama-model -n vllm</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Multi-node vLLM supports both <code>ReadWriteMany</code> PVCs and ModelCar images for serving.  S3 buckets are not supported for multi-node deployments.</p>
+</div>
+<div class="paragraph">
+<p>ReadWriteOnce PVCs are not supported for multi-node deployments since the PVC must be mounted to both the <code>head</code> and <code>worker</code> pods.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In a real world scenario, you will need to create the PVC and download a copy of the model to the PVC.  The way you copy the model will likely depend on the environment you are working in and what you have access to.</p>
+</div>
+<div class="paragraph">
+<p>If the model is already available on an S3 instance like in our cluster, you may wish to use a Job similar to the one that was already executed in your cluster to download the model to the PVC.  Alternatively, you could create a job that copies the model directly from HuggingFace to the PVC if you have access to HuggingFace from your cluster.  In some cases it may be easier to mount the PVC to a Workbench and copy the model to the PVC from the Workbench.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Next, we will need to create the <code>InferenceService</code> object that will be used to serve the model.  Copy the following YAML into a file and create it on the cluster using <code>oc apply</code> or copy and paste it into the OpenShift Web Console using the <code>+</code> button in the top right corner of the screen.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  annotations:
+    serving.kserve.io/autoscalerClass: external
+    serving.kserve.io/deploymentMode: RawDeployment # 1
+  labels:
+    networking.kserve.io/visibility: exposed # 2
+  name: vllm-multi-node-llama
+  namespace: vllm
+spec:
+  predictor:
+    minReplicas: 1
+    model:
+      args: # 3
+        - --max-model-len=100000
+      modelFormat:
+        name: vLLM
+      name: ""
+      resources:
+        limits:
+          cpu: "8"
+          memory: 12Gi
+          nvidia.com/gpu: "2"
+        requests:
+          cpu: "4"
+          memory: 8Gi
+          nvidia.com/gpu: "2"
+      runtime: vllm-multinode-runtime
+      storageUri: pvc://llama-model/Llama-3.3-70B-Instruct-quantized.w4a16 # 4
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+    workerSpec:
+      containers:
+        - name: worker-container
+          resources:
+            limits:
+              cpu: "8"
+              memory: 12Gi
+              nvidia.com/gpu: "2"
+            requests:
+              cpu: "4"
+              memory: 8Gi
+              nvidia.com/gpu: "2"
+      pipelineParallelSize: 2 # 5
+      tensorParallelSize: 2 # 6
+      tolerations:
+        - effect: NoSchedule
+          key: nvidia.com/gpu
+          operator: Exists</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Multi-node vLLM is only available as <code>RawDeployment</code> mode and not <code>Serverless</code> mode.</p>
+</li>
+<li>
+<p>The <code>exposed</code> label tells KServe to create a Route to expose the model outside of the cluster.</p>
+</li>
+<li>
+<p>The <code>args</code> section is used to set additional arguments needed to help start the model.  In our case, we are limiting the sizing of the KV Cache to 100,000 tokens to allow it to fit on the GPUs in our multi-node setup.</p>
+</li>
+<li>
+<p>The <code>storageUri</code> section is used to provide details of where our model exists.  In this case our pvc is named <code>llama-model</code> and the folder container the model is <code>Llama-3.3-70B-Instruct-quantized.w4a16</code>.</p>
+</li>
+<li>
+<p>The <code>pipelineParallelSize</code> section is used to set the number worker pods that will be created to serve the model.</p>
+</li>
+<li>
+<p>The <code>tensorParallelSize</code> section is used to define the number of GPUs available to each worker pod.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Once the <code>InferenceService</code> is created, we can see the two new pods that have been created.  The <code>vllm-multi-node-llama-predictor-head-&lt;hash&gt;</code> pod is the <code>head</code> node and the <code>vllm-multi-node-llama-predictor-worker-&lt;hash&gt;</code> pod is the <code>worker</code> node.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc get pods -n vllm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can use the <code>watch</code> command or flag to follow the status of the pods.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">watch oc get pods -n vllm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc get pods -n vllm --watch</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Check the logs of both the <code>head</code> and <code>worker</code> pods.  You should see a <code>ray</code> cluster starting in the <code>head</code> pod followed by some logs from vllm starting up.  In the <code>worker</code> you will see a the <code>ray</code> instance starting and the worker pod will join the cluster.</p>
+<div class="paragraph">
+<p>Head logs:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/multinode-head-logs.png" alt="Multi-node Head Logs">
+</div>
+</div>
+<div class="paragraph">
+<p>Worker logs:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/multinode-worker-logs.png" alt="Multi-node Worker Logs">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The multi-node vLLM instance uses Ray as part of the backend to manage the communication between the pods.  vLLM is responsible for managing our Ray cluster for us as part of the deployment and it does not use any of OpenShift AI&#8217;s Distributed Compute capabilities with CodeFlare and KubeRay.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, the multi-node vLLM should not be confused with <a href="https://docs.ray.io/en/latest/serve/index.html">Ray Serve</a>, which is a ray based serving framework for predictive models.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lab_testing_the_multi_node_vllm_instance"><a class="anchor" href="#_lab_testing_the_multi_node_vllm_instance"></a>Lab: Testing the Multi-node vLLM Instance</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Once all of our pods have gone to a fully <code>Ready</code> state, we can test the model by sending a request to the <code>head</code> pod&#8217;s endpoint.  We can do this by using the <code>curl</code> command to send a request to the <code>head</code> pod&#8217;s endpoint.  First, we will get the route for the vllm endpoint.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc get route vllm-multi-node-llama -n vllm -o jsonpath='{.spec.host}'</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next we will use the route URL to perform a curl request to get the name of the model form the models endpoint.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl https://vllm-multi-node-llama-vllm.{openshift_cluster_ingress_domain}/v1/models</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next, we can use curl to send a prompt to the model.  We will use the <code>-d</code> option to send a JSON payload to the model.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl -X 'POST' 'https://vllm-multi-node-llama-vllm.{openshift_cluster_ingress_domain}/v1/chat/completions' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "model": "vllm-multi-node-llama",
+  "messages":[
+    {
+      "role": "system",
+      "content": "You'\''re an helpful assistant."
+    },
+    {
+      "role": "user",
+      "content": "Write a function in Python that determines if a number is prime.  Explain your approach.  Follow the PEP 8 style guide."
+    }
+  ],
+  "max_tokens": 100
+}'</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are working with a model that has a secured endpoint, you can add the <code>Authorization</code> header to the curl request.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">-H "Authorization: Bearer &lt;YOUR_TOKEN&gt;"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can generate a token through the OpenShift AI Dashboard, or use any user/sevice account token that has view permissions on the <code>InferenceService</code> object.</p>
+</div>
+<div class="paragraph">
+<p>To get your OpenShift user token, you can use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">oc whoami --show-token</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion"><a class="anchor" href="#_conclusion"></a>Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Congratulations!  You have successfully deployed a model with vLLM on a multi-node with multiple GPUs.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="llm-sizing.html">LLM GPU Requirements</a></span>
+  <span class="next"><a href="single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

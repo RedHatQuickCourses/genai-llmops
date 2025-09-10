@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>vLLM &amp; Performance Tuning :: LLM Operations Optimization and Inference</title>
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../LABENV/index.html">Advanced vLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../LABENV/vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/index.html">Module 1: LLM Deployment Strategies</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.0-deploy-intro.html">Module 1: LLM Deployment Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.1-deploy-RHEL.html">Deploying RH Inference Server on RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.2-deploy-ocp.html">Deploying RH Inference Server on OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.3-deploy-rhoai.html">Deploy vLLM on OpenShift AI with kserve and model car</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/module-1.4-deploy-conclusion.html">Conclusion to Deployment Exercises</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter2/index.html">Model Evaluation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.0-eval-intro.html">Model Evaluation Module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.1-eval-performance.html">Evaluating System Performance with GuideLLM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.2-eval-accuracy.html">Evaluating Model Accuracy with Trusty AI lm-eval-harness service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter2/module-2.3-eval-conclusion.html">Conclusion: From Evaluation to Impact</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-practice.adoc">module-3.0-optimization-practice.adoc</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#module-3.0-optimization-conclusion.adoc">module-3.0-optimization-conclusion.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="module-3.1-optimization-practice.html">vLLM &amp; Performance Tuning</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">vLLM &amp; Performance Tuning</h1>
+<div class="sect1">
+<h2 id="_ai_assistant_case_study_latency_optimization_for_granite_3_3_8b_instruct_with_vllm"><a class="anchor" href="#_ai_assistant_case_study_latency_optimization_for_granite_3_3_8b_instruct_with_vllm"></a>AI Assistant Case Study: Latency Optimization for granite-3.3-8b-instruct with vLLM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s apply our knowledge to a concrete scenario: you need to serve granite-3.3-8b-instruct that is integrated with a chat application. Your primary goal is to minimize inference latency <span title="Latency: The time it takes for a single request to complete." style="cursor: help;">&#128161;</span> for a given number of concurrent users -32 in this case- with an expected generation length &lt;2048 tokens.
+As you have limited flexibility to scale GPU resources, you want to understand the key vLLM parameters and strategies to maximize performance before simply adding more hardware.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before diving into tuning, it&#8217;s important to understand the key performance considerations in vLLM:</p>
+</div>
+<div class="paragraph">
+<p><strong>Latency</strong>: The time it takes for a single request to complete. Of particular importance here is going to be tracking the Time To First Token - <strong>TTFT</strong> <span title="TTFT: How quickly the user sees the first word of the response." style="cursor: help;">&#128161;</span>, which will ensure the user can experience snappier responses.</p>
+</div>
+<div class="paragraph">
+<p><strong>Throughput</strong>: The number of requests (or tokens) processed per unit of time. While we&#8217;re optimizing for latency, higher throughput often means better resource utilization, which can indirectly help avoid latency spikes due to queuing.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First we&#8217;ll need to re-deploy the granite-3.3-8b-instruct. Open a terminal and login to your OpenShift cluster. Recreate our project name <code>vllm</code>.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc project vllm</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>We&#8217;ll be deploying granite-3.3-8b-instruct through the vllm-kserve helm chart again.</p>
+</li>
+<li>
+<p>Open the <code>workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</code> file to view the new arguments we will pass to the deployment. Your new file looks like the one below to facilitate the optimization exercises:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct
+  args:
+    - "--disable-log-requests"
+    - "--max-num-seqs=32"
+    - "--max-model-len=2048"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>--disable-log-requests</strong> is used to prevent the logging of detailed request information. By default, vLLM logs various details about each incoming request, which can be useful for debugging and monitoring. However, in production environments or when high performance is critical, excessive logging can consume resources and generate large log files. The --disable-log-requests flag addresses this by turning off the detailed logging of individual requests.</p>
+</div>
+<div class="paragraph">
+<p><strong>--max-num-seqs</strong> configuring the server to handle a maximum of 32 concurrent requests in a single parallel computation step (a batch). For example, if 32 different users send a prompt to your chatbot at the same time.</p>
+</div>
+<div class="paragraph">
+<p><strong>--max-model-len</strong> argument sets the maximum number of tokens that the vLLM server will allow for a single sequence. This total includes both the user&#8217;s prompt and the generated response combined.</p>
+</div>
+</li>
+<li>
+<p>Now that we&#8217;ve set the engine arguments we&#8217;ll go ahead and deploy the granite model with Helm. Use <code>helm upgrade</code> if you already have a <strong>granite-8b</strong> model deployed.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">helm uninstall granite-8b &amp;&amp; \
+helm install granite-8b redhat-ai-services/vllm-kserve --version 0.5.11 -f workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you didn&#8217;t add the redhat-ai-services helm chart repository to your local helm client, you can do so by running the following command:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">helm repo add redhat-ai-services https://redhat-ai-services.github.io/helm-charts/
+helm repo update redhat-ai-services</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Login to OpenShift AI and go to your <strong>vllm</strong> Data Science Project. Wait until the model fully deploys (green check) before continuing.</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="granite-deployed-rhoai.png" alt="Granite deployed on RHOAI">
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To watch the pod status from the console run the following command:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">oc get pods --watch -n vllm | grep -E '(^NAME|granite-8b-predictor)'</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>We&#8217;ll be running an OpenShift pipeline with GuideLLM to benchmark our model as we step through the optimizations. Clone the following repository.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+No need to do this if you cloned the repository in module 2.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git clone https://github.com/jhurlocker/guidellm-pipeline.git</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the below commands to deploy the pipeline, tasks, and s3 bucket.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+No need to do this if you executed these commands in module 2.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc apply -f guidellm-pipeline/pipeline/upload-results-task.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/guidellm-pipeline.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/pvc.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/guidellm-benchmark-task.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/mino-bucket.yaml -n vllm</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Lets run the GuideLLM pipeline! Open the <em>guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml</em> file. Let&#8217;s go through some of the important GuideLLM arguments we&#8217;re setting. The pipeline will run a benchmark for 1, 4, 8, and 16 concurrent users.</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="pipelinerun.png" alt="pipelinerun">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>target</strong> -  Specifies the target path for the backend to run benchmarks against.<br></p>
+</li>
+<li>
+<p><strong>model-name</strong> - Allows selecting a specific model from the server. If not provided, it defaults to the first model available on the server. Useful when multiple models are hosted on the same server.<br></p>
+</li>
+<li>
+<p><strong>processor</strong> - To calculate performance metrics like tokens per second, the benchmark script needs to count how many tokens were generated. To do this accurately, it must use the exact same tokenizer that the model uses. Different models have different tokenizers.</p>
+</li>
+<li>
+<p><strong>data-config</strong> -  Specifies the dataset to use. This can be a HuggingFace dataset ID, a local path to a dataset, or standard text files such as CSV, JSONL, and more. Additionally, synthetic data configurations can be provided using JSON or key-value strings. Synthetic data options include:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>prompt_tokens: Average number of tokens for prompts.</p>
+</li>
+<li>
+<p>output_tokens: Average number of tokens for outputs.</p>
+</li>
+<li>
+<p>TYPE_stdev, TYPE_min, TYPE_max: Standard deviation, minimum, and maximum values for the specified type (e.g., prompt_tokens, output_tokens). If not provided, will use the provided tokens value only.</p>
+</li>
+<li>
+<p>samples: Number of samples to generate, defaults to 1000.</p>
+</li>
+<li>
+<p>source: Source text data for generation, defaults to a local copy of Pride and Prejudice.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>rate-type</strong> - Defines the type of benchmark to run (default sweep). Supported types include:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>synchronous: Runs a single stream of requests one at a time. --rate must not be set for this mode.</p>
+</li>
+<li>
+<p>throughput: Runs all requests in parallel to measure the maximum throughput for the server (bounded by GUIDELLM__MAX_CONCURRENCY config argument). --rate must not be set for this mode.</p>
+</li>
+<li>
+<p>concurrent: Runs a fixed number of streams of requests in parallel. --rate must be set to the desired concurrency level/number of streams.</p>
+</li>
+<li>
+<p>constant: Sends requests asynchronously at a constant rate set by --rate.</p>
+</li>
+<li>
+<p>poisson: Sends requests at a rate following a Poisson distribution with the mean set by --rate.</p>
+</li>
+<li>
+<p>sweep: Automatically determines the minimum and maximum rates the server can support by running synchronous and throughput benchmarks, and then runs a series of benchmarks equally spaced between the two rates. The number of benchmarks is set by --rate (default is 10).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>rate</strong> - request rate.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Update the <strong>target</strong> parameter with your inference endpoint and run the pipeline:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -f guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml -n vllm</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Go to your OpenShift console and view the pipeline run under your <strong>vllm</strong> project. Click on the bar under <strong>Task Status</strong>.</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="ocp_pipelinerun_list.png" alt="pipelinerun in ocp">
+</div>
+</div>
+<div class="paragraph">
+<p>Note the two tasks in the pipeline. The first task runs the GuideLLM benchmark and saves the results to a PVC. The second task uploads the results to an s3 bucket. Feel free to click on each task to view the log files.</p>
+</div>
+<div class="paragraph">
+<p>If the pipeline finishes successfully the tasks will have green check marks like the ones in the image below.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="ocp_pipelinerun_details.png" alt="pipelinerun details in ocp">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We&#8217;ll view the results of the benchmark in the next section, but feel free to access your Minio instance and look at the files in the <strong>guidellm-benchmark</strong> bucket.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Go to OpenShift AI and create a workbench with a <strong>Standard Data Science</strong> notebook. Everything else can be let as the default configuration.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Feel free to use an existing workbench if you already have one running from previous exercises.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Open your workbench once it starts up and upload all of the files under <strong>guidellm_notebook_charts</strong>.</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="upload_notebooks.png" alt="upload notebooks">
+</div>
+</div>
+</li>
+<li>
+<p>Open the <strong>graph_benchmarks.ipynb</strong> notebook and run the first cell. This will download the benchmark file from s3 that was created and uploaded when we ran the pipeline.</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="download_benchmark_results.png" alt="downloading benchmark results from s3">
+</div>
+</div>
+</li>
+<li>
+<p>You should now see a <strong>benchmark_&lt;TIMESTAMP&gt;.txt</strong> file. This should be the latest time stamped benchmark in the s3 bucket. Open that file and in the top toolbar go to <em>View &#8594; Wrap Words</em> so you the file is easier to read.</p>
+<div class="paragraph">
+<p>Review the results and notice the two columns highlighted in red. You can see the number of sequences under metadata benchmark and the related median TTFT.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="benchmark_results.png" alt="benchmark results">
+</div>
+</div>
+</li>
+<li>
+<p>Run the next cell to extract the Metadata benchmark and the median TTFTs.</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="extract_results.png" alt="extract benchmark results">
+</div>
+</div>
+</li>
+<li>
+<p>Finally, run the last cell in the notebook to graph the median TTFT per number of sequences. All reported times are in milliseconds. Notice how quickly we exceed the "seconds" threshold with even a slight increase in concurrent users—serving LLMs is hard!</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="ttft_chart.png" alt="TTFT chart">
+</div>
+</div>
+</li>
+<li>
+<p>Rename the benchmark file as <code>benchmark_1.txt</code>. We&#8217;ll use this file in a later exercise.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_vllm_tuning_strategies_for_granite_3_3_8b_latency"><a class="anchor" href="#_vllm_tuning_strategies_for_granite_3_3_8b_latency"></a>vLLM Tuning Strategies for Granite 3.3 8B Latency</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Granite-3.3-8b-instruct is a popular, powerful small-size <em>dense</em> model. Here are the primary avenues for optimization.</p>
+</div>
+<div class="sect2">
+<h3 id="_gpu_allocation_batching_parameters_managing_concurrency"><a class="anchor" href="#_gpu_allocation_batching_parameters_managing_concurrency"></a>GPU Allocation &amp; Batching Parameters: Managing Concurrency</h3>
+<div class="paragraph">
+<p>For a "given amount of concurrent users," how you manage batching is critical to maximize GPU utilization without introducing excessive queueing latency.
+Let&#8217;s take a look at some of the most popular vllm configurations.</p>
+</div>
+<div class="paragraph">
+<p><code>--max-model-len</code>: The maximum sequence length (prompt + generated tokens) the model can handle.</p>
+</div>
+<div class="paragraph">
+<p><strong>Goal</strong>: Set this to the minimum <em>reasonable</em> length for your use case. Too small means requests get truncated; too large means less space for KVCache, which will impact your performance.
+At startup, vllm will profile the model using this value, as it needs to ensure it is able to serve at least one request with length=max-model-len.
+This is also a trade-off with the next parameter, <code>max-num-seqs</code>.
+Tuning: If most of your requests are short, keeping max-model-len tighter can allow more requests into the batch (by increasing <code>max-num-seqs</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>max-num-batched-tokens</code> is a highly related parameter. It&#8217;s limiting the amount of tokens the scheduler can schedule, rather than what the model can produce.
+So the actual number limiting the amount of memory allocated for the model runtime is actually <code>min(max-model-len, max-num-batched-tokens)</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can verify the impact of this parameter by increasing its value when starting vLLM and then observing the amount of memory reserved for KVCache.
+Check out the logs for our starting config:</p>
+</div>
+<div class="paragraph">
+<p><em>Our starting config listed here for reference only. No need to apply it again</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct
+  args:
+    - "--disable-log-requests"
+    - "--max-num-seqs=32"
+    - "--max-model-len=2048"</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to your OpenShift web console. Select the <strong>vllm</strong> project and open the logs for the <strong>granite-8b-predictor-00003-deploymentXXXXX</strong> pod.</p>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="granite-pod.png" alt="Granite pod">
+</div>
+</div>
+<div class="paragraph">
+<p>Note the KV cache size at the top of the log</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>INFO 08-26 19:08:24 [gpu_worker.py:227] <strong>Available KV cache memory: 4.19 GiB</strong>
+INFO 08-26 19:08:24 [kv_cache_utils.py:715] GPU KV cache size: 27,488 tokens</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Now increase the model size to <code>--max-model-len 4096 --max-num-batched-tokens 4096</code>:</p>
+<div class="paragraph">
+<p>Open <em>workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</em> and set the below configuration:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct
+  args:
+    - "--disable-log-requests"
+    - "--max-num-seqs=32"
+    - "--max-model-len=4096"
+    - "--max-num-batched-tokens=4096"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Rerun the helm deployment</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">helm uninstall granite-8b &amp;&amp; \
+helm install granite-8b redhat-ai-services/vllm-kserve --version 0.5.11 -f workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the model is redeployed take a look at the KV Cache size in the pod&#8217;s log file. Note that the KV Cache size is now smaller than it was before.</p>
+<div class="listingblock">
+<div class="content">
+<pre>INFO 08-26 20:01:28 [gpu_worker.py:227] <strong>Available KV cache memory: 3.99 GiB</strong>
+INFO 08-26 20:01:28 [kv_cache_utils.py:715] GPU KV cache size: 26,112 tokens</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>--max-num-seqs</code>: The maximum number of sequences (requests) that can be processed concurrently. This is often referred to as the batch size, allowing for higher throughput.</p>
+</div>
+<div class="paragraph">
+<p><strong>Goal</strong>: Set this to the minimum <em>reasonable</em> length for your use case. When this is too high, your requests under load might get fractioned into smaller
+chunks resulting in higher end-to-end latency. If this is too low, you might be under-utilizing your GPU resources.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s see this case in practice. Modify the script to limit the number max requests to 1 and run the benchmark pipeline with 4 requests at a time.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update the <em>workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</em> with the <code>max-num-seqs</code> to 1.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct
+  args:
+    - "--disable-log-requests"
+    - "--max-num-seqs=1"
+    - "--max-model-len=2048"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Rerun the helm deployment</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">helm uninstall granite-8b &amp;&amp; \
+helm install granite-8b redhat-ai-services/vllm-kserve --version 0.5.11 -f workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the model redeploys update the <em>/guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml</em> <strong>rate</strong> to 4.0.</p>
+<div class="imageblock text-left unresolved">
+<div class="content">
+<img src="benchmark_rate_4.png" alt="set the rate to 4">
+</div>
+</div>
+</li>
+<li>
+<p>Rerun the guidellm benchmark pipeline.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -f guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml -n vllm</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the pipeline finishes go to your OpenShift AI workbench and open the <em>graph_benchmarks.ipynb</em> file. Execute the first cell to download the latest benchmark file.</p>
+<div class="imageblock text-left unresolved">
+<div class="content">
+<img src="cell1_notebook.png" alt="download latest benchmark">
+</div>
+</div>
+</li>
+<li>
+<p>Open the <strong>benchmark_1.txt</strong> file and the latest benchmark file (<strong>benchmark_&lt;TIMESTAMP&gt;.txt</strong>) you just downloaded from Minio. Go to <strong>View &#8594; Wrap Words</strong> so it&#8217;s easier to read the files.</p>
+<div class="paragraph">
+<p>What is happening here is that the engine is effectively being throttled and is only executing one request at a time. This is over 6x slower!</p>
+</div>
+<div class="imageblock text-left unresolved">
+<div class="content">
+<img src="benchmark-rate4seq1.png" alt="most recent benchmark">
+</div>
+<div class="title">Figure 1. Latest benchmark file</div>
+</div>
+<div class="imageblock text-left unresolved">
+<div class="content">
+<img src="benchmark1-rate4seq32.png" alt="first benchmark">
+</div>
+<div class="title">Figure 2. First benchmark file</div>
+</div>
+<div class="paragraph">
+<p>Also notice another important indicator of an unhealthy deployment from the logs. Note the 31 pending requests:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>INFO 08-14 23:05:18 metrics.py:455] Avg prompt throughput: 152.5 tokens/s,
+Avg generation throughput: 14.3 tokens/s,
+Running: 1 reqs, Swapped: 0 reqs, <strong>Pending: 31 reqs</strong>,
+GPU KV cache usage: 2.9%, CPU KV cache usage: 0.0%.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Especially when coupled with high waiting time (<code>vllm:request_queue_time_seconds_sum</code> metric from <code>/metrics</code>).</p>
+</div>
+<div class="paragraph">
+<p>You can access the metrics by going to
+your <a href="https://&lt;INFERENCE_ENDPOINT&gt;/metrics" class="bare">https://&lt;INFERENCE_ENDPOINT&gt;/metrics</a> in a browser.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>vllm:request_queue_time_seconds_sum{model_name=
+"granite-8b"} 35.21637320518494</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_model_quantization"><a class="anchor" href="#_model_quantization"></a>Model Quantization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quantization is arguably the most impactful change you can make for latency, especially with vLLM&#8217;s efficient kernel implementation for w8a16 or w4a16.</p>
+</div>
+<div class="paragraph">
+<p>Why? Reducing precision directly shrinks the model&#8217;s memory footprint and enables faster arithmetic on modern GPUs.</p>
+</div>
+<div class="paragraph">
+<p>What to try (<em>highly</em> dependent on available hardware):</p>
+</div>
+<div class="paragraph">
+<p>FP8: If you have access to NVIDIA H100 GPUs or newer (e.g., B200), FP8 (E4M3 or E5M2) is a game-changer. These GPUs have dedicated FP8 Tensor Cores that
+offer significantly higher throughput compared to FP16. This provides a direct path to lower latency per token without significant accuracy loss
+for Llama 3 models.</p>
+</div>
+<div class="paragraph">
+<p>INT8 (e.g., AWQ): Starting with A100 or even A6000/3090 GPUs, INT8 quantization is an excellent choice. It reduces the model to 8B * 1 byte = 8GB,
+halving the memory footprint and enabling faster integer operations.</p>
+</div>
+<div class="paragraph">
+<p>INT4: If you&#8217;re pushing for absolute minimum latency and can tolerate a small accuracy trade-off, INT4 (e.g., via AWQ or other 4-bit methods)
+can reduce the model to 8B * 0.5 bytes = 4 GB. This is extremely memory-efficient and, on some hardware, can offer further speedups.
+Test accuracy thoroughly with your specific use case, as 4-bit can sometimes be more sensitive.
+Similarly, check out FP4 versions when Nvidia Blackwell hardware is available.</p>
+</div>
+<div class="openblock table-scroll-wrapper">
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quantization Type</th>
+<th class="tableblock halign-left valign-top">Recommended Hardware</th>
+<th class="tableblock halign-left valign-top">Key Benefits for Latency</th>
+<th class="tableblock halign-left valign-top">Memory Footprint (for Llama 3 8B)</th>
+<th class="tableblock halign-left valign-top">Accuracy Consideration</th>
+<th class="tableblock halign-left valign-top">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FP8 (E4M3/E5M2)</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NVIDIA H100 (or newer)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Dedicated FP8 Tensor Cores for significantly higher throughput.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8B * 1 byte ~= 8 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimal accuracy loss for Llama 3 models.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Already a standard for high-performance inference.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>INT8 (e.g., AWQ)</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NVIDIA A100, A6000 (or newer)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Halves memory footprint.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8B * 1 byte ~= 8 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generally decent accuracy preservation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Widely supported (across manufacturers) and fast.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>INT4 (e.g., AWQ)</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NVIDIA A100, A6000 (or newer)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Extremely memory-efficient.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8B * 0.5 bytes ~= 4 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requires an accuracy trade-off.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pushes for absolute minimum latency.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FP4</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NVIDIA Blackwell (B200)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- New architecture support for even lower-precision floating-point.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8B * 0.5 bytes ~= 4 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Designed to maintain better accuracy than integer 4-bit, but still requires validation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Emerging standard with the latest hardware (e.g., NVIDIA Blackwell). Look for NVFP4 variants.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="paragraph">
+<p>Please refer to the compatiblity chart <a href="https://docs.vllm.ai/en/latest/features/quantization/supported_hardware.html" class="bare" target="_blank" rel="noopener">https://docs.vllm.ai/en/latest/features/quantization/supported_hardware.html</a> for up to date quantization support in vLLM.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Let us try to run a w8a8 int8 model with the original vLLM engine arguments we started with. Update the <em>workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</em> with the following values. Make sure you update the <strong>uri</strong> with the correct model.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.1-8b-instruct-quantized.w8a8
+  args:
+    - "--disable-log-requests"
+    - "--max-num-seqs=32"
+    - "--max-model-len=2048"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Rerun the helm deployment</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">helm uninstall granite-8b &amp;&amp; \
+helm install granite-8b redhat-ai-services/vllm-kserve --version 0.5.11 -f workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the model redeploys update the <em>/guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml</em> <strong>rate</strong> to 1.0, 4.0, 8.0, 16.0.</p>
+<div class="imageblock text-left unresolved">
+<div class="content">
+<img src="benchmark_rate_1_4_8_16.png" alt="set the rate to 4">
+</div>
+</div>
+</li>
+<li>
+<p>Rerun the guidellm benchmark pipeline.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -f guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml -n vllm</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the pipeline finishes go to your OpenShift AI workbench and open the <em>graph_benchmarks.ipynb</em> file. Execute the first cell to download the latest benchmark file.</p>
+</li>
+<li>
+<p>Copy and paste the code snippet below into the second cell or edit your code to be the same. This code extracts the median TTFT from our first benchmark run with the full weight Granite model and extracts the median TTFT from the most recent benchmark with the quantized version.</p>
+<div class="paragraph">
+<p>Execute the cell.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">#extract the Metadata benchmark and the median TTFTs
+from parse_benchmark_stats import extract_ttft_from_file
+data = extract_ttft_from_file('benchmark_1.txt')
+data2 = extract_ttft_from_file(latest_file)
+print(data)
+print(data2)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Copy and paste the code snippet below into the third cell or edit your code to be the same. This will generate a graph of the median TTFT for the poission rate for both models.</p>
+<div class="paragraph">
+<p>Execute the cell.</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">#graph of median TTFT vs poisson rate
+%pip -q install seaborn
+from seaborn_graph import create_ttft_plot
+create_ttft_plot(data, data2, 'granite-3.3-8b-instruct', 'granite-3.1-8b-instruct-quantized.w8a8')</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Your chart should look similar to the one below.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="quant_vs_unquant.png" alt="quant_vs_unquantized">
+</div>
+</div>
+<div class="paragraph">
+<p>Up to 2x speedup!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_a_smaller_model"><a class="anchor" href="#_using_a_smaller_model"></a>Using a smaller model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Following the same principle as quantization, serving a smaller model (when accuracy on task is acceptable) will enable faster response
+times as less data is moved around (model weights+activations) and less sequential computations are involved (generally fewer layers).
+For this particular use-case, consider <code>ibm-granite/granite-3.1-2b-instruct</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_using_a_different_model"><a class="anchor" href="#_using_a_different_model"></a>Using a different model</h3>
+<div class="paragraph">
+<p>While Granite 3 is a strong dense model, for certain latency-sensitive scenarios, considering a Mixture-of-Experts (MoE) model like Mixtral 8x7B could be a
+compelling alternative.</p>
+</div>
+<div class="paragraph">
+<p>Why MoE for Latency? MoE models have a large total number of parameters (e.g., Mixtral 8x7B has 47B total parameters), but critically,
+they only activate a sparse subset of these parameters (e.g., 13B for Mixtral 8x7B) for each token generated.
+This means the actual computational cost per token is significantly lower than a dense model of its total parameter count.
+Which is especially true when sharding experts over multiple GPUs with MoE especially with vLLM&#8217;s optimized handling of MoE sparsity.</p>
+</div>
+<div class="paragraph">
+<p>Trade-offs: While MoE models can offer lower inference latency per token due to their sparse activation, they still require enough GPU memory
+to load the entire model&#8217;s parameters, not just the active ones. So, Mixtral 8x7B will demand more VRAM than Llama 3 8B,
+even if it&#8217;s faster per token. You&#8217;ll need sufficient GPU memory (e.g., a single A100 80GB or multiple smaller GPUs with tensor parallelism) to fit the full 47B parameters.</p>
+</div>
+<div class="paragraph">
+<p>vLLM has strong support for MoE models like Mixtral, including optimizations for their unique sparse compute patterns and dynamic routing.</p>
+</div>
+<div class="paragraph">
+<p>Consider When: Your application might benefit from the increased quality often associated with larger (total parameter) MoE models, combined with the per-token speed advantages
+of their sparse computation.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_speculative_decoding"><a class="anchor" href="#_speculative_decoding"></a>Speculative Decoding.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Speculative decoding is a powerful technique to reduce the generation latency, particularly noticeable for the Time To First Token (TTFT).
+Speculative decoding is fundamentally a tradeoff: spend a little bit of extra compute to reduce memory movement.
+The extra compute is allocated towards the smaller draft model and consequent proposer verifying step.
+At low request rates, we are memory-bound, so reducing memory movement can really help with latency.
+However, at higher throughputs or batch sizes, we are compute-bound, and speculative decoding can provide worse performance.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="spec_dec.png" alt="spec_dec">
+</div>
+</div>
+<div class="paragraph">
+<p>The graph here from <a href="https://developers.redhat.com/articles/2025/07/01/fly-eagle3-fly-faster-inference-vllm-speculative-decoding#speculative_decoding__a_solution_for_faster_llms" class="bare">https://developers.redhat.com/articles/2025/07/01/fly-eagle3-fly-faster-inference-vllm-speculative-decoding#speculative_decoding__a_solution_for_faster_llms</a>
+highlighs the tradeoffs of speculative decoding at low request rate vs bigger batch sizes.
+Take away message: as long as the number of requests is bound to use a non-intensive amount of GPU resources (lower req/s), spec decoding can provide
+a nice speedup.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Speculative decoding in vLLM is not yet fully optimized and does not always yield intended inter-token latency reductions. In particular in this case it will fallback to V0 due to
+V1 still not supporting this particular speculation technique. Mind that what we&#8217;re comparing here is not going to be exactly apples to apples, as the V0 and V1 engine have quite
+substantial architectural differences.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>What to try: You&#8217;ll need to specify a smaller draft model. A good starting point for Llama/granite might be a smaller Llama/granite variant or as in this
+example a speculator trained specifically for our use-case. Let&#8217;s redeploy with the following engine arguments:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update the workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml with the following values.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:llama-3.1-8b-instruct-eagle3
+  env:
+    - name: HF_HUB_OFFLINE
+      value: "1"
+  args:
+    - --disable-log-requests
+    - --max-num-seqs=32
+    - --max-model-len=2048
+    - --max-num-batched-tokens=2048
+    - '--speculative-config={"model": "/mnt/models/llama-3.1-8b-instruct-eagle3", "method": "eagle3", "num_speculative_tokens": 4, "draft_tensor_parallel_size": 1}'</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Rerun the helm deployment</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">helm uninstall granite-8b &amp;&amp; \
+helm install granite-8b redhat-ai-services/vllm-kserve --version 0.5.11 -f workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>vLLM will spin up an instance with the two models.
+There&#8217;s no free-lunch though, mind that the GPU memory will now be comprised of: the original <code>ibm-granite/granite-3.1-8b-instruct</code> weights + <code>ibm-granite/granite-3.0-8b-instruct-accelerator</code> proposer weights
+ + a KV cache for <strong>both</strong> models.</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="spec.png" alt="specized">
+</div>
+</div>
+</li>
+<li>
+<p>Send in a request to the inference endpoint.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl -X POST -H "Content-Type: application/json" -d '{
+    "prompt": "What does Red Hat do?",
+    "max_tokens": 100,
+    "model": "granite-8b"
+}' https://&lt;YOUR-EXTERNAL-INFERENCE-ENDPOINT&gt;/v1/completions | jq</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A key metric to keep an eye on when serving a speculator is the <code>acceptance rate</code>:</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="spec-decode-log.png" alt="spec decode log">
+</div>
+</div>
+<div class="paragraph">
+<p>This is the percentage of tokens being produced by the speculator that match the ones of the draft model.
+Here we&#8217;re still on the lower side as ideally you would want to see this number be higher.</p>
+</div>
+<div class="paragraph">
+<p>This is tied to major drawback holding back the adoptability of speculative decoding, which is the fact that the speculator needs to be trained specifically for the model you intend to deploy,
+in order to achieve an high acceptance rate.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bonus_batch_processing_case_study_throughput_optimization_for_granite_3_1_8b_instruct_with_vllm"><a class="anchor" href="#_bonus_batch_processing_case_study_throughput_optimization_for_granite_3_1_8b_instruct_with_vllm"></a>Bonus: Batch Processing Case Study: Throughput Optimization for granite-3.1-8b-instruct with vLLM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>What arguments would you change for a batch processing job that analyzes 100,000 customer reviews every night?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_final_notes"><a class="anchor" href="#_final_notes"></a>Final Notes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Optimization is an iterative process. As you tune vLLM, continuously monitor key metrics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Time To First Token (TTFT): Critical for interactive applications.</p>
+</li>
+<li>
+<p>Throughput (Tokens/sec or Requests/sec): To ensure your concurrency goals are met.</p>
+</li>
+<li>
+<p>GPU Utilization: High utilization indicates efficient use of resources.</p>
+</li>
+<li>
+<p>GPU KV cache usage: At very high rates early on into a benchmark, it is an indicator of likely insufficient memory for KV cache.</p>
+</li>
+<li>
+<p>Important engine arguments for customers that don&#8217;t want to send data to the vLLM team</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.vllm.ai/en/stable/usage/usage_stats.html" class="bare" target="_blank" rel="noopener">https://docs.vllm.ai/en/stable/usage/usage_stats.html</a></p>
+</li>
+<li>
+<p>VLLM_NO_USAGE_STATS=1</p>
+</li>
+<li>
+<p>DO_NOT_TRACK=1</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
