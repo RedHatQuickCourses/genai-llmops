@@ -3,7 +3,6 @@ title: LLM Operations Optimization and Inference
 version: 2.221
 nav:
 - modules/ROOT/nav.adoc
-- modules/LABENV/nav.adoc
 - modules/chapter1/nav.adoc
 - modules/chapter2/nav.adoc
 - modules/appendix/nav.adoc
@@ -12,4 +11,5 @@ nav:
 - modules/model_sizing/nav.adoc
 - modules/rh_hg_ai/nav.adoc
 - modules/rhoai_deploy/nav.adoc
+- modules/LABENV/nav.adoc
 
