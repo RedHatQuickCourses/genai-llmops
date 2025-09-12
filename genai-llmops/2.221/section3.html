@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Module 2: Automating Quantization with Pipelines :: LLM Operations Optimization and Inference</title>
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../..">LLM Operations Optimization and Inference</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="genai-llmops" data-version="2.221">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">LLM Operations Optimization and Inference</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">LLM Deployment across Red Hat AI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="chapter1/intro.html">Home</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="chapter1/mission.html">Your Place in the Adventure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="chapter1/index.html">Evaluating System Performance with GuideLLM</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter1/section1.html">Introduction to Performance Benchmarking</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter1/section2.html">Running Your First Benchmark</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter1/section3.html">Interpreting Benchmark Results</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter1/section4.html">Advanced Benchmarking Scenarios</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter1/section5.html">Course Wrap-up</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="chapter2/index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="chapter2/mission.html">Your Place in the Adventure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="chapter2/index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter2/section1.html">Setting Up the Trusty AI Environment</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter2/section2.html">Running a Standard Evaluation Job</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter2/section3.html">Interpreting Accuracy Results</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter2/section4.html">Running a Domain-Specific Test</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="chapter2/section5.html">Course Wrap-up</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="appendix/module-3.0-optimization-intro.html">Module 3: vLLM Performance Optimization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="appendix/module-3.1-optimization-practice.html">vLLM &amp; Performance Tuning</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="appendix/module-3.2-optimization-conclusion.html">Module 3 Conclusion: vLLM Optimization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="chapter3/index.html">Module 4: Model Quantization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="chapter3/module-4.0-quantization-intro.html">Module 4: Model Quantization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="chapter3/module-4.1-quantization.html">Weights and Activation Quantization (W4A16)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="chapter3/module-4.2-quantization.html">Model Quantization Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="chapter3/module-4.3-quantization-conclusion.html">Module 4 Conclusion: Model Quantization Mastery</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="vllm/index.html">vLLM Overview</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vllm/vllm_intro.html">vLLM and Red Hat AI Platforms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vllm/vllm_rhoai.html">Integrating vLLM with OpenShift AI: The Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vllm/vllm_deploy.html">Deploying and Interacting with Models on OpenShift AI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="vllm/vllm_concl.html">vLLM Technical Deep Dive and Advanced Capabilities</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="model_sizing/index.html">GPU Architecture and Model Sizing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="model_sizing/gpu_cost.html">Estimating GPU VRAM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="model_sizing/gpu_arch.html">Optimizing with NVIDIA GPU Architecture</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="rh_hg_ai/index.html">Red Hat AI Model Repository</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rh_hg_ai/model_types.html">The Red Hat AI Validated Model Repository</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rh_hg_ai/val_models.html">Intro Quantization Strategies</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rh_hg_ai/lab_models.html">The Granite Model Family</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="rhoai_deploy/index.html">OpenShift AI Configuration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/rhoai_self.html">Optional - RHOAI Self-Managed</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/rhoai_221.html">Lab Environment Customization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/rhoai_config.html">Project and Data Connection Setup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/rhoai_bench.html">Creating the AI Workbench and Preparing Models</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/add_runtime.html">vLLM Serving Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/rhoai_model.html">Deploy Granite LLM on RHOAI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/rhoai_query.html">Querying the Deployed Model in a Jupyter Notebook</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/batch_summ.html">Using the AI Model for Batch Summarization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="rhoai_deploy/guide_llm.html">Performance Benchmarking with GuideLLM</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="LABENV/index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LABENV/kserve-gitops.html">GitOps with KServe</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LABENV/llm-sizing.html">LLM GPU Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LABENV/multi-node-multi-gpu.html">Deploying a Model with vLLM on a multiple node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LABENV/single-node-multi-gpu.html">Deploying a Model with vLLM on a single node with multiple GPUs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LABENV/vllm-configuration.html">Advanced vLLM Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">LLM Operations Optimization and Inference</span>
+    <span class="version">2.221</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="index.html">LLM Operations Optimization and Inference</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">2.221</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">LLM Operations Optimization and Inference</a></li>
+    <li><a href="section3.html">Module 2: Automating Quantization with Pipelines</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Module 2: Automating Quantization with Pipelines</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Performing quantization manually in a notebook is great for learning, but for repeatable, enterprise-grade workflows, automation is key. In this module, you will automate the entire process using a Kubeflow Pipeline on OpenShift AI.</p>
+</div>
+<div class="paragraph">
+<p>The pipeline will handle model downloading, quantization, uploading the result to S3, and accuracy evaluation in a series of connected, automated steps.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_1_preparing_and_compiling_the_pipeline"><a class="anchor" href="#_2_1_preparing_and_compiling_the_pipeline"></a>2.1 Preparing and Compiling the Pipeline</h3>
+<div class="paragraph">
+<p>We will use the same workbench environment to prepare and compile our pipeline definition.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Start Workbench and Install Dependencies</strong>: If you stopped your <code>granite-quantization</code> workbench, start it again. Open a Terminal within the JupyterLab interface.</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-create-terminal.png" target="blank"><img src="quantization-create-terminal.png" alt="quantization create terminal" width="100%"></a>
+</div>
+<div class="title">Figure 1. Create Terminal Session in Jupyter Workbench</div>
+</div>
+</li>
+<li>
+<p>Install the Kubeflow Pipelines SDK.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">pip install -U kfp==2.9.0 kfp-kubernetes==1.3.0</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Review and Compile the Pipeline</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In the file browser, navigate to the <code>&#8230;&#8203;/llm_compressor</code> directory and open the <code>quantization_pipeline.py</code> file. Review the Python code, which uses the KFP SDK to define several components: downloading a model (from S3 or Hugging Face), quantizing it, uploading the result, and evaluating it.</p>
+</li>
+<li>
+<p><strong>Important</strong>: Verify that the secret name used in the pipeline code matches your data connection name. If you did not name your connection <code>minio-models</code>, you must update the line <code>secret_name = "minio-models"</code> in the Python script.</p>
+</li>
+<li>
+<p>In the terminal, compile the Python script into a pipeline YAML file.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">python quantization_pipeline.py</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>This will create a new file named <code>quantization_pipeline.yaml</code>. Download this file to your local machine.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Stop the Workbench</strong>: Once you have the YAML file, stop the workbench to free up resources.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_2_importing_and_running_the_pipeline"><a class="anchor" href="#_2_2_importing_and_running_the_pipeline"></a>2.2 Importing and Running the Pipeline</h3>
+<div class="paragraph">
+<p>Now we will import and run the compiled pipeline from the OpenShift AI dashboard.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Import the Pipeline</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In your <code>quantization</code> project, navigate to <strong>Data Science Pipelines</strong> → <strong>Pipelines</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Import Pipeline</strong> and upload the <code>quantization_pipeline.yaml</code> file you just downloaded. Give it a descriptive name like <code>Model Quantization Pipeline</code>.</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-import-pipeline-select.png" target="blank"><img src="quantization-import-pipeline-select.png" alt="quantization import pipeline select" width="100%"></a>
+</div>
+<div class="title">Figure 2. Upload Pipeline YAML File for Import</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Create a Pipeline Run</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Once imported, find your pipeline in the list, click the <strong>Actions</strong> menu, and select <strong>Create run</strong>.</p>
+</li>
+<li>
+<p>You will be presented with a form to configure the run parameters. You can accept the defaults, which will:</p>
+</li>
+<li>
+<p>Download the <code>ibm-granite/granite-3.3-2b-instruct</code> model from the S3 bucket (<code>use_s3_download: true</code>).</p>
+</li>
+<li>
+<p>Perform <code>int4</code> quantization.</p>
+</li>
+<li>
+<p>Save the output to a new folder named <code>granite-int4-pipeline</code>.</p>
+</li>
+<li>
+<p>Click <strong>Create run</strong> to start the execution.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Monitor and Verify Results</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You can monitor the progress of the run in the OpenShift AI dashboard. You will see each component in the graph turn green as it successfully completes.</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-pipeline-run-success.png" target="blank"><img src="quantization-pipeline-run-success.png" alt="quantization pipeline run success" width="100%"></a>
+</div>
+<div class="title">Figure 3. Successful Pipeline Execution Status</div>
+</div>
+</li>
+<li>
+<p>After the pipeline finishes, navigate to your MinIO S3 storage. Verify that a new folder with your quantized model has been created in the <code>models</code> bucket. The size of the <code>.safetensors</code> files should be significantly smaller than the original model&#8217;s.</p>
+<div class="imageblock unresolved bordershadow">
+<div class="content">
+<a class="image" href="quantization-pipeline-run-minio.png" target="blank"><img src="quantization-pipeline-run-minio.png" alt="quantization pipeline run minio" width="100%"></a>
+</div>
+<div class="title">Figure 4. Quantized Model Files in MinIO S3 Bucket</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
