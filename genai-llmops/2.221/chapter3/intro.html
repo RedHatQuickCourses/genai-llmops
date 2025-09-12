@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Model Quantization with LLM Compressor :: LLM Operations Optimization and Inference</title>
-    <link rel="prev" href="mission.html">
-    <link rel="next" href="section1.html">
+    <link rel="prev" href="../chapter4/section5.html">
+    <link rel="next" href="mission.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -148,14 +148,14 @@
   </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="intro.html">Model Quantization with LLM Compressor</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="mission.html">Your Place in the Adventure</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="index.html">Model Quantization with LLM Compressor</a>
 <ul class="nav-list">
@@ -207,7 +207,6 @@
   <ul>
     <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
     <li><a href="intro.html">Model Quantization with LLM Compressor</a></li>
-    <li><a href="index.html">Model Quantization with LLM Compressor</a></li>
   </ul>
 </nav>
 </div>
@@ -218,41 +217,67 @@
 <article class="doc">
 <h1 class="page">Model Quantization with LLM Compressor</h1>
 <div class="sect1">
-<h2 id="_introduction_to_model_quantization"><a class="anchor" href="#_introduction_to_model_quantization"></a>Introduction to Model Quantization</h2>
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Welcome to the course on Model Quantization. In our previous courses, we focused on optimizing model serving and evaluating accuracy. Now, we will tackle one of the most impactful optimization techniques: compressing the model itself to dramatically reduce memory requirements and inference costs.</p>
+<p>This course provides a comprehensive, hands-on guide to model quantization, one of the most effective techniques for reducing the cost and memory footprint of Large Language Models. You will learn to use Red Hat&#8217;s LLM Compressor toolkit to apply advanced compression techniques like W4A16, SmoothQuant, and GPTQ. The course covers both manual quantization within a Jupyter Notebook for deep understanding and the automation of the entire workflow using Kubeflow Pipelines for production-ready, repeatable results on OpenShift AI.</p>
 </div>
 <div class="paragraph">
-<p>Quantization is transformative because it addresses the fundamental challenge of modern LLMs: their massive size. By reducing the numerical precision of a model&#8217;s weights (and sometimes activations) from 16-bit to 8-bit or even 4-bit, you can achieve a 50-75% memory reduction.</p>
+<p>Duration: 2.5 hours</p>
 </div>
-<div class="sect2">
-<h3 id="_why_quantization_matters"><a class="anchor" href="#_why_quantization_matters"></a>Why Quantization Matters</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_objectives"><a class="anchor" href="#_objectives"></a>Objectives</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On completing this course, you should be able to:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Cost Reduction</strong>: Deploy larger models on smaller, less expensive hardware, potentially reducing infrastructure costs by 2-4x.</p>
+<p>Understand the fundamentals of model quantization and its impact on cost, memory, and performance.</p>
 </li>
 <li>
-<p><strong>Memory Efficiency</strong>: Fit models that previously required multiple GPUs onto a single GPU.</p>
+<p>Manually quantize an LLM using LLM Compressor, SmoothQuant, and GPTQ in a Jupyter Notebook.</p>
 </li>
 <li>
-<p><strong>Inference Speed</strong>: Reduced data movement from memory to the processor can improve overall throughput.</p>
+<p>Build and execute an automated, end-to-end quantization workflow using Kubeflow Pipelines on OpenShift AI.</p>
 </li>
 <li>
-<p><strong>Accessibility</strong>: Make state-of-the-art models accessible to organizations with limited GPU budgets.</p>
+<p>Articulate the business value of quantization and how it solves common enterprise challenges related to model size and deployment cost.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>By the end of this course, you will be able to apply quantization techniques using LLM Compressor, build automated quantization pipelines, and make informed decisions about which quantization strategy best fits your customer&#8217;s needs.</p>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This course assumes that you have the following prior experience:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Foundational knowledge of Large Language Models and model serving concepts.</p>
+</li>
+<li>
+<p>Familiarity with using the OpenShift command-line (<code>oc</code>) and navigating the OpenShift AI dashboard.</p>
+</li>
+<li>
+<p>Access to a Red Hat OpenShift AI cluster with an available GPU node and a configured pipeline server.</p>
+</li>
+<li>
+<p>Basic experience working within a Jupyter Notebook environment.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="mission.html">Your Place in the Adventure</a></span>
-  <span class="next"><a href="section1.html">Module 1: Your First Quantization (W4A16)</a></span>
+  <span class="prev"><a href="../chapter4/section5.html">LLM Ops: Your Adventure Begins</a></span>
+  <span class="next"><a href="mission.html">Your Place in the Adventure</a></span>
 </nav>
 </article>
   </div>
