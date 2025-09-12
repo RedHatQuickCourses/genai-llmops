@@ -1,60 +1,64 @@
-## Getting started with a new training content repository
+Mastering the AI Factory: An LLMOps Learning Adventure
+Welcome, future AI operator! This repository is your training ground for mastering the art and science of Large Language Model Operations (LLMOps) on Red Hat OpenShift AI.
 
-- Open the [course-starter-template](https://github.com/RedHatQuickCourses/course-starter-template)
+This is more than just a collection of scripts; it's a cohesive learning path designed to take you from basic model serving to running a sophisticated, efficient, and reliable "AI Factory."
 
-- Click on `Use This template` button and select `Create a new repository` option.
+The Mission
+Your mission is to master the balance between the three critical pillars of production AI:
 
-![use-this-template.png](./images/use-this-template.png)
+🚀 Performance: Is the model fast and responsive enough?
 
-- On `Create a new repository` page, Select the options as highlighted in the below image and then click `Create repository` button at the bottom of the page.
+✅ Accuracy: Is the model smart and reliable enough?
 
-![create-new-repo.png](./images/create-new-repo.png)
+💰 Cost: Is the service economically viable and efficient?
 
-- Clone this repository on your local system:
-```
-git clone git@github.com:RedHatQuickCourses/my-training-repository.git
-```
-NOTE: Use your repository url in the above command.
+By completing the labs in this repository, you will gain the hands-on skills needed to manage these competing forces and deliver real business value.
 
-- Go in to the course repository directory and initialize the course.
-``` 
-cd my-training-repository/
-sh course-init.sh --type bfx --lab demo
-```
-NOTE: If you are using Mac, use *zsh* in place of *sh* in the above command.
+The Learning Path
+This repository contains a series of hands-on labs, each representing a core mission in your LLMOps journey. They are designed to be completed in order, as each lab builds upon the skills of the last.
 
-Sample output:
-```
-Initializing my-training-repository . . . done
+Mission 1: Performance Benchmarking
 
-Please replace the specified strings in the files below and commit the changes before proceeding with the course development.
-antora.yml:title: REPLACE Course Title
-```
+Tool: GuideLLM
 
-- Edit the files prompted by course initialization script.
+Objective: Learn to measure everything. Establish a data-driven performance baseline by testing for latency, throughput, and Time to First Token.
 
-- Commit the changes done by course initialization script and your manual edits.
-```
- git status 
- git add -A; git commit -m "course initialization"
- git push origin main 
-```
+Mission 2: Accuracy Validation
 
-- Browse your git repository url 
+Tool: lm-eval-harness & Trusty AI
 
-- On your github repo page, on left hand side pane, click on settings gear icon near `About` heading.
+Objective: Ensure your model is not just fast, but also correct. Validate its quality and reasoning capabilities against industry-standard benchmarks.
 
-- Click `Use your GitHub Pages website` option to select (checked) it and then click `Save changes` button.
+Mission 3: Performance Optimization
 
-![github-pages-setting](./images/github-pages-setting.png)
+Tool: vLLM
 
-- You should now see the link to access the rendered content within that same block.
+Objective: Become a performance engineer. Systematically tune the vLLM inference engine to squeeze maximum efficiency from your hardware.
 
-![quickcourse-rendered-url](./images/quickcourse-rendered-url.png)
+Mission 4: Model Quantization
 
-FIXME: highlight the relevant area on images.
+Tool: LLM Compressor
 
-**SEE ALSO**
+Objective: Master the ultimate optimization. Use quantization to drastically reduce model size, unlocking massive cost savings and performance gains.
 
-- [Development using devspace](./DEVSPACE.md)
-- [Guideline for editing your content](./USAGEGUIDE.adoc)
+🤝 How to Contribute
+This is a living project, and we welcome your contributions! Whether you've found a bug, have an idea for a new lab, or want to improve an existing one, your input is valuable.
+
+Here are a few ways you can help:
+
+Report a Bug: If you find something that's not working, please open an issue and let us know.
+
+Suggest an Enhancement: Have an idea for a new feature or a better way to explain a concept? We'd love to hear it! Open an issue to start the discussion.
+
+Submit a Pull Request: If you've fixed a bug or implemented a new feature, feel free to fork the repository and submit a pull request. We appreciate all contributions, big or small!
+
+Getting Started
+To begin your adventure, you will need:
+
+Access to a Red Hat OpenShift AI cluster.
+
+At least one available GPU node.
+
+Familiarity with the oc and helm command-line tools.
+
+Start with the first mission in the 01-performance-benchmarking directory and work your way through the path. Good luck!
