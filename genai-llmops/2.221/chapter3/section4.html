@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Course Wrap-up :: LLM Operations Optimization and Inference</title>
-    <link rel="prev" href="section4.html">
-    <link rel="next" href="../chapter2/index.html">
+    <link rel="prev" href="section3.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -48,29 +47,29 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="intro.html">Home</a>
+    <a class="nav-link" href="../chapter1/intro.html">Home</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="mission.html">Your Place in the Adventure</a>
+    <a class="nav-link" href="../chapter1/mission.html">Your Place in the Adventure</a>
   </li>
   <li class="nav-item" data-depth="2">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Evaluating System Performance with GuideLLM</a>
+    <a class="nav-link" href="../chapter1/index.html">Evaluating System Performance with GuideLLM</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section1.html">Introduction to Performance Benchmarking</a>
+    <a class="nav-link" href="../chapter1/section1.html">Introduction to Performance Benchmarking</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section2.html">Running Your First Benchmark</a>
+    <a class="nav-link" href="../chapter1/section2.html">Running Your First Benchmark</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section3.html">Interpreting Benchmark Results</a>
+    <a class="nav-link" href="../chapter1/section3.html">Interpreting Benchmark Results</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section4.html">Advanced Benchmarking Scenarios</a>
+    <a class="nav-link" href="../chapter1/section4.html">Advanced Benchmarking Scenarios</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="3">
-    <a class="nav-link" href="section5.html">Course Wrap-up</a>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/section5.html">Course Wrap-up</a>
   </li>
 </ul>
   </li>
@@ -119,23 +118,23 @@
     <a class="nav-link" href="#intro.adoc">intro.adoc</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../chapter3/mission.html">Your Place in the Adventure</a>
+    <a class="nav-link" href="mission.html">Your Place in the Adventure</a>
   </li>
   <li class="nav-item" data-depth="2">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="../chapter3/index.html">Model Quantization with LLM Compressor</a>
+    <a class="nav-link" href="index.html">Model Quantization with LLM Compressor</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../chapter3/section1.html">Module 1: Your First Quantization (W4A16)</a>
+    <a class="nav-link" href="section1.html">Module 1: Your First Quantization (W4A16)</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../chapter3/section2.html">Check your work</a>
+    <a class="nav-link" href="section2.html">Check your work</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../chapter3/section3.html">Module 2: Automating Quantization with Pipelines</a>
+    <a class="nav-link" href="section3.html">Module 2: Automating Quantization with Pipelines</a>
   </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../chapter3/section4.html">Course Wrap-up</a>
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="section4.html">Course Wrap-up</a>
   </li>
 </ul>
   </li>
@@ -172,9 +171,9 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
-    <li><a href="intro.html">Home</a></li>
-    <li><a href="index.html">Evaluating System Performance with GuideLLM</a></li>
-    <li><a href="section5.html">Course Wrap-up</a></li>
+    <li><a href="#intro.adoc">intro.adoc</a></li>
+    <li><a href="index.html">Model Quantization with LLM Compressor</a></li>
+    <li><a href="section4.html">Course Wrap-up</a></li>
   </ul>
 </nav>
 </div>
@@ -187,41 +186,43 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Congratulations on completing the Model Performance Benchmarking course.</p>
+<p>Congratulations! You have successfully quantized a Large Language Model both manually and through an automated pipeline. You have mastered a technique that delivers transformative cost and efficiency improvements for enterprise AI deployments.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_summary_of_learnings"><a class="anchor" href="#_summary_of_learnings"></a>Summary of Learnings</h3>
 <div class="paragraph">
-<p>In this course, we demonstrated how to evaluate system performance for a deployed Large Language Model using GuideLLM.</p>
+<p>What You Accomplished:
+* <strong>Hands-on Quantization</strong>: You used <code>LLM Compressor</code> in a notebook to apply <strong>W4A16</strong> quantization with <strong>SmoothQuant</strong> and <strong>GPTQ</strong>, reducing a model&#8217;s memory footprint while preserving its quality.
+* <strong>Pipeline Automation</strong>: You converted the manual process into a robust, repeatable Kubeflow Pipeline, demonstrating how to operationalize quantization for production environments.
+* <strong>Measurable Impact</strong>: You saw firsthand how quantization leads to a dramatic reduction in model size, which directly translates to lower infrastructure costs and greater deployment flexibility.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_business_impact_and_next_steps"><a class="anchor" href="#_business_impact_and_next_steps"></a>Business Impact and Next Steps</h3>
 <div class="paragraph">
-<p>You learned to:</p>
+<p>The skills you&#8217;ve learned are critical for making GenAI economically viable for customers. You can now provide data-driven recommendations and implement solutions for common challenges:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Set up an automated testing environment using a <strong>Tekton pipeline</strong>.</p>
+<p><strong>When a customer says&#8230;&#8203;</strong> "Our models are too big to fit on our GPUs" or "Inference costs are too high."</p>
 </li>
 <li>
-<p>Run benchmarks using different <strong>workload profiles</strong> (token sizes) and <strong>rate types</strong> (throughput, constant, sweep) to simulate real-world scenarios.</p>
-</li>
-<li>
-<p>Retrieve and analyze key performance metrics, focusing on <strong>latency (TTFT, ITL)</strong> and <strong>throughput</strong>.</p>
-</li>
-<li>
-<p>Understand the critical difference between the <strong>mean, median, and p99</strong> percentiles for assessing user experience and defining SLOs.</p>
+<p><strong>You can propose&#8230;&#8203;</strong> A Proof of Concept using their model to demonstrate a 50-75% memory reduction with minimal accuracy loss, followed by implementing an automated quantization pipeline.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>By mastering these skills, you can better align model serving with application needs—whether you’re optimizing for cost, speed, or user experience—and provide data-driven recommendations that deliver significant value to customers.</p>
+<p>The formula for success is clear: <strong>Optimized Serving (vLLM) + Model Quantization = Maximum performance at minimum cost.</strong></p>
+</div>
+<div class="paragraph">
+<p>You are now equipped to help clients achieve significant cost reductions while maintaining high quality, a compelling value proposition for any enterprise AI initiative.</p>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="section4.html">Advanced Benchmarking Scenarios</a></span>
-  <span class="next"><a href="../chapter2/index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a></span>
+  <span class="prev"><a href="section3.html">Module 2: Automating Quantization with Pipelines</a></span>
 </nav>
 </article>
   </div>

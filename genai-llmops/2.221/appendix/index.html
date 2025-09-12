@@ -3,9 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Course Wrap-up :: LLM Operations Optimization and Inference</title>
-    <link rel="prev" href="section4.html">
-    <link rel="next" href="../chapter2/index.html">
+    <title>Course: Optimizing vLLM Performance :: LLM Operations Optimization and Inference</title>
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -48,29 +46,29 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="intro.html">Home</a>
+    <a class="nav-link" href="../chapter1/intro.html">Home</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="mission.html">Your Place in the Adventure</a>
+    <a class="nav-link" href="../chapter1/mission.html">Your Place in the Adventure</a>
   </li>
   <li class="nav-item" data-depth="2">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Evaluating System Performance with GuideLLM</a>
+    <a class="nav-link" href="../chapter1/index.html">Evaluating System Performance with GuideLLM</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section1.html">Introduction to Performance Benchmarking</a>
+    <a class="nav-link" href="../chapter1/section1.html">Introduction to Performance Benchmarking</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section2.html">Running Your First Benchmark</a>
+    <a class="nav-link" href="../chapter1/section2.html">Running Your First Benchmark</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section3.html">Interpreting Benchmark Results</a>
+    <a class="nav-link" href="../chapter1/section3.html">Interpreting Benchmark Results</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section4.html">Advanced Benchmarking Scenarios</a>
+    <a class="nav-link" href="../chapter1/section4.html">Advanced Benchmarking Scenarios</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="3">
-    <a class="nav-link" href="section5.html">Course Wrap-up</a>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter1/section5.html">Course Wrap-up</a>
   </li>
 </ul>
   </li>
@@ -172,9 +170,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
-    <li><a href="intro.html">Home</a></li>
-    <li><a href="index.html">Evaluating System Performance with GuideLLM</a></li>
-    <li><a href="section5.html">Course Wrap-up</a></li>
+    <li><a href="index.html">Course: Optimizing vLLM Performance</a></li>
   </ul>
 </nav>
 </div>
@@ -183,46 +179,37 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Course Wrap-up</h1>
-<div id="preamble">
+<h1 class="page">Course: Optimizing vLLM Performance</h1>
+<div class="sect1">
+<h2 id="_introduction_to_vllm_performance_optimization"><a class="anchor" href="#_introduction_to_vllm_performance_optimization"></a>Introduction to vLLM Performance Optimization</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Congratulations on completing the Model Performance Benchmarking course.</p>
-</div>
-</div>
+<p>Welcome to the course on vLLM Performance Optimization. Now that you know how to deploy and benchmark a model, it&#8217;s time to tune its performance for real-world production workloads. This course focuses on maximizing inference efficiency using vLLM tuning techniques that can dramatically improve latency and throughput without requiring additional hardware.</p>
 </div>
 <div class="sect2">
-<h3 id="_summary_of_learnings"><a class="anchor" href="#_summary_of_learnings"></a>Summary of Learnings</h3>
-<div class="paragraph">
-<p>In this course, we demonstrated how to evaluate system performance for a deployed Large Language Model using GuideLLM.</p>
-</div>
-<div class="paragraph">
-<p>You learned to:</p>
-</div>
+<h3 id="_why_performance_optimization_is_critical"><a class="anchor" href="#_why_performance_optimization_is_critical"></a>Why Performance Optimization is Critical</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Set up an automated testing environment using a <strong>Tekton pipeline</strong>.</p>
+<p><strong>User Experience</strong>: Sub-second response times, especially Time to First Token (TTFT), are essential for interactive applications like chatbots and coding assistants.</p>
 </li>
 <li>
-<p>Run benchmarks using different <strong>workload profiles</strong> (token sizes) and <strong>rate types</strong> (throughput, constant, sweep) to simulate real-world scenarios.</p>
+<p><strong>Cost Efficiency</strong>: Better performance means serving more users with the same infrastructure, directly reducing the cost per request and improving ROI.</p>
 </li>
 <li>
-<p>Retrieve and analyze key performance metrics, focusing on <strong>latency (TTFT, ITL)</strong> and <strong>throughput</strong>.</p>
+<p><strong>Scalability</strong>: Optimized models can handle higher concurrent user loads without performance degradation, ensuring a reliable service.</p>
 </li>
 <li>
-<p>Understand the critical difference between the <strong>mean, median, and p99</strong> percentiles for assessing user experience and defining SLOs.</p>
+<p><strong>Resource Utilization</strong>: Proper tuning maximizes GPU utilization, ensuring you get the most value from your expensive hardware.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>By mastering these skills, you can better align model serving with application needs—whether you’re optimizing for cost, speed, or user experience—and provide data-driven recommendations that deliver significant value to customers.</p>
+<p>By the end of this course, you will be able to systematically tune key vLLM parameters, measure the impact of your changes, and configure a model for optimal performance based on specific use case requirements.</p>
 </div>
 </div>
-<nav class="pagination">
-  <span class="prev"><a href="section4.html">Advanced Benchmarking Scenarios</a></span>
-  <span class="next"><a href="../chapter2/index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a></span>
-</nav>
+</div>
+</div>
 </article>
   </div>
 </main>
