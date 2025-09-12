@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>LLM Deployment across Red Hat AI :: LLM Operations Optimization and Inference</title>
+    <title>LLM Ops: Your Adventure Begins :: LLM Operations Optimization and Inference</title>
     <link rel="next" href="chapter1/intro.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -39,7 +39,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="index.html">LLM Deployment across Red Hat AI</a>
+    <a class="nav-link" href="index.html">LLM Ops: Your Adventure Begins</a>
   </li>
 </ul>
   </li>
@@ -171,7 +171,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">LLM Operations Optimization and Inference</a></li>
-    <li><a href="index.html">LLM Deployment across Red Hat AI</a></li>
+    <li><a href="index.html">LLM Ops: Your Adventure Begins</a></li>
   </ul>
 </nav>
 </div>
@@ -180,176 +180,127 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">LLM Deployment across Red Hat AI</h1>
-<div id="preamble">
+<h1 class="page">LLM Ops: Your Adventure Begins</h1>
+<div class="sect1">
+<h2 id="_the_call_to_adventure"><a class="anchor" href="#_the_call_to_adventure"></a>The Call to Adventure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Welcome to our LLM Optimization and Inferencing hands-on workshop, where you will gain technical experience serving models with vLLM and optimizing performance and accuracy in a number of ways.</p>
+<p>Welcome, future AI operator! You&#8217;re about to embark on a learning adventure that goes beyond the basics of deploying a model. This isn&#8217;t just a series of labs; it&#8217;s a proving ground. Your mission, should you choose to accept it, is to master the art and science of <strong>Large Language Model Operations (LLMOps)</strong>.</p>
+</div>
+<div class="paragraph">
+<p>You will learn to operate an "AI Factory," a sophisticated system where you are in control. Your challenge is to balance the critical forces of <strong>Performance, Accuracy, and Cost</strong>. This is where the real value of enterprise AI is forged, and you&#8217;re here to learn how to be the blacksmith.</p>
+</div>
+<div class="paragraph">
+<p>Ready to move from one-off experiments to building robust, efficient, and reliable AI services?</p>
+</div>
+<div class="paragraph">
+<p>Good. It&#8217;s time to choose your adventure.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_module_overview"><a class="anchor" href="#_module_overview"></a>Module Overview</h2>
+<h2 id="_gearing_up_your_training_ground"><a class="anchor" href="#_gearing_up_your_training_ground"></a>Gearing Up - Your Training Ground</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This workshop provides hands-on experience with enterprise vLLM deployment, benchmarking, and optimization techniques. You&#8217;ll learn to deploy models efficiently, evaluate performance, and implement advanced optimization techniques to reduce costs while maintaining quality.</p>
+<p>Before any great adventure, you need the right gear and a map of the territory. If you&#8217;re new to the world of Generative AI inference, your training ground is our <strong>Red Hat AI Inference Series</strong>.</p>
 </div>
-<div class="sect2">
-<h3 id="_module_1_llm_deployment"><a class="anchor" href="#_module_1_llm_deployment"></a>🚀 Module 1: LLM Deployment</h3>
 <div class="paragraph">
-<p><strong>Deploy RH Inference Server across multiple platforms</strong></p>
+<p>That foundational series is where you&#8217;ll learn the language of this new world.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>1.1 RHEL Deployment</strong>: Set up inference server on Red Hat Enterprise Linux with GPU support, container toolkit configuration, and model serving</p>
+<p>You&#8217;ll start with the <strong>vLLM Technical Reference Guide</strong> to master the core concepts and terminology.</p>
 </li>
 <li>
-<p><strong>1.2 OpenShift Deployment</strong>: Deploy using Helm charts and container orchestration for scalable inference</p>
+<p>You&#8217;ll meet the <strong>LLM Compressor</strong>, a powerful tool for shrinking models to increase their speed and efficiency through quantization.</p>
 </li>
 <li>
-<p><strong>1.3 OpenShift AI Deployment</strong>: Leverage Red Hat OpenShift AI platform for managed LLM serving with enterprise features</p>
-</li>
-<li>
-<p><strong>1.4 Platform Comparison</strong>: Understand deployment trade-offs and choose the right platform for your use case</p>
+<p>You&#8217;ll get hands-on experience deploying models with the <strong>Red Hat AI Inference Server</strong>, learning how GPUs, vRAM, and the KV cache all work together.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Key Skills</strong>: Infrastructure setup, containerization, GPU configuration, cloud-native deployment</p>
+<p>Completing that series is like your flight training. It ensures you know your instruments before you take off. If you&#8217;ve already completed it, you&#8217;re ready for the next phase.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_game_time_the_core_missions"><a class="anchor" href="#_game_time_the_core_missions"></a>Game Time! - The Core Missions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With your foundational training complete, your real mission begins. In the training ground, we often used the UI for deployments. That was great for learning, but it’s not how you operate in the real world.</p>
+</div>
+<div class="paragraph">
+<p>Now, it&#8217;s about building repeatable, automated systems. You&#8217;re going to use pipelines and experiments to track your model&#8217;s performance, cost, and accuracy over time. This learning path is broken down into four critical missions:</p>
+</div>
+<div class="sect2">
+<h3 id="_mission_1_benchmark_the_battlefield_with_guidellm"><a class="anchor" href="#_mission_1_benchmark_the_battlefield_with_guidellm"></a>Mission 1: Benchmark the Battlefield with GuideLLM</h3>
+<div class="paragraph">
+<p>Your first task is to understand the terrain. You&#8217;ll use <strong>GuideLLM</strong> to benchmark a model&#8217;s performance. Can it generate tokens fast enough to meet your application&#8217;s demands? You&#8217;ll measure key metrics like Time to First Token, total response times, and inter-token latency.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_module_2_performance_accuracy_evaluation"><a class="anchor" href="#_module_2_performance_accuracy_evaluation"></a>📊 Module 2: Performance &amp; Accuracy Evaluation</h3>
+<h3 id="_mission_2_validate_your_allys_strength_with_lm_eval_harness"><a class="anchor" href="#_mission_2_validate_your_allys_strength_with_lm_eval_harness"></a>Mission 2: Validate Your Ally&#8217;s Strength with lm-eval-harness</h3>
 <div class="paragraph">
-<p><strong>Measure and benchmark LLM systems for production readiness</strong></p>
+<p>A fast model that gives wrong answers is useless. In this mission, you&#8217;ll use <strong>lm-eval-harness</strong> to get a hard, data-driven baseline of your model&#8217;s accuracy. You need to know how well it performs on specific tasks <strong>before</strong> you start tuning it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mission_3_tune_your_engine_with_vllm"><a class="anchor" href="#_mission_3_tune_your_engine_with_vllm"></a>Mission 3: Tune Your Engine with vLLM</h3>
+<div class="paragraph">
+<p>Here&#8217;s where you become a performance engineer. You&#8217;ll start tweaking the vLLM inference engine settings. A chatbot needs different tuning than a document summarizer. You&#8217;ll test the impact of large queries, small queries, and various levels of concurrency to find the sweet spot for your specific application.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mission_4_travel_light_and_fast_with_llm_compressor"><a class="anchor" href="#_mission_4_travel_light_and_fast_with_llm_compressor"></a>Mission 4: Travel Light and Fast with LLM Compressor</h3>
+<div class="paragraph">
+<p>Finally, you&#8217;ll get deep into <strong>model quantization</strong>. This is the art of reducing a model&#8217;s size by lowering the precision of its weights (e.g., from 32-bit to 8-bit). You&#8217;ll use a Jupyter Notebook to gain hands-on experience with the quantization process using pre-defined recipes, witnessing the dramatic impact on model size.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_rules_of_engagement_how_to_succeed"><a class="anchor" href="#_the_rules_of_engagement_how_to_succeed"></a>The Rules of Engagement - How to Succeed</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now for a crucial piece of intel. This is where we cover the "gotchas."</p>
+</div>
+<div class="paragraph">
+<p>These labs are not paint-by-numbers exercises. They are blueprints and patterns, distilled from the real-world experiences of our colleagues on successful customer engagements. You will be starting with a standard, resource-limited OpenShift AI environment.</p>
+</div>
+<div class="paragraph">
+<p><strong>Your challenge is to adapt these blueprints.</strong> You won’t just be copying and pasting commands. You will have to think. You&#8217;ll need to figure out how to make these patterns work within your constraints to achieve the mission objectives: reduce cost, increase efficiency, boost performance, and maintain accuracy.</p>
+</div>
+<div class="paragraph">
+<p>You are the operator of the AI Factory. These are your tools. Your success will be measured by how effectively you use them to deliver value.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_your_quest_awaits"><a class="anchor" href="#_your_quest_awaits"></a>Your Quest Awaits</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You&#8217;ve surveyed the landscape, understood the missions, and know the rules of engagement. Everything you&#8217;re about to do revolves around the three pillars that form the heart of LLMOps:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>2.1 Performance Evaluation</strong>: Use GuideLLM to measure latency, throughput, and resource utilization under realistic workloads</p>
+<p><strong>Accuracy</strong></p>
 </li>
 <li>
-<p><strong>2.2 Accuracy Assessment</strong>: Evaluate model quality, response relevance, and task-specific performance metrics</p>
+<p><strong>Performance</strong></p>
 </li>
 <li>
-<p><strong>2.3 Evaluation Best Practices</strong>: Establish benchmarking workflows and continuous performance monitoring</p>
+<p><strong>Cost Observability</strong></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Key Skills</strong>: Performance testing, quality assessment, benchmarking methodologies, production readiness validation</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_module_3_vllm_optimization"><a class="anchor" href="#_module_3_vllm_optimization"></a>⚡ Module 3: vLLM Optimization</h3>
-<div class="paragraph">
-<p><strong>Maximize inference performance through tuning and configuration</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>3.1 Performance Tuning</strong>: Hands-on optimization of granite-3.3-8b-instruct for minimal latency in chat applications</p>
-</li>
-<li>
-<p><strong>3.2 Configuration Strategies</strong>: Master vLLM parameters, memory management, and batching for optimal performance</p>
-</li>
-<li>
-<p><strong>3.3 Scaling Techniques</strong>: Implement strategies for high-throughput serving and resource efficiency</p>
-</li>
-</ul>
+<p>Mastering the balance between them is the ultimate goal.</p>
 </div>
 <div class="paragraph">
-<p><strong>Key Skills</strong>: Performance optimization, parameter tuning, inference scaling, latency reduction</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_module_4_model_quantization"><a class="anchor" href="#_module_4_model_quantization"></a>🔬 Module 4: Model Quantization</h3>
-<div class="paragraph">
-<p><strong>Reduce model size and memory requirements without sacrificing quality</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>4.1 Quantization Fundamentals</strong>: Understand W4A16, W8A8 schemes and their impact on performance and accuracy</p>
-</li>
-<li>
-<p><strong>4.2 Implementation Labs</strong>: Hands-on quantization using LLM Compressor with SmoothQuant and GPTQ techniques</p>
-</li>
-<li>
-<p><strong>4.3 Production Pipelines</strong>: Build automated quantization workflows using OpenShift AI and evaluate results</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Key Skills</strong>: Model compression, quantization techniques, memory optimization, automated ML pipelines</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_reference_materials"><a class="anchor" href="#_reference_materials"></a>📚 Reference Materials</h3>
-<div class="paragraph">
-<p><strong>Business and technical guides for real-world application</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Enterprise Qualification Guide</strong>: Framework for identifying and qualifying LLM optimization opportunities with enterprise clients</p>
-</li>
-<li>
-<p><strong>Technical Deep Dives</strong>: Comprehensive technical documentation on quantization methods and optimization strategies</p>
-</li>
-<li>
-<p><strong>Model Comparison Examples</strong>: Pre-compressed model performance comparisons and selection criteria</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_learning_outcomes"><a class="anchor" href="#_learning_outcomes"></a>🎯 Learning Outcomes</h3>
-<div class="paragraph">
-<p>By the end of this workshop, you will be able to:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Deploy production-ready LLM inference servers across multiple platforms</p>
-</li>
-<li>
-<p>Evaluate and benchmark LLM systems for performance and accuracy</p>
-</li>
-<li>
-<p>Optimize vLLM configurations for specific use cases and constraints</p>
-</li>
-<li>
-<p>Implement quantization techniques to reduce costs by 50-75%</p>
-</li>
-<li>
-<p>Build automated optimization pipelines for enterprise deployment</p>
-</li>
-<li>
-<p>Qualify and position LLM optimization opportunities with technical confidence</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_workshop_format"><a class="anchor" href="#_workshop_format"></a>⏱️ Workshop Format</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Duration</strong>: Full-day technical workshop</p>
-</li>
-<li>
-<p><strong>Format</strong>: Mix of theory, hands-on labs, and real-world scenarios</p>
-</li>
-<li>
-<p><strong>Prerequisites</strong>: Basic familiarity with containers, Kubernetes, and machine learning concepts</p>
-</li>
-<li>
-<p><strong>Environment</strong>: Access to OpenShift cluster with GPU resources</p>
-</li>
-</ul>
-</div>
+<p>So, bring your A-game. It&#8217;s time to get started.</p>
 </div>
 </div>
 </div>

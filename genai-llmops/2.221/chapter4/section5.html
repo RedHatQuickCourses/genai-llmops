@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>LLM GPU Requirements :: LLM Operations Optimization and Inference</title>
+    <title>LLM Ops: Your Adventure Begins :: LLM Operations Optimization and Inference</title>
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -170,7 +170,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
-    <li><a href="llm-sizing.html">LLM GPU Requirements</a></li>
+    <li><a href="section5.html">LLM Ops: Your Adventure Begins</a></li>
   </ul>
 </nav>
 </div>
@@ -179,138 +179,127 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">LLM GPU Requirements</h1>
-<div id="preamble">
+<h1 class="page">LLM Ops: Your Adventure Begins</h1>
+<div class="sect1">
+<h2 id="_the_call_to_adventure"><a class="anchor" href="#_the_call_to_adventure"></a>The Call to Adventure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>When selecting hardware to run an LLM, several factors need to be considered including the model size, the KV Cache requirements for the use case, the use case concurrency requirements, the format of the model&#8217;s data types, and any performance requirements such as Time to First Token (TTFT) or throughput.</p>
+<p>Welcome, future AI operator! You&#8217;re about to embark on a learning adventure that goes beyond the basics of deploying a model. This isn&#8217;t just a series of labs; it&#8217;s a proving ground. Your mission, should you choose to accept it, is to master the art and science of <strong>Large Language Model Operations (LLMOps)</strong>.</p>
+</div>
+<div class="paragraph">
+<p>You will learn to operate an "AI Factory," a sophisticated system where you are in control. Your challenge is to balance the critical forces of <strong>Performance, Accuracy, and Cost</strong>. This is where the real value of enterprise AI is forged, and you&#8217;re here to learn how to be the blacksmith.</p>
+</div>
+<div class="paragraph">
+<p>Ready to move from one-off experiments to building robust, efficient, and reliable AI services?</p>
+</div>
+<div class="paragraph">
+<p>Good. It&#8217;s time to choose your adventure.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_estimating_model_size"><a class="anchor" href="#_estimating_model_size"></a>Estimating Model Size</h2>
+<h2 id="_gearing_up_your_training_ground"><a class="anchor" href="#_gearing_up_your_training_ground"></a>Gearing Up - Your Training Ground</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>One of the first calculations needed to help understand if a model will run on a particular GPU is creating an estimate of the model size.</p>
+<p>Before any great adventure, you need the right gear and a map of the territory. If you&#8217;re new to the world of Generative AI inference, your training ground is our <strong>Red Hat AI Inference Series</strong>.</p>
 </div>
 <div class="paragraph">
-<p>The size of the model loaded into vRAM can be estimated using the following formula:</p>
+<p>That foundational series is where you&#8217;ll learn the language of this new world.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/model-sizing-formula.png" alt="Model Sizing Formula">
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Symbol</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GPU memory</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">P</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The number of parameters in the model</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4b</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4 bytes, expressing the bytes used for each parameter</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">There are 32 bits in 4 bytes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Q</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The amount of bits that should be used for loading the model. - 16 bits, 8 bits or 4 bits.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Represents a 20% overhead of loading additional things in GPU memory.</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>For example, for <a href="https://huggingface.co/ibm-granite/granite-3.3-8b-instruct/tree/main">Granite 3.3 8B Instruct</a> is 8 billion parameters and is an fp16 model.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">(((8*10^9*4)/(32/16))*1.2) / 1024^3 = 17.9 Gb</code></pre>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You&#8217;ll start with the <strong>vLLM Technical Reference Guide</strong> to master the core concepts and terminology.</p>
+</li>
+<li>
+<p>You&#8217;ll meet the <strong>LLM Compressor</strong>, a powerful tool for shrinking models to increase their speed and efficiency through quantization.</p>
+</li>
+<li>
+<p>You&#8217;ll get hands-on experience deploying models with the <strong>Red Hat AI Inference Server</strong>, learning how GPUs, vRAM, and the KV cache all work together.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>For some additional details on this calculation, you can read more about it <a href="https://training.continuumlabs.ai/infrastructure/data-and-memory/calculating-gpu-memory-for-serving-llms">here</a>.</p>
-</div>
-<div class="sect2">
-<h3 id="_quantization"><a class="anchor" href="#_quantization"></a>Quantization</h3>
-<div class="paragraph">
-<p>Some LLMs will use quantization to make them smaller and more performant.  Most models will default to an fp16 data type which uses 16 bits, but fp8 is a common quantization option that use 8 bit data types.  Int4 is another common data type that is gaining popularity which uses only 4 bits.  Additionally, some advanced techniques can be uses such as the w4a16 which primarily use an int4 data type but also leverage some additional bits to increase the performance compared to traditional int4 models.</p>
-</div>
+<p>Completing that series is like your flight training. It ensures you know your instruments before you take off. If you&#8217;ve already completed it, you&#8217;re ready for the next phase.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_estimating_kv_cache"><a class="anchor" href="#_estimating_kv_cache"></a>Estimating KV Cache</h2>
+<h2 id="_game_time_the_core_missions"><a class="anchor" href="#_game_time_the_core_missions"></a>Game Time! - The Core Missions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Beyond the model itself, vLLM also requires vRAM for the KV Cache.  The KV Cache requires a specific amount of vRAM per token that can be different from model to model.  An estimate for the vRAM per token can be calculated based on the architecture of the model with details from the config.json file on HuggingFace.</p>
+<p>With your foundational training complete, your real mission begins. In the training ground, we often used the UI for deployments. That was great for learning, but it’s not how you operate in the real world.</p>
 </div>
 <div class="paragraph">
-<p>This class will not dig into details of calculating the vRAM per token, but you can read more <a href="https://medium.com/@plienhar/llm-inference-series-4-kv-caching-a-deeper-look-4ba9a77746c8">here</a> to better understand how to calculate that value.</p>
-</div>
-<div class="paragraph">
-<p>In addition to the vRAM per token, you will need to understand the context length requirements for the use case.  By default vLLM will use the max context length for the model, but if you are running the model on a smaller GPU, you may need to limit the KV Cache to a smaller context length.</p>
-</div>
-<div class="paragraph">
-<p>Granite 3.3 8B Instruct requires 0.15625 Mb per token and the models max context length is 131,072, giving us a requirement of 20 Gb of vRAM for the KV Cache.</p>
-</div>
-<div class="paragraph">
-<p>Along side our model requirements of about 17.9 Gb, that means we need about 38 Gb to run the model and support the max context length.</p>
+<p>Now, it&#8217;s about building repeatable, automated systems. You&#8217;re going to use pipelines and experiments to track your model&#8217;s performance, cost, and accuracy over time. This learning path is broken down into four critical missions:</p>
 </div>
 <div class="sect2">
-<h3 id="_exercise_kv_cache_estimation"><a class="anchor" href="#_exercise_kv_cache_estimation"></a>Exercise: KV Cache Estimation</h3>
+<h3 id="_mission_1_benchmark_the_battlefield_with_guidellm"><a class="anchor" href="#_mission_1_benchmark_the_battlefield_with_guidellm"></a>Mission 1: Benchmark the Battlefield with GuideLLM</h3>
 <div class="paragraph">
-<p>If we had an A10G or an L4 GPU with 24 Gb of vRAM, estimate how many tokens you could configure the KV Cache that would still fit on that device with Granite 3.3 8B Instruct.</p>
+<p>Your first task is to understand the terrain. You&#8217;ll use <strong>GuideLLM</strong> to benchmark a model&#8217;s performance. Can it generate tokens fast enough to meet your application&#8217;s demands? You&#8217;ll measure key metrics like Time to First Token, total response times, and inter-token latency.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mission_2_validate_your_allys_strength_with_lm_eval_harness"><a class="anchor" href="#_mission_2_validate_your_allys_strength_with_lm_eval_harness"></a>Mission 2: Validate Your Ally&#8217;s Strength with lm-eval-harness</h3>
+<div class="paragraph">
+<p>A fast model that gives wrong answers is useless. In this mission, you&#8217;ll use <strong>lm-eval-harness</strong> to get a hard, data-driven baseline of your model&#8217;s accuracy. You need to know how well it performs on specific tasks <strong>before</strong> you start tuning it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mission_3_tune_your_engine_with_vllm"><a class="anchor" href="#_mission_3_tune_your_engine_with_vllm"></a>Mission 3: Tune Your Engine with vLLM</h3>
+<div class="paragraph">
+<p>Here&#8217;s where you become a performance engineer. You&#8217;ll start tweaking the vLLM inference engine settings. A chatbot needs different tuning than a document summarizer. You&#8217;ll test the impact of large queries, small queries, and various levels of concurrency to find the sweet spot for your specific application.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mission_4_travel_light_and_fast_with_llm_compressor"><a class="anchor" href="#_mission_4_travel_light_and_fast_with_llm_compressor"></a>Mission 4: Travel Light and Fast with LLM Compressor</h3>
+<div class="paragraph">
+<p>Finally, you&#8217;ll get deep into <strong>model quantization</strong>. This is the art of reducing a model&#8217;s size by lowering the precision of its weights (e.g., from 32-bit to 8-bit). You&#8217;ll use a Jupyter Notebook to gain hands-on experience with the quantization process using pre-defined recipes, witnessing the dramatic impact on model size.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sizing_spreadsheet"><a class="anchor" href="#_sizing_spreadsheet"></a>Sizing Spreadsheet</h2>
+<h2 id="_the_rules_of_engagement_how_to_succeed"><a class="anchor" href="#_the_rules_of_engagement_how_to_succeed"></a>The Rules of Engagement - How to Succeed</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Red Hat Services has created a spreadsheet to help do sizing estimates for LLMs that you can find here:</p>
+<p>Now for a crucial piece of intel. This is where we cover the "gotchas."</p>
 </div>
 <div class="paragraph">
-<p><a href="https://red.ht/llm-sizing" class="bare">https://red.ht/llm-sizing</a></p>
+<p>These labs are not paint-by-numbers exercises. They are blueprints and patterns, distilled from the real-world experiences of our colleagues on successful customer engagements. You will be starting with a standard, resource-limited OpenShift AI environment.</p>
 </div>
 <div class="paragraph">
-<p>Using the "Model Sizing" tab, you can select several different models to perform a sizing calculation.  The spreadsheet will provide recommendations based on the model you have selected and the models max context length.</p>
+<p><strong>Your challenge is to adapt these blueprints.</strong> You won’t just be copying and pasting commands. You will have to think. You&#8217;ll need to figure out how to make these patterns work within your constraints to achieve the mission objectives: reduce cost, increase efficiency, boost performance, and maintain accuracy.</p>
 </div>
 <div class="paragraph">
-<p>You can update the context length requirements to override the default.</p>
+<p>You are the operator of the AI Factory. These are your tools. Your success will be measured by how effectively you use them to deliver value.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_your_quest_awaits"><a class="anchor" href="#_your_quest_awaits"></a>Your Quest Awaits</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You&#8217;ve surveyed the landscape, understood the missions, and know the rules of engagement. Everything you&#8217;re about to do revolves around the three pillars that form the heart of LLMOps:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Accuracy</strong></p>
+</li>
+<li>
+<p><strong>Performance</strong></p>
+</li>
+<li>
+<p><strong>Cost Observability</strong></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Additionally, vLLM allows users to use a quantized KV Cache to increase the total number of tokens supported with the same vRAM.</p>
+<p>Mastering the balance between them is the ultimate goal.</p>
 </div>
 <div class="paragraph">
-<p>In addition to the model sizing, the "Subs &amp; Cost Modeling" tab will help to recommend instance types needed to run your selected model in different environments.  The "Subs &amp; Cost Modeling" tab can help to provide a Total Cost of Ownership of running the models on OpenShift including both cloud computing costs, OpenShift subs, and OpenShift AI subs.</p>
-</div>
-<div class="paragraph">
-<p>Please keep in mind that all costs are subject to change and the cost is simply an estimate and should not be used in a quote to a customer.</p>
-</div>
-<div class="sect2">
-<h3 id="_exercise_model_sizing_quantization_comparison"><a class="anchor" href="#_exercise_model_sizing_quantization_comparison"></a>Exercise: Model Sizing Quantization Comparison</h3>
-<div class="paragraph">
-<p>Make a copy of the spreadsheet and perform a sizing for an un-quantized model and a RedHatAI quantized version of the same model, such as Llama 70B.</p>
-</div>
+<p>So, bring your A-game. It&#8217;s time to get started.</p>
 </div>
 </div>
 </div>

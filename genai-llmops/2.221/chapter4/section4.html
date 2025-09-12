@@ -3,9 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Setting Up the Trusty AI Environment :: LLM Operations Optimization and Inference</title>
-    <link rel="prev" href="index.html">
-    <link rel="next" href="section2.html">
+    <title>Course Wrap-up :: LLM Operations Optimization and Inference</title>
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -82,29 +80,29 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a>
+    <a class="nav-link" href="../chapter2/index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="mission.html">Your Place in the Adventure</a>
+    <a class="nav-link" href="../chapter2/mission.html">Your Place in the Adventure</a>
   </li>
   <li class="nav-item" data-depth="2">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a>
+    <a class="nav-link" href="../chapter2/index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="3">
-    <a class="nav-link" href="section1.html">Setting Up the Trusty AI Environment</a>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../chapter2/section1.html">Setting Up the Trusty AI Environment</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section2.html">Running a Standard Evaluation Job</a>
+    <a class="nav-link" href="../chapter2/section2.html">Running a Standard Evaluation Job</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section3.html">Interpreting Accuracy Results</a>
+    <a class="nav-link" href="../chapter2/section3.html">Interpreting Accuracy Results</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section4.html">Running a Domain-Specific Test</a>
+    <a class="nav-link" href="../chapter2/section4.html">Running a Domain-Specific Test</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="section5.html">Course Wrap-up</a>
+    <a class="nav-link" href="../chapter2/section5.html">Course Wrap-up</a>
   </li>
 </ul>
   </li>
@@ -172,9 +170,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">LLM Operations Optimization and Inference</a></li>
-    <li><a href="index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a></li>
-    <li><a href="index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a></li>
-    <li><a href="section1.html">Setting Up the Trusty AI Environment</a></li>
+    <li><a href="section4.html">Course Wrap-up</a></li>
   </ul>
 </nav>
 </div>
@@ -183,62 +179,48 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Setting Up the Trusty AI Environment</h1>
+<h1 class="page">Course Wrap-up</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this module, we will enable and configure the Trusty AI operator in OpenShift AI to prepare it for running evaluation jobs.</p>
+<p>Congratulations! You have successfully optimized a vLLM deployment by tuning its core parameters and leveraging the power of quantization. You have moved beyond simply deploying a model to engineering a high-performance inference service.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_1_1_enable_the_trusty_ai_component"><a class="anchor" href="#_1_1_enable_the_trusty_ai_component"></a>1.1 Enable the Trusty AI Component</h3>
+<h3 id="_summary_of_learnings"><a class="anchor" href="#_summary_of_learnings"></a>Summary of Learnings</h3>
 <div class="paragraph">
-<p>First, we&#8217;ll patch the default <code>DataScienceCluster</code> resource to change the management state of the <code>trustyai</code> component from "Removed" to "Managed".</p>
+<p>What You Accomplished:</p>
 </div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">oc patch datasciencecluster default-dsc -p '{"spec":{"components":{"trustyai":{"managementState":"Managed"}}}}' --type=merge</code></pre>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Established a Baseline</strong>: You learned to use GuideLLM to create a repeatable performance baseline, which is the first step in any optimization effort.</p>
+</li>
+<li>
+<p><strong>Mastered Key Parameters</strong>: You gained hands-on experience tuning <code>max-model-len</code> and <code>max-num-seqs</code>, understanding their direct impact on memory usage, queuing, and latency.</p>
+</li>
+<li>
+<p><strong>Applied Quantization</strong>: You deployed a quantized model and quantitatively proved its significant performance benefits over the full-precision version.</p>
+</li>
+<li>
+<p><strong>Developed a Methodology</strong>: You practiced a systematic approach: <strong>measure, tune, validate, repeat</strong>. This methodology is applicable to any performance optimization task.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_1_2_configure_for_remote_dataset_access"><a class="anchor" href="#_1_2_configure_for_remote_dataset_access"></a>1.2 Configure for Remote Dataset Access</h3>
+<h3 id="_business_impact_and_next_steps"><a class="anchor" href="#_business_impact_and_next_steps"></a>Business Impact and Next Steps</h3>
 <div class="paragraph">
-<p>By default, Trusty AI jobs run in a sandboxed environment without internet access. To run standard benchmarks, we need to allow the job to download the evaluation dataset and the model&#8217;s tokenizer from Hugging Face.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>We will patch the Trusty AI <code>ConfigMap</code> to allow online access and code execution from the downloaded datasets.</p>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">oc patch configmap trustyai-service-operator-config -n redhat-ods-applications  \
---type merge -p '{"metadata": {"annotations": {"opendatahub.io/managed": "false"}}}'
-
-oc patch configmap trustyai-service-operator-config -n redhat-ods-applications \
---type merge -p '{"data":{"lmes-allow-online":"true","lmes-allow-code-execution":"true"}}'</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>After patching the <code>ConfigMap</code>, we need to restart the operator for the changes to take effect.</p>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-console hljs" data-lang="console">oc rollout restart deployment trustyai-service-operator-controller-manager -n redhat-ods-applications</code></pre>
-</div>
-</div>
-</li>
-</ol>
+<p>The skills learned in this course directly translate to business value by reducing infrastructure costs and improving user experience. When a customer is facing high latency or escalating GPU costs, you now have a proven playbook to diagnose and solve their problems.</p>
 </div>
 <div class="paragraph">
-<p>Wait for the <code>trustyai-service-operator-controller-manager</code> pod to restart. Once it is running, your environment is ready for evaluation.</p>
+<p>Your optimization foundation is also a prerequisite for more advanced techniques. The performance baseline you establish is essential for measuring the impact of quantization (as we saw) and other methods like speculative decoding.</p>
+</div>
+<div class="paragraph">
+<p>You are now equipped to deliver end-to-end performance improvements that fundamentally change the economics and user experience of LLM deployments.</p>
 </div>
 </div>
-<nav class="pagination">
-  <span class="prev"><a href="index.html">Course: Evaluating Model Accuracy with lm-eval-harness</a></span>
-  <span class="next"><a href="section2.html">Running a Standard Evaluation Job</a></span>
-</nav>
 </article>
   </div>
 </main>
