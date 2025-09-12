@@ -1,6 +1,76 @@
-= Section 1
+= Module 1: Your First Quantization (W4A16)
 
-* Create multiple copies of this section as needed.
-* Remove any unnecessary sections or chapter pages.
-* Customize the section as appropriate.
-* Ensure that each page contains a manageable amount of content.
+In this module, we will perform our first quantization. We will start by setting up the necessary environment in OpenShift AI and then use a Jupyter Notebook to manually quantize a model. This hands-on approach provides a foundational understanding of the process before we move to automation.
+
+We will focus on **W4A16 Quantization**, which compresses model **W**eights to **4**-bit precision while keeping **A**ctivations at **16**-bit precision. This strikes an excellent balance between memory savings and accuracy preservation.
+
+=== 1.1 Setting Up the Quantization Project
+
+First, we need to create a Data Science Project and the necessary data connections and compute resources.
+
+. **Create a Data Science Project**: Navigate to **Data Science Projects** in OpenShift AI and create a new project named `quantization`.
++
+[.bordershadow]
+image::quant-create-project.png[title="Create Data Science Project Named 'quantization'", link=self, window=blank, width=100%]
+
+. **Create Data Connections**: Inside your `quantization` project, click **Add Data Connection**. You will create two S3-compatible connections to your MinIO storage.
+* **Connection 1:**
+    ** **Name:** `pipeline-connection`
+    ** **Access Key:** `minio`
+    ** **Secret Key:** `minio123`
+    ** **Endpoint:** `http://minio.ic-shared-minio.svc.cluster.local:9000`
+    ** **Bucket:** `pipelines`
+* **Connection 2:**
+    ** **Name:** `minio-models`
+    ** **Access Key:** `minio`
+    ** **Secret Key:** `minio123`
+    ** **Endpoint:** `http://minio.ic-shared-minio.svc.cluster.local:9000`
+    ** **Bucket:** `models` (This bucket should contain the `ibm-granite/granite-3.3-2b-instruct` model)
++
+[.bordershadow]
+image::quant-data-connection.png[title="Data Connection Configuration", link=self, window=blank, width=100%]
+
+. **Configure a Pipeline Server**: Navigate to **Data science pipelines** > **Pipelines** and click **Configure Pipeline Server**. Select the `pipeline-connection` data connection you just created.
++
+[.bordershadow]
+image::quant-pipelineserver02.png[title="Pipeline Server Configuration with Data Connection", link=self, window=blank, width=100%]
+
+. **Create a Workbench**:
+* In the `quantization` project, click **Create a workbench**.
+* Configure it with these settings:
+    ** **Name**: `granite-quantization`
+    ** **Image Selection**: `CUDA`
+    ** **Container Size**: `Standard`
+    ** **Accelerator**: `NVIDIA-GPU`
+    ** **Number of accelerators**: `2`
+* Attach the **minio-models** data connection to your workbench.
++
+[.bordershadow]
+image::quant-attach-dc.png[title="Attach minio-models Data Connection to Workbench", link=self, window=blank, width=100%]
+* Click **Create Workbench** and wait for it to start.
+
+=== 1.2 Quantizing the Model in a Notebook
+
+Now we will perform the quantization using a Jupyter Notebook.
+
+. **Launch and Prepare Jupyter**: Once the workbench is running, launch it. Inside the JupyterLab interface, use the Git extension to clone the following repository:
++
+[source,sh]
+----
+https://github.com/redhat-ai-services/etx-llm-optimization-and-inference-leveraging.git
+----
+
+. **Run the Quantization Notebook**:
+* Navigate to the cloned folder: `etx-llm-optimization-and-inference-leveraging/workshop_code/quantization/llm_compressor`.
+* Open the notebook `weight_activation_quantization.ipynb`.
++
+[.bordershadow]
+image::quantization-int8-notebook.png[title="Weight Activation Quantization Notebook Ready to Execute", link=self, window=blank, width=100%]
+* Execute the cells in the notebook by selecting them and pressing **Shift + Enter**. The notebook will guide you through:
+    1.  Loading the pre-trained LLM model.
+    2.  Preparing a calibration dataset.
+    3.  Applying **SmoothQuant** and **GPTQ** techniques for W4A16 quantization.
+    4.  Saving the newly quantized model.
+    5.  Evaluating the quantized model's accuracy.
+
+IMPORTANT: Once you complete the notebook exercise, **stop the workbench** to free up the GPU resources for the next modules.

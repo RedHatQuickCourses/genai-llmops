@@ -1,0 +1,41 @@
+= Module 2: Hands-On Parameter Tuning
+
+In this module, we will systematically adjust key vLLM parameters and re-run our benchmark to observe the impact on performance. This iterative process of "tune, measure, repeat" is the core of performance optimization.
+
+=== 2.1 Tuning `--max-model-len`
+
+The `--max-model-len` argument sets the maximum tokens (prompt + response) the server can handle. Setting it too large reserves unnecessary GPU memory for the KV cache, while setting it too small truncates requests.
+
+. Let's observe the effect of increasing this value. Open your `values.yaml` file and change the args to increase the length to 4096.
++
+[source,yaml]
+----
+args:
+  - "--disable-log-requests"
+  - "--max-num-seqs=32"
+  - "--max-model-len=4096"
+  - "--max-num-batched-tokens=4096"
+----
+. Redeploy the model with `helm uninstall` and `helm install`.
+. Once deployed, check the pod logs. You will see that the `Available KV cache memory` has decreased because more memory is reserved for the larger potential sequence length. This highlights the trade-off: supporting longer sequences leaves less memory for handling concurrent batches. For our chat use case (<2048 tokens), the initial value was more efficient.
+
+=== 2.2 Tuning `--max-num-seqs`
+
+The `--max-num-seqs` parameter defines the maximum number of requests that can be processed in a single batch. If this is set too low, the GPU will be under-utilized and requests will queue up, dramatically increasing latency.
+
+. Let's simulate a misconfiguration. Revert `max-model-len` to `2048` in your `values.yaml`, but set `--max-num-seqs=1`.
++
+[source,yaml]
+----
+args:
+  - "--disable-log-requests"
+  - "--max-num-seqs=1"
+  - "--max-model-len=2048"
+----
+. Redeploy the model.
+. Now, edit your `guidellm-pipelinerun.yaml` to test with just 4 concurrent users by setting `rate` to `4.0`.
+. Run the pipeline (`oc create -f ...`).
+. After it finishes, download the new benchmark result in your notebook. Compare the median TTFT for 4 concurrent users from this run to your original `benchmark_1.txt` file. You will see a massive increase in latency (>6x slower!).
++
+image::benchmark-rate4seq1.png[Benchmark with max-num-seqs=1]
+. If you check the model's pod logs during the run, you'll see a clear indicator of the problem: `Pending: 31 reqs`. The engine is being throttled, processing requests one by one while others wait in a queue. This demonstrates how critical it is to set `max-num-seqs` appropriately for your expected concurrent load.

@@ -1,0 +1,74 @@
+= Module 1: Establishing a Performance Baseline
+
+Before we can optimize, we must measure. In this module, we will deploy a model with a set of initial parameters and use the GuideLLM pipeline to establish a performance baseline. This gives us a starting point to compare our future optimizations against.
+
+=== 1.1 Deploying the Initial Model Configuration
+
+We'll start by deploying the `granite-8b` model with specific arguments for a chat application scenario: handling up to 32 concurrent users with a maximum sequence length of 2048 tokens.
+
+. Ensure you are in your `vllm` project in the OpenShift CLI.
++
+[source,sh,role=execute]
+----
+oc project vllm
+----
+
+. Review the initial deployment configuration in the `workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml` file. We are setting `--max-num-seqs=32` and `--max-model-len=2048`.
++
+[source,yaml]
+----
+deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-8b-instruct
+  args:
+    - "--disable-log-requests"
+    - "--max-num-seqs=32"
+    - "--max-model-len=2048"
+----
+
+. Deploy the model using Helm. This command will uninstall any previous `granite-8b` deployment and install the new one.
++
+[source,sh,role=execute]
+----
+helm uninstall granite-8b && \
+helm install granite-8b redhat-ai-services/vllm-kserve --version 0.5.11 -f workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml
+----
++
+Wait for the model to fully deploy and show a green checkmark in the OpenShift AI dashboard.
+
+=== 1.2 Setting Up the Benchmark Pipeline
+
+We will use the same GuideLLM Tekton pipeline from the previous course to run our benchmarks.
+
+NOTE: If you already deployed these resources in the GuideLLM course within the `vllm` project, you can skip this step.
+
+. Clone the pipeline repository and apply the necessary resources.
++
+[source,sh,role=execute]
+----
+git clone https://github.com/jhurlocker/guidellm-pipeline.git
+oc apply -f guidellm-pipeline/pipeline/upload-results-task.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/guidellm-pipeline.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/pvc.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/guidellm-benchmark-task.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/mino-bucket.yaml -n vllm
+----
+
+=== 1.3 Running the Baseline Benchmark
+
+Now, let's run the pipeline to test our initial configuration under increasing concurrent loads (1, 4, 8, and 16 users).
+
+. Update the `target` parameter in the `guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml` file with your model's inference endpoint URL.
+. Create the pipeline run.
++
+[source,sh,role=execute]
+----
+oc create -f guidellm-pipeline/pipeline/guidellm-pipelinerun.yaml -n vllm
+----
+. After the pipeline finishes, use the `graph_benchmarks.ipynb` notebook (provided in the `guidellm_notebook_charts` directory) to download the results from MinIO and visualize the median TTFT.
++
+image::ttft_chart.png[TTFT chart]
+. Notice how quickly the latency increases as we add concurrent users. This is our baseline. Rename the downloaded results file to `benchmark_1.txt` for later comparison.

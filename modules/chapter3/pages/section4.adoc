@@ -1,0 +1,21 @@
+= Course Wrap-up
+
+Congratulations! You have successfully quantized a Large Language Model both manually and through an automated pipeline. You have mastered a technique that delivers transformative cost and efficiency improvements for enterprise AI deployments.
+
+=== Summary of Learnings
+
+What You Accomplished:
+* **Hands-on Quantization**: You used `LLM Compressor` in a notebook to apply **W4A16** quantization with **SmoothQuant** and **GPTQ**, reducing a model's memory footprint while preserving its quality.
+* **Pipeline Automation**: You converted the manual process into a robust, repeatable Kubeflow Pipeline, demonstrating how to operationalize quantization for production environments.
+* **Measurable Impact**: You saw firsthand how quantization leads to a dramatic reduction in model size, which directly translates to lower infrastructure costs and greater deployment flexibility.
+
+=== Business Impact and Next Steps
+
+The skills you've learned are critical for making GenAI economically viable for customers. You can now provide data-driven recommendations and implement solutions for common challenges:
+
+* **When a customer says...** "Our models are too big to fit on our GPUs" or "Inference costs are too high."
+* **You can propose...** A Proof of Concept using their model to demonstrate a 50-75% memory reduction with minimal accuracy loss, followed by implementing an automated quantization pipeline.
+
+The formula for success is clear: **Optimized Serving (vLLM) + Model Quantization = Maximum performance at minimum cost.**
+
+You are now equipped to help clients achieve significant cost reductions while maintaining high quality, a compelling value proposition for any enterprise AI initiative.

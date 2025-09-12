@@ -1,0 +1,26 @@
+// This section should be placed after the main course introduction.
+
+= Your Place in the Adventure
+
+Welcome, Optimization Specialist! As you dive into the powerful world of quantization, let's frame this skill within your larger LLMOps adventure. You are learning to master the "AI Factory"—a system where you control the balance between **Performance, Accuracy, and Cost**.
+
+=== Your Mission Log
+
+This entire learning path is a series of missions. You have benchmarked, validated, and tuned. Now it's time for the most impactful optimization technique.
+
+* **Mission 1: Model Performance Benchmarking with GuideLLM**
+* **Mission 2: Evaluating Model Accuracy with lm-eval-harness**
+* **Mission 3: Optimizing vLLM Performance**
+* **This Mission: Model Quantization with LLM Compressor**
++
+--
+This is the art of making models smaller, faster, and cheaper to run. Your task is to use quantization to drastically reduce a model's size, answering the question: "How can I make this model radically more efficient?"
+--
+
+=== The Rules of Engagement
+
+A quick piece of intel: these labs are blueprints, not paint-by-numbers exercises. They are based on real-world patterns from successful customer engagements. You will be starting with a standard, resource-limited OpenShift AI environment.
+
+Your challenge is to **adapt these blueprints**. You will have to think like an operator, figuring out how to make these tools work within your constraints to achieve your goals.
+
+You're now ready for the final and most impactful mission. Let's get started by setting up your quantization project.

@@ -1,0 +1,37 @@
+= Module 3: Advanced Optimization with Quantization
+
+Tuning engine parameters is effective, but **quantization** is arguably the most impactful change you can make for performance. By reducing the model's precision, we shrink its memory footprint, allowing for faster data movement and arithmetic on the GPU.
+
+In this module, we will deploy a pre-quantized `w8a8` (8-bit weights, 8-bit activations) version of our model and compare its performance directly against the full-precision version.
+
+=== 3.1 Deploying the Quantized Model
+
+. Revert your `values.yaml` file to the original optimal settings, but change the model `uri` to point to the quantized version.
++
+[source,yaml]
+----
+deploymentMode: RawDeployment
+
+fullnameOverride: granite-8b
+model:
+  modelNameOverride: granite-8b
+  uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.1-8b-instruct-quantized.w8a8
+  args:
+    - "--disable-log-requests"
+    - "--max-num-seqs=32"
+    - "--max-model-len=2048"
+----
+. Redeploy the model using Helm.
+. Edit your `guidellm-pipelinerun.yaml` to test the full range of concurrent users again: set `rate` to `1.0, 4.0, 8.0, 16.0`.
+. Run the pipeline.
+
+=== 3.2 Comparing Quantized vs. Unquantized Performance
+
+. Once the pipeline finishes, go to your Jupyter notebook.
+. The first cell will download the latest benchmark file (from the quantized model run).
+. Modify the subsequent cells to load both your original results (`benchmark_1.txt`) and the new results.
+. Generate the comparative plot. Your chart should look similar to the one below, showing a significant performance improvement (up to 2x speedup) for the quantized model across all levels of concurrency.
++
+image::quant_vs_unquant.png[Quantized vs. Unquantized Performance]
+
+This exercise clearly demonstrates the power of quantization as a primary tool for performance optimization.

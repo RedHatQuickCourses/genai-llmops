@@ -1,5 +1,0 @@
-* xref:index.adoc[]
-** xref:model_types.adoc[]
-** xref:val_models.adoc[]
-** xref:lab_models.adoc[]
-// ** xref:section3.adoc[]

@@ -1,3 +1,0 @@
-* xref:module-3.0-optimization-intro.adoc[]
-** xref:module-3.1-optimization-practice.adoc[]
-** xref:module-3.2-optimization-conclusion.adoc[]

@@ -1,0 +1,20 @@
+= Course Wrap-up
+
+Congratulations! You have successfully optimized a vLLM deployment by tuning its core parameters and leveraging the power of quantization. You have moved beyond simply deploying a model to engineering a high-performance inference service.
+
+=== Summary of Learnings
+
+What You Accomplished:
+
+* **Established a Baseline**: You learned to use GuideLLM to create a repeatable performance baseline, which is the first step in any optimization effort.
+* **Mastered Key Parameters**: You gained hands-on experience tuning `max-model-len` and `max-num-seqs`, understanding their direct impact on memory usage, queuing, and latency.
+* **Applied Quantization**: You deployed a quantized model and quantitatively proved its significant performance benefits over the full-precision version.
+* **Developed a Methodology**: You practiced a systematic approach: **measure, tune, validate, repeat**. This methodology is applicable to any performance optimization task.
+
+=== Business Impact and Next Steps
+
+The skills learned in this course directly translate to business value by reducing infrastructure costs and improving user experience. When a customer is facing high latency or escalating GPU costs, you now have a proven playbook to diagnose and solve their problems.
+
+Your optimization foundation is also a prerequisite for more advanced techniques. The performance baseline you establish is essential for measuring the impact of quantization (as we saw) and other methods like speculative decoding.
+
+You are now equipped to deliver end-to-end performance improvements that fundamentally change the economics and user experience of LLM deployments.

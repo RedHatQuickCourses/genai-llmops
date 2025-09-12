@@ -1,0 +1,15 @@
+= Course: Optimizing vLLM Performance
+
+== Introduction to vLLM Performance Optimization
+
+Welcome to the course on vLLM Performance Optimization. Now that you know how to deploy and benchmark a model, it's time to tune its performance for real-world production workloads. This course focuses on maximizing inference efficiency using vLLM tuning techniques that can dramatically improve latency and throughput without requiring additional hardware.
+
+=== Why Performance Optimization is Critical
+
+* **User Experience**: Sub-second response times, especially Time to First Token (TTFT), are essential for interactive applications like chatbots and coding assistants.
+* **Cost Efficiency**: Better performance means serving more users with the same infrastructure, directly reducing the cost per request and improving ROI.
+* **Scalability**: Optimized models can handle higher concurrent user loads without performance degradation, ensuring a reliable service.
+* **Resource Utilization**: Proper tuning maximizes GPU utilization, ensuring you get the most value from your expensive hardware.
+
+By the end of this course, you will be able to systematically tune key vLLM parameters, measure the impact of your changes, and configure a model for optimal performance based on specific use case requirements.
+

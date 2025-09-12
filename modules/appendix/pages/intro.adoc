@@ -1,0 +1,26 @@
+= Optimizing vLLM Performance
+:navtitle: Home
+
+== Introduction
+
+This hands-on course provides a practical guide to tuning the vLLM engine for maximum efficiency on Red Hat OpenShift AI. You will learn to move beyond default settings to systematically optimize a deployed Large Language Model for a real-world chat application scenario. The course covers establishing a performance baseline with GuideLLM, iteratively tuning core engine parameters, and demonstrating the significant performance gains achieved by leveraging model quantization.
+
+Duration: 2 hours
+
+== Objectives
+
+On completing this course, you should be able to:
+
+* Establish a performance baseline for a deployed LLM using the GuideLLM benchmarking pipeline.
+* Systematically tune key vLLM parameters, such as `max-model-len` and `max-num-seqs`, and measure their impact on performance.
+* Deploy a quantized model and quantitatively compare its latency and throughput against a full-precision model.
+* Apply an iterative optimization methodology (measure, tune, validate) to improve resource utilization and reduce serving costs.
+
+== Prerequisites
+
+This course assumes that you have the following prior experience:
+
+* Foundational knowledge of Large Language Models and vLLM serving concepts.
+* Completion of the "Model Performance Benchmarking with GuideLLM" course or equivalent experience.
+* Familiarity with using the OpenShift command-line (`oc`) and deploying applications with Helm.
+* Access to a Red Hat OpenShift AI cluster with an available GPU node.

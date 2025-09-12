@@ -1,0 +1,74 @@
+= LLM Ops: Your Adventure Begins
+
+
+// -- Page Break --
+
+== The Call to Adventure
+
+Welcome, future AI operator! You're about to embark on a learning adventure that goes beyond the basics of deploying a model. This isn't just a series of labs; it's a proving ground. Your mission, should you choose to accept it, is to master the art and science of **Large Language Model Operations (LLMOps)**.
+
+You will learn to operate an "AI Factory," a sophisticated system where you are in control. Your challenge is to balance the critical forces of **Performance, Accuracy, and Cost**. This is where the real value of enterprise AI is forged, and you're here to learn how to be the blacksmith.
+
+Ready to move from one-off experiments to building robust, efficient, and reliable AI services? 
+
+Good. It's time to choose your adventure.
+
+// -- Page Break --
+
+== Gearing Up - Your Training Ground
+
+Before any great adventure, you need the right gear and a map of the territory. If you're new to the world of Generative AI inference, your training ground is our **Red Hat AI Inference Series**.
+
+That foundational series is where you'll learn the language of this new world.
+
+* You'll start with the **vLLM Technical Reference Guide** to master the core concepts and terminology.
+* You'll meet the **LLM Compressor**, a powerful tool for shrinking models to increase their speed and efficiency through quantization.
+* You'll get hands-on experience deploying models with the **Red Hat AI Inference Server**, learning how GPUs, vRAM, and the KV cache all work together.
+
+Completing that series is like your flight training. It ensures you know your instruments before you take off. If you've already completed it, you're ready for the next phase.
+
+// -- Page Break --
+
+== Game Time! - The Core Missions
+
+With your foundational training complete, your real mission begins. In the training ground, we often used the UI for deployments. That was great for learning, but it’s not how you operate in the real world.
+
+Now, it's about building repeatable, automated systems. You're going to use pipelines and experiments to track your model's performance, cost, and accuracy over time. This learning path is broken down into four critical missions:
+
+=== Mission 1: Benchmark the Battlefield with GuideLLM
+Your first task is to understand the terrain. You'll use **GuideLLM** to benchmark a model's performance. Can it generate tokens fast enough to meet your application's demands? You'll measure key metrics like Time to First Token, total response times, and inter-token latency.
+
+=== Mission 2: Validate Your Ally's Strength with lm-eval-harness
+A fast model that gives wrong answers is useless. In this mission, you'll use **lm-eval-harness** to get a hard, data-driven baseline of your model's accuracy. You need to know how well it performs on specific tasks *before* you start tuning it.
+
+=== Mission 3: Tune Your Engine with vLLM
+Here's where you become a performance engineer. You'll start tweaking the vLLM inference engine settings. A chatbot needs different tuning than a document summarizer. You'll test the impact of large queries, small queries, and various levels of concurrency to find the sweet spot for your specific application.
+
+=== Mission 4: Travel Light and Fast with LLM Compressor
+Finally, you'll get deep into **model quantization**. This is the art of reducing a model's size by lowering the precision of its weights (e.g., from 32-bit to 8-bit). You'll use a Jupyter Notebook to gain hands-on experience with the quantization process using pre-defined recipes, witnessing the dramatic impact on model size.
+
+// -- Page Break --
+
+== The Rules of Engagement - How to Succeed
+
+Now for a crucial piece of intel. This is where we cover the "gotchas."
+
+These labs are not paint-by-numbers exercises. They are blueprints and patterns, distilled from the real-world experiences of our colleagues on successful customer engagements. You will be starting with a standard, resource-limited OpenShift AI environment.
+
+**Your challenge is to adapt these blueprints.** You won’t just be copying and pasting commands. You will have to think. You'll need to figure out how to make these patterns work within your constraints to achieve the mission objectives: reduce cost, increase efficiency, boost performance, and maintain accuracy.
+
+You are the operator of the AI Factory. These are your tools. Your success will be measured by how effectively you use them to deliver value.
+
+// -- Page Break --
+
+== Your Quest Awaits
+
+You've surveyed the landscape, understood the missions, and know the rules of engagement. Everything you're about to do revolves around the three pillars that form the heart of LLMOps:
+
+* **Accuracy**
+* **Performance**
+* **Cost Observability**
+
+Mastering the balance between them is the ultimate goal.
+
+So, bring your A-game. It's time to get started.

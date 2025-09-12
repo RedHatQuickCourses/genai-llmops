@@ -1,0 +1,26 @@
+// This section should be placed after the main course introduction.
+
+= Your Place in the Adventure
+
+Welcome, Performance Engineer! Before you start tuning the vLLM engine, let's see how this mission fits into your overall adventure in LLMOps. You are learning to master the "AI Factory"—a system where you control the balance between **Performance, Accuracy, and Cost**.
+
+=== Your Mission Log
+
+This entire learning path is a series of missions. With baselines for performance and accuracy established, you are now ready to start making improvements.
+
+* **Mission 1: Model Performance Benchmarking with GuideLLM**
+* **Mission 2: Evaluating Model Accuracy with lm-eval-harness**
+* **This Mission: Optimizing vLLM Performance**
++
+--
+This is where you become a performance specialist. Your task is to take a model and systematically tune it to make it faster and more efficient, answering the question: "How can I get the most out of my hardware?"
+--
+* **Mission 4: Model Quantization with LLM Compressor**
+
+=== The Rules of Engagement
+
+A quick piece of intel: these labs are blueprints, not paint-by-numbers exercises. They are based on real-world patterns from successful customer engagements. You will be starting with a standard, resource-limited OpenShift AI environment.
+
+Your challenge is to **adapt these blueprints**. You will have to think like an operator, figuring out how to make these tools work within your constraints to achieve your goals.
+
+With the context set, it's time to get your hands dirty with performance tuning. Let's begin by establishing our baseline.
