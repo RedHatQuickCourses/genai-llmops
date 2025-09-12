@@ -1,5 +1,4 @@
 = Model Performance Benchmarking with GuideLLM
-:navtitle: Home
 
 == Introduction
 

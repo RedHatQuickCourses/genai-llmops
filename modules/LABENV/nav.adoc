@@ -1,6 +1,0 @@
-* xref:index.adoc[]
-** xref:kserve-gitops.adoc[]
-** xref:llm-sizing.adoc[]
-** xref:multi-node-multi-gpu.adoc[]
-** xref:single-node-multi-gpu.adoc[]
-** xref:vllm-configuration.adoc[]

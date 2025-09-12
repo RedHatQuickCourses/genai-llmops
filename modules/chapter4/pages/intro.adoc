@@ -1,5 +1,4 @@
 = Optimizing vLLM Performance
-:navtitle: Home
 
 == Introduction
 
