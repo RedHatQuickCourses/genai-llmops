@@ -1,0 +1,17 @@
+= Course Wrap-up
+
+Congratulations! You have successfully evaluated a deployed AI model's accuracy using an industry-standard framework on OpenShift AI.
+
+=== Summary of Learnings
+
+In this course, we demonstrated a complete workflow for model accuracy validation.
+
+What We Did:
+
+ * **Set up the TrustyAI operator** to enable the model evaluation framework in OpenShift AI.
+ * **Configured internet access** to allow the downloading of evaluation datasets from Hugging Face.
+ * **Ran the ARC Easy benchmark** by creating an `LMEvalJob` to test the model's reasoning capabilities.
+ * **Analyzed the accuracy results**, learning the difference between raw and normalized accuracy.
+ * **Ran a domain-specific test** to validate the model's knowledge on a specific subject.
+
+The key outcome is that you can now measure and validate AI model accuracy in a production-like environment using automated, repeatable evaluation pipelines. This is a critical skill for selecting the right model and ensuring its quality over time.

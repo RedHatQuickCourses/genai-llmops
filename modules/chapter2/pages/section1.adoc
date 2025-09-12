@@ -1,6 +1,36 @@
-= Section 1
+= Setting Up the Trusty AI Environment
 
-* Create multiple copies of this section as needed.
-* Remove any unnecessary sections or chapter pages.
-* Customize the section as appropriate.
-* Ensure that each page contains a manageable amount of content.
+In this module, we will enable and configure the Trusty AI operator in OpenShift AI to prepare it for running evaluation jobs.
+
+=== 1.1 Enable the Trusty AI Component
+
+First, we'll patch the default `DataScienceCluster` resource to change the management state of the `trustyai` component from "Removed" to "Managed".
+
+[source,console,role=execute,subs=attributes+]
+----
+oc patch datasciencecluster default-dsc -p '{"spec":{"components":{"trustyai":{"managementState":"Managed"}}}}' --type=merge
+----
+
+=== 1.2 Configure for Remote Dataset Access
+
+By default, Trusty AI jobs run in a sandboxed environment without internet access. To run standard benchmarks, we need to allow the job to download the evaluation dataset and the model's tokenizer from Hugging Face.
+
+. We will patch the Trusty AI `ConfigMap` to allow online access and code execution from the downloaded datasets.
++
+[source,console,role=execute,subs=attributes+]
+----
+oc patch configmap trustyai-service-operator-config -n redhat-ods-applications  \
+--type merge -p '{"metadata": {"annotations": {"opendatahub.io/managed": "false"}}}'
+
+oc patch configmap trustyai-service-operator-config -n redhat-ods-applications \
+--type merge -p '{"data":{"lmes-allow-online":"true","lmes-allow-code-execution":"true"}}'
+----
+
+. After patching the `ConfigMap`, we need to restart the operator for the changes to take effect.
++
+[source,console,role=execute,subs=attributes+]
+----
+oc rollout restart deployment trustyai-service-operator-controller-manager -n redhat-ods-applications
+----
+
+Wait for the `trustyai-service-operator-controller-manager` pod to restart. Once it is running, your environment is ready for evaluation.

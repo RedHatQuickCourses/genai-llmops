@@ -1,0 +1,25 @@
+= Model Performance Benchmarking with GuideLLM
+:navtitle: Home
+
+== Introduction
+
+This hands-on course teaches you how to quantitatively measure, analyze, and optimize the performance of Large Language Models (LLMs) deployed on Red Hat OpenShift AI. You will use GuideLLM, an industry-standard benchmarking toolkit, within an automated Tekton pipeline to simulate real-world workloads and capture critical performance data. The course focuses on translating technical metrics into actionable business insights related to user experience, scalability, and cost efficiency.
+
+Duration: 2 hours
+
+== Objectives
+
+On completing this course, you should be able to:
+
+* Deploy and configure an automated benchmarking pipeline using GuideLLM and Tekton on OpenShift AI.
+* Execute various performance tests that simulate real-world use cases like chat, RAG, and code generation.
+* Analyze and interpret key performance metrics, including latency (Time to First Token, Inter-Token Latency), throughput, and their statistical distributions (mean, median, p99).
+* Connect performance results to business outcomes, such as infrastructure sizing, cost estimation, and defining Service Level Objectives (SLOs).
+
+== Prerequisites
+
+This course assumes that you have the following prior experience:
+
+* Foundational knowledge of Large Language Models and the basics of model serving.
+* Familiarity with using the OpenShift command-line interface (`oc`) to interact with a cluster.
+* Access to a Red Hat OpenShift AI cluster with an available GPU node and a deployed LLM inference service (e.g., vLLM).

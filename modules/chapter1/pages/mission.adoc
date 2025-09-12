@@ -1,0 +1,26 @@
+// This section should be placed after the main course introduction.
+
+= Your Place in the Adventure
+
+Welcome, AI Operator! Before you dive into benchmarking with GuideLLM, it's important to see the bigger picture. This course is a critical first step in a larger learning adventure designed to make you a master of the "AI Factory"—a system where you control the balance between **Performance, Accuracy, and Cost**.
+
+=== Your Mission Log
+
+This entire learning path is a series of missions. Your current objective is the crucial starting point for all that follows.
+
+* **This Mission: Model Performance Benchmarking with GuideLLM**
++
+--
+Your task is to master the art of measurement. Before you can improve anything, you must first establish a baseline. You will learn to answer the question: "Is this model fast enough for my application?"
+--
+* **Mission 2: Evaluating Model Accuracy with lm-eval-harness**
+* **Mission 3: Optimizing vLLM Performance**
+* **Mission 4: Model Quantization with LLM Compressor**
+
+=== The Rules of Engagement
+
+A quick piece of intel: these labs are blueprints, not paint-by-numbers exercises. They are based on real-world patterns from successful customer engagements. You will be starting with a standard, resource-limited OpenShift AI environment.
+
+Your challenge is to **adapt these blueprints**. You will have to think like an operator, figuring out how to make these tools work within your constraints to achieve your goals.
+
+Your first mission is to master the art of measurement. Let's get started with setting up your first benchmark.

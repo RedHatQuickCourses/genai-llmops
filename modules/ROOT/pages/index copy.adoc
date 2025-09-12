@@ -1,0 +1,17 @@
+= Course: Model Quantization with LLM Compressor
+
+
+== Introduction to Model Quantization
+
+Welcome to the course on Model Quantization. In our previous courses, we focused on optimizing model serving and evaluating accuracy. Now, we will tackle one of the most impactful optimization techniques: compressing the model itself to dramatically reduce memory requirements and inference costs.
+
+Quantization is transformative because it addresses the fundamental challenge of modern LLMs: their massive size. By reducing the numerical precision of a model's weights (and sometimes activations) from 16-bit to 8-bit or even 4-bit, you can achieve a 50-75% memory reduction.
+
+=== Why Quantization Matters
+
+* **Cost Reduction**: Deploy larger models on smaller, less expensive hardware, potentially reducing infrastructure costs by 2-4x.
+* **Memory Efficiency**: Fit models that previously required multiple GPUs onto a single GPU.
+* **Inference Speed**: Reduced data movement from memory to the processor can improve overall throughput.
+* **Accessibility**: Make state-of-the-art models accessible to organizations with limited GPU budgets.
+
+By the end of this course, you will be able to apply quantization techniques using LLM Compressor, build automated quantization pipelines, and make informed decisions about which quantization strategy best fits your customer's needs.

@@ -1,0 +1,34 @@
+= Interpreting Accuracy Results
+
+Once the evaluation job is complete, the results are stored directly in the `LMEvalJob` custom resource. This module explains how to retrieve and understand these results.
+
+=== 3.1 Retrieve the Results
+
+. Use `oc get` with a `jsonpath` template to extract the results from the job's status field. We pipe it to `jq` for clean formatting.
++
+[source,console,role=execute,subs=attributes+]
+----
+oc get LMEvalJob arc-easy-eval-job -n vllm -o jsonpath='{.status.results}' | jq '.results'
+----
+
+. The command will return a JSON object similar to this:
++
+[source,json]
+----
+{
+  "arc_easy": {
+    "alias": "arc_easy",
+    "acc,none": 0.8186026936026936,
+    "acc_stderr,none": 0.007907153952801706,
+    "acc_norm,none": 0.7836700336700336,
+    "acc_norm_stderr,none": 0.00844876352205705
+  }
+}
+----
+
+=== 3.2 Explanation of Metrics
+
+* `acc,none`: This is the primary **accuracy** score. A value of `0.8186` means the model answered approximately 81.86% of questions correctly based on its raw, unmodified output.
+* `acc_norm,none`: This is the **normalized accuracy**. It represents the accuracy after the model's answers have been cleaned up (e.g., removing extra spaces or standardizing capitalization). This is often a more realistic measure of performance. Here, it is 78.37%.
+* `acc_stderr,none`: This is the **standard error** for the accuracy score. It represents the margin of error, indicating how much the result might vary on a different sample of questions. A smaller number means the result is more statistically reliable.
+* `acc_norm_stderr,none`: This is the standard error for the normalized accuracy.

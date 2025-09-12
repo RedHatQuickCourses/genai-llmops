@@ -1,3 +1,23 @@
-= Module 2: Model Evaluation
+= Course: Evaluating Model Accuracy with lm-eval-harness
 
 
+// -- Page Break --
+
+== Introduction to Model Accuracy Evaluation
+
+Welcome to the course on Evaluating Model Accuracy with `lm-eval-harness`. While our previous course focused on system performance, this course will teach you how to measure a model's *quality* and *reasoning capabilities*.
+
+By the end of this course, you will be able to:
+
+* Use the Trusty AI operator to run standardized model evaluations.
+* Configure and launch an `LMEvalJob` to test a deployed model against a benchmark like MMLU-Pro.
+* Retrieve and interpret the accuracy results to understand a model's strengths and weaknesses.
+* Run domain-specific tests to validate a model's knowledge in a particular field.
+
+=== What is lm-eval-harness?
+
+**lm-eval-harness** is a widely adopted, community-maintained benchmarking toolkit from **EleutherAI**. It provides a standardized framework for evaluating Large Language Models (LLMs) across dozens of academic benchmarks, ensuring consistent and reproducible results. It can test models on tasks ranging from question answering and common sense reasoning to complex, multi-subject examinations.
+
+=== What is Trusty AI?
+
+https://trustyai.org/docs/main/main[TrustyAI^] is Red Hat's open-source AI explainability and trustworthiness platform. Within OpenShift AI, Trusty AI provides an enterprise-ready, operator-based way to run evaluation frameworks like `lm-eval-harness`. It simplifies the process of running evaluation jobs in a secure and manageable way. For this lab, we will use the Trusty AI operator to schedule and manage our accuracy tests.

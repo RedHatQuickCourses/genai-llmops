@@ -1,0 +1,64 @@
+= Advanced Benchmarking Scenarios
+
+In this module, you will run a series of targeted tests to simulate common customer use cases and understand how different workloads impact performance.
+
+=== 4.1 Exercise 1: Token Size Impact Analysis
+
+Here, we'll test how different input/output token sizes, representing different applications, affect performance.
+
+==== 4.1a: Chat Application Simulation (Short I/O)
+Represents a typical conversational AI scenario.
+[source,console,role=execute]
+----
+# data-config="prompt_tokens=256,output_tokens=128"
+# (Execute the tkn pipeline start command with the above data-config)
+----
+
+==== 4.1b: RAG Simulation (Large Input)
+Represents enterprise knowledge base queries with large context.
+[source,console,role=execute]
+----
+# data-config="prompt_tokens=4096,output_tokens=512"
+# (Execute the tkn pipeline start command with the above data-config)
+----
+
+==== 4.1c: Code Generation Workload (Balanced I/O)
+Represents AI-powered developer tools.
+[source,console,role=execute]
+----
+# data-config="prompt_tokens=512,output_tokens=512"
+# (Execute the tkn pipeline start command with the above data-config)
+----
+
+**Analysis**: Compare the TTFT, output tokens/sec, and overall latency across these three runs. You will likely see that larger token counts significantly increase latency and reduce throughput.
+
+=== 4.2 Exercise 2: Rate Type Deep Dive
+
+Different `--rate-type` arguments reveal distinct performance characteristics.
+
+==== 4.2a: Peak Capacity Assessment (`throughput`)
+This test sends all requests in parallel to find the theoretical maximum capacity of the server.
+[source,console,role=execute]
+----
+# rate-type="throughput"
+# (Execute the tkn pipeline start command with the above rate-type)
+----
+**Consulting Value**: Establishes the upper bound for infrastructure sizing and identifies hardware bottlenecks.
+
+==== 4.2b: Real-World Load Simulation (`constant`)
+This test sends requests at a steady, sustained rate.
+[source,console,role=execute]
+----
+# rate-type="constant"
+# (Execute the tkn pipeline start command with the above rate-type and a specific --rate, e.g., --rate="4")
+----
+**Consulting Value**: Validates performance under realistic production loads and helps define SLAs.
+
+==== 4.2c: Burst Traffic Analysis (`poisson`)
+This test sends requests at an irregular, bursty rate, which models many real-world traffic patterns.
+[source,console,role=execute]
+----
+# rate-type="poisson"
+# (Execute the tkn pipeline start command with the above rate-type and a mean --rate)
+----
+**Consulting Value**: Reveals how well the system handles unpredictable traffic spikes and informs autoscaling configurations.

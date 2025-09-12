@@ -1,0 +1,61 @@
+= Module 2: Automating Quantization with Pipelines
+
+Performing quantization manually in a notebook is great for learning, but for repeatable, enterprise-grade workflows, automation is key. In this module, you will automate the entire process using a Kubeflow Pipeline on OpenShift AI.
+
+The pipeline will handle model downloading, quantization, uploading the result to S3, and accuracy evaluation in a series of connected, automated steps.
+
+=== 2.1 Preparing and Compiling the Pipeline
+
+We will use the same workbench environment to prepare and compile our pipeline definition.
+
+. **Start Workbench and Install Dependencies**: If you stopped your `granite-quantization` workbench, start it again. Open a Terminal within the JupyterLab interface.
++
+[.bordershadow]
+image::quantization-create-terminal.png[title="Create Terminal Session in Jupyter Workbench", link=self, window=blank, width=100%]
+. Install the Kubeflow Pipelines SDK.
++
+[source,sh,role=execute]
+----
+pip install -U kfp==2.9.0 kfp-kubernetes==1.3.0
+----
+
+. **Review and Compile the Pipeline**:
+* In the file browser, navigate to the `.../llm_compressor` directory and open the `quantization_pipeline.py` file. Review the Python code, which uses the KFP SDK to define several components: downloading a model (from S3 or Hugging Face), quantizing it, uploading the result, and evaluating it.
+* **Important**: Verify that the secret name used in the pipeline code matches your data connection name. If you did not name your connection `minio-models`, you must update the line `secret_name = "minio-models"` in the Python script.
+* In the terminal, compile the Python script into a pipeline YAML file.
++
+[source,sh,role=execute]
+----
+python quantization_pipeline.py
+----
+* This will create a new file named `quantization_pipeline.yaml`. Download this file to your local machine.
+. **Stop the Workbench**: Once you have the YAML file, stop the workbench to free up resources.
+
+=== 2.2 Importing and Running the Pipeline
+
+Now we will import and run the compiled pipeline from the OpenShift AI dashboard.
+
+. **Import the Pipeline**:
+* In your `quantization` project, navigate to **Data Science Pipelines** → **Pipelines**.
+* Click **Import Pipeline** and upload the `quantization_pipeline.yaml` file you just downloaded. Give it a descriptive name like `Model Quantization Pipeline`.
++
+[.bordershadow]
+image::quantization-import-pipeline-select.png[title="Upload Pipeline YAML File for Import", link=self, window=blank, width=100%]
+
+. **Create a Pipeline Run**:
+* Once imported, find your pipeline in the list, click the **Actions** menu, and select **Create run**.
+* You will be presented with a form to configure the run parameters. You can accept the defaults, which will:
+    * Download the `ibm-granite/granite-3.3-2b-instruct` model from the S3 bucket (`use_s3_download: true`).
+    * Perform `int4` quantization.
+    * Save the output to a new folder named `granite-int4-pipeline`.
+* Click **Create run** to start the execution.
+
+. **Monitor and Verify Results**:
+* You can monitor the progress of the run in the OpenShift AI dashboard. You will see each component in the graph turn green as it successfully completes.
++
+[.bordershadow]
+image::quantization-pipeline-run-success.png[title="Successful Pipeline Execution Status", link=self, window=blank, width=100%]
+* After the pipeline finishes, navigate to your MinIO S3 storage. Verify that a new folder with your quantized model has been created in the `models` bucket. The size of the `.safetensors` files should be significantly smaller than the original model's.
++
+[.bordershadow]
+image::quantization-pipeline-run-minio.png[title="Quantized Model Files in MinIO S3 Bucket", link=self, window=blank, width=100%]

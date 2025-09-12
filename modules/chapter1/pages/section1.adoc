@@ -1,0 +1,77 @@
+= Introduction to Performance Benchmarking
+
+Welcome to the Model Performance Benchmarking with GuideLLM course. In this course, you will learn how to quantitatively measure, analyze, and optimize the performance of Large Language Models deployed on Red Hat OpenShift AI.
+
+By the end of this course, you will be able to:
+
+ * Set up an automated benchmarking pipeline using GuideLLM and Tekton.
+ * Execute various performance tests that simulate real-world workloads.
+ * Interpret key performance metrics like latency, throughput, and token generation speed.
+ * Connect performance results to business outcomes, such as user experience and infrastructure cost.
+
+=== Why Performance Evaluation Matters
+
+In Generative AI systems, evaluating system performance including latency, throughput, and resource utilization is just as important as evaluating model accuracy or quality. Here's why:
+
+. **User Experience**: High latency leads to sluggish interactions, which is unacceptable in chatbots, copilots, and real-time applications. Users expect sub-second responses.
+. **Scalability**: Throughput determines how many requests a system can handle in parallel. For enterprise GenAI apps, high throughput is essential to serve multiple users or integrate with high-frequency backend processes.
+. **Cost Efficiency**: Slow or inefficient systems require more compute to serve the same volume of requests. Optimizing performance directly reduces cloud GPU costs and improves ROI.
+. **Fair Benchmarking**: A model may appear “better” in isolated evaluation, but if it requires excessive inference time or hardware, it may not be viable in production. True model evaluation must balance quality and performance.
+. **Deployment Readiness**: Latency and throughput impact architectural decisions (e.g., batching, caching, distributed serving). Measuring them ensures a model is viable under real-world constraints.
+
+=== What is GuideLLM?
+
+**GuideLLM** is a toolkit for evaluating and optimizing the deployment of LLMs. By simulating real-world inference workloads, GuideLLM enables you to easily assess the performance, resource requirements, and cost implications of deploying LLMs on various hardware configurations. This approach ensures efficient, scalable, and cost-effective LLM inference serving while maintaining high service quality.
+
+GuideLLM is now officially a part of the vLLM upstream project. This toolset is one of the primary ways Red Hat internal teams are benchmarking customer models and will be the main framework we will recommend to our customers.
+
+NOTE: It's important to distinguish GuideLLM from Trusty AI. Trusty AI's scope is responsible AI (explainability, fairness, bias detection), while GuideLLM is focused purely on system performance benchmarking and optimization.
+
+// -- Page Break --
+
+== Module 1: Setting Up Your Benchmarking Environment
+
+In this module, we will set up an automated Tekton pipeline on OpenShift AI to run our GuideLLM benchmarks. Using a Tekton pipeline provides automation, reproducibility, and efficient resource management for our tests.
+
+=== 1.1 Install the Tekton CLI
+
+First, ensure the Tekton CLI (`tkn`) is installed in your terminal. This tool will allow us to interact with our pipelines.
+
+[source,console,role=execute,subs=attributes+]
+----
+curl -sL $(curl -s https://api.github.com/repos/tektoncd/cli/releases/latest | grep "browser_download_url.*_Linux_x86_64.tar.gz" | cut -d '"' -f 4) | sudo tar -xz -C /usr/local/bin tkn
+tkn version
+----
+
+=== 1.2 Deploy the GuideLLM Pipeline Resources
+
+Next, we will clone the necessary Git repositories and apply the Kubernetes resources that define our pipeline, its tasks, and the required storage.
+
+. Clone the ETX vLLM optimization repo which contains the pipeline definition.
++
+[source,console,role=execute,subs=attributes+]
+----
+git clone https://github.com/redhat-ai-services/etx-llm-optimization-and-inference-leveraging.git
+cd etx-llm-optimization-and-inference-leveraging
+----
+
+. Clone the GuideLLM pipeline repo itself.
++
+[source,console,role=execute,subs=attributes+]
+----
+git clone https://github.com/jhurlocker/guidellm-pipeline.git
+----
+
+. Apply the PVC, task, pipeline, and Minio bucket configuration to your cluster. Ensure you are in the correct namespace (`vllm`).
++
+[source,console,role=execute,subs=attributes+]
+----
+oc apply -f guidellm-pipeline/pipeline/upload-results-task.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/guidellm-pipeline.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/pvc.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/guidellm-benchmark-task.yaml -n vllm
+oc apply -f guidellm-pipeline/pipeline/mino-bucket.yaml -n vllm
+----
+
+With these resources created, we are now ready to execute a benchmark.
+

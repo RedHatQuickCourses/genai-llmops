@@ -1,0 +1,42 @@
+= Interpreting Benchmark Results
+
+Understanding the output is crucial for drawing meaningful conclusions. This module breaks down the key metrics and how to interpret them.
+
+=== 3.1 Key GuideLLM Metrics
+
+GuideLLM captures several critical metrics. Here are the most important ones:
+
+* **Requests per Second**: Total requests completed per second (Throughput).
+* **Request concurrency**: The average number of requests being processed in parallel.
+* **Output token per second (mean)**: The generation speed of the model.
+* **Time to First Token (TTFT)**: How quickly the first token is returned. This is critical for user-perceived responsiveness. (Measured in ms: mean, median, p99).
+* **Inter-Token Latency (ITL)**: The time between subsequent tokens in a response. This affects the smoothness of streaming. (Measured in ms: mean, median, p99).
+* **Request latency**: Total end-to-end time for a request. (Measured in ms: mean, median, p99).
+
+See the complete https://github.com/neuralmagic/guidellm/blob/main/docs/metrics.md[metrics documentation^].
+
+=== 3.2 Reading the Output File
+
+The output file has two main sections.
+
+==== Top Section (Benchmark Info)
+This section summarizes the test parameters.
+* **Benchmark**: The type of benchmark that ran (e.g., `constant@2` indicates 2 requests per second).
+* **Requests Made**: Total number of requests issued.
+* **Token Data**: Average and total tokens processed.
+
+==== Bottom Section (Benchmark Stats)
+This section contains the performance statistics. When analyzing these, pay close attention to the distribution:
+
+* **Mean**: The overall average. Good for a general performance overview.
+* **Median (p50)**: The typical user experience. It is less skewed by a few very slow requests.
+* **p99**: The 99th percentile, representing the worst-case latency for the vast majority of users. This is essential for defining and meeting Service Level Objectives (SLOs). A large gap between the median and p99 indicates inconsistent performance under load.
+
+=== 3.3 The Importance of Data in Benchmarking
+
+The data you use for testing dramatically impacts the results.
+
+* **This training uses emulated data** (`{"type":"emulated","prompt_tokens":512,"output_tokens":128}`) for consistency and simplicity.
+* **For client engagements, always use representative production data.** Real workloads differ significantly from synthetic data in token distribution and response variability. Using client data can reveal 25-40% higher latency variance.
+
+**Key Takeaway**: Use stock data for learning and initial baselines; use client data for production recommendations.

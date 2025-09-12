@@ -1,0 +1,16 @@
+= Course Wrap-up
+
+Congratulations on completing the Model Performance Benchmarking course.
+
+=== Summary of Learnings
+
+In this course, we demonstrated how to evaluate system performance for a deployed Large Language Model using GuideLLM.
+
+You learned to:
+
+ * Set up an automated testing environment using a **Tekton pipeline**.
+ * Run benchmarks using different **workload profiles** (token sizes) and **rate types** (throughput, constant, sweep) to simulate real-world scenarios.
+ * Retrieve and analyze key performance metrics, focusing on **latency (TTFT, ITL)** and **throughput**.
+ * Understand the critical difference between the **mean, median, and p99** percentiles for assessing user experience and defining SLOs.
+
+By mastering these skills, you can better align model serving with application needs—whether you’re optimizing for cost, speed, or user experience—and provide data-driven recommendations that deliver significant value to customers.

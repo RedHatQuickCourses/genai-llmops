@@ -1,0 +1,26 @@
+// This section should be placed after the main course introduction.
+
+= Your Place in the Adventure
+
+Welcome, AI Operator! As you prepare to validate model accuracy, let's look at how this fits into the bigger picture. This course is a key mission in your learning adventure to master the "AI Factory"—a system where you control the balance between **Performance, Accuracy, and Cost**.
+
+=== Your Mission Log
+
+This entire learning path is a series of missions. Having established a performance baseline, your objective now is to understand the quality of your model.
+
+* **Mission 1: Model Performance Benchmarking with GuideLLM**
+* **This Mission: Evaluating Model Accuracy with lm-eval-harness**
++
+--
+A fast model that gives wrong answers is useless. Your task here is to get a hard, data-driven baseline of your model's accuracy, answering the question: "Is this model smart enough for my application?"
+--
+* **Mission 3: Optimizing vLLM Performance**
+* **Mission 4: Model Quantization with LLM Compressor**
+
+=== The Rules of Engagement
+
+A quick piece of intel: these labs are blueprints, not paint-by-numbers exercises. They are based on real-world patterns from successful customer engagements. You will be starting with a standard, resource-limited OpenShift AI environment.
+
+Your challenge is to **adapt these blueprints**. You will have to think like an operator, figuring out how to make these tools work within your constraints to achieve your goals.
+
+Now that you understand the mission, it's time to learn how to measure a model's true capabilities. Let's get started with setting up the Trusty AI environment.

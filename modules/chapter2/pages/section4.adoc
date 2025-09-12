@@ -1,0 +1,23 @@
+= Running a Domain-Specific Test
+
+General benchmarks are useful, but for many enterprise use cases, you need to validate a model's knowledge in a specific domain. In this module, we will run a test focused on jurisprudence (the study of law) from the MMLU benchmark suite.
+
+=== 4.1 Run the Jurisprudence Evaluation
+
+. First, ensure the `base_url` in the `workshop_code/evals/trusty/mmlu_jurisprudence.yaml` file is updated with your inference endpoint.
+
+. Apply the new `LMEvalJob` file. This test is much shorter and should only take a minute or two.
++
+[source,console,role=execute,subs=attributes+]
+----
+oc apply -f workshop_code/evals/trusty/mmlu_jurisprudence.yaml -n vllm
+----
+
+. Once the job is complete, retrieve the results using the same method as before, but targeting the new job name.
++
+[source,console,role=execute,subs=attributes+]
+----
+oc get LMEvalJob mmlu-jurisprudence-eval-job -n vllm -o template --template '{{.status.results}}' | jq  .results
+----
+
+This process demonstrates a powerful pattern: you can quickly validate a model's capabilities against specific subject areas to ensure it is suitable for a specialized task.

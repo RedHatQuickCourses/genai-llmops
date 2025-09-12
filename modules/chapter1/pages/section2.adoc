@@ -1,0 +1,55 @@
+= Running Your First Benchmark
+
+Now that the pipeline is set up, let's run our first test. This will help us establish a baseline and understand the end-to-end workflow.
+
+=== 2.1 Prepare the Target Model
+
+Before running the pipeline, ensure your target model is deployed and accessible. For this lab, we will use the `granite-8b` model.
+
+. Get the inference endpoint URL for your deployed model.
++
+[source,console,role=execute,subs=attributes+]
+----
+export INFERENCE_ENDPOINT=$(oc get inferenceservice granite-8b -n vllm -o jsonpath='{.status.url}')
+echo $INFERENCE_ENDPOINT
+----
+NOTE: If you have not deployed the `granite-8b` model yet, run the following Helm command: `helm upgrade -i granite-8b redhat-ai-services/vllm-kserve --version 0.5.11 --values workshop_code/deploy_vllm/vllm_rhoai_custom_2/values.yaml -n vllm`
+
+=== 2.2 Execute the Pipeline
+
+Now, we will start the Tekton pipeline. We'll pass parameters to define the target model, the workload profile (`data-config`), and the test type (`rate-type`). We will use a `sweep` which automatically tests a range of request rates.
+
+[source,console,role=execute,subs=attributes+]
+----
+tkn pipeline start guidellm-benchmark-pipeline -n vllm \
+  --param target=$INFERENCE_ENDPOINT/v1 \
+  --param model-name="granite-8b" \
+  --param processor="ibm-granite/granite-3.3-8b-instruct" \
+  --param data-config="prompt_tokens=512,output_tokens=128" \
+  --param max-seconds="30" \
+  --param huggingface-token="" \
+  --param api-key="" \
+  --param rate="2" \
+  --param rate-type="sweep" \
+  --param max-concurrency="10" \
+  --workspace name=shared-workspace,claimName=guidellm-output-pvc
+----
+
+=== 2.3 Retrieve and View Results
+
+The pipeline will run the benchmark and upload the results as a text file to a Minio S3 bucket.
+
+. Get the route to the Minio UI. The login is `admin/admin123`.
++
+[source,console,role=execute,subs=attributes+]
+----
+oc get route minio-ui -n ic-shared-minio -o jsonpath='{.spec.host}'
+----
+
+. Navigate to the Minio URL in your browser, log in, and find the `guidellm-benchmark` bucket.
++
+image::benchmark_results_file_in_minio.png[benchmark results in Minio]
+
+. Download the `benchmark-<TIMESTAMP>.txt` file and open it in a text editor to view the raw results.
++
+image::benchmark_results_minio.png[benchmark results]
