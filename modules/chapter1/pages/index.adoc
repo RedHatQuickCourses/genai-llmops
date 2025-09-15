@@ -21,7 +21,7 @@ GuideLLM is now officially a part of the vLLM upstream project. This toolset is 
 
 ### Trusty AI vs GuideLLM
 
-Trusty AI maintains the scope of responsable AI, while GuideLLM is focused on benchmarking and model optimization. That being said, there are some current crossovers. Trusty AI incorporates lm-eval-harness and GuideLLM is roadmapped to include this test harness as well. Trusty AI will continue to be an incorporated and supported operator deployment in RHOAI. There are currently no plans to have a similar deployment method for GuideLLM. 
+Trusty AI maintains the scope of responsable AI, while GuideLLM is focused on benchmarking and model optimization. Trusty AI will continue to be an incorporated and supported operator deployment in RHOAI. 
 
 ## Set Up GuideLLM tekton pipeline
 
@@ -524,4 +524,3 @@ This comprehensive evaluation framework enables technical consultants to provide
 ## Summary
 
 This activity demonstrated how to evaluate system performance using GuideLLM with a default vLLM configuration. By configuring vLLM more precisely or your chosen inference runtime, you can better align model serving with application needs—whether you’re optimizing for cost, speed, or user experience.
-nding directory for the chapter accordingly.

@@ -35,20 +35,20 @@ With your foundational training complete, your real mission begins. In the train
 
 Now, it's about building repeatable, automated systems. You're going to use pipelines and experiments to track your model's performance, cost, and accuracy over time. This learning path is broken down into four critical missions:
 
-=== Mission 1: Benchmark the Battlefield with GuideLLM
+=== Mission 1: Model Performance Benchmarking with GuideLLM
 Your first task is to understand the terrain. You'll use **GuideLLM** to benchmark a model's performance. Can it generate tokens fast enough to meet your application's demands? You'll measure key metrics like Time to First Token, total response times, and inter-token latency.
 
-=== Mission 2: Validate Your Ally's Strength with lm-eval-harness
+=== Mission 2: Evaluating Model Accuracy with lm-eval-harness
 A fast model that gives wrong answers is useless. In this mission, you'll use **lm-eval-harness** to get a hard, data-driven baseline of your model's accuracy. You need to know how well it performs on specific tasks *before* you start tuning it.
 
-=== Mission 3: Tune Your Engine with vLLM
+=== Mission 3: Optimizing vLLM Performance
 Here's where you become a performance engineer. You'll start tweaking the vLLM inference engine settings. A chatbot needs different tuning than a document summarizer. You'll test the impact of large queries, small queries, and various levels of concurrency to find the sweet spot for your specific application.
 
 === Mission 4: Travel Light and Fast with LLM Compressor
 Finally, you'll get deep into **model quantization**. This is the art of reducing a model's size by lowering the precision of its weights (e.g., from 32-bit to 8-bit). You'll use a Jupyter Notebook to gain hands-on experience with the quantization process using pre-defined recipes, witnessing the dramatic impact on model size.
 
 // -- Page Break --
-
+Model Quantization with LLM Compressor
 == The Rules of Engagement - How to Succeed
 
 Now for a crucial piece of intel. This is where we cover the "gotchas."
